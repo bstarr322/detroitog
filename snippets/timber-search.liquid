@@ -14,38 +14,6 @@
   </div>
   <div class="search--content">
     <ul class="search-module-content">
-      
-      {% assign trendings = 'Dirty, Dirtier, French Toast Fantasy, Just Juice' %}
-      {% assign trendings_array = trendings | split: ',' %}
-      <h5>Trending</h5>
-      {% for trending in trendings_array %}
-          <li class="clearfix">
-            <div class="search-module-title">
-              <a href="/collections/{% if trending contains "Just Juice" %}house-juice{% else %}{{ trending | handleize }}{% endif %}">
-                {{ trending }}
-              </a>
-            </div>
-            <div class="search-module-thumbnail">
-              <a href="{% if trending contains "Just Juice" %}house-juice{% else %}{{ trending | handleize }}{% endif %}" class="icon icon-{{ trending | handleize }}"></a>
-            </div>
-          </li>
-      {% endfor %}
-      
-      {% assign news = 'Fittyz, Rounds, Shrbrt' %}
-      {% assign new_array = news | split: ',' %}
-      <h5>New</h5>
-      {% for new in new_array %}
-          <li class="clearfix">
-            <div class="search-module-title">
-              <a href="/collections/{{ new | handleize }}">
-                {{ new }}
-              </a>
-            </div>
-            <div class="search-module-thumbnail">
-              <a href="collections/{{ new | handleize }}" class="icon icon-{{ new | handleize }}"></a>
-            </div>
-          </li>
-      {% endfor %}
     </ul>
   </div>
   <div id="SearchContainer"></div>

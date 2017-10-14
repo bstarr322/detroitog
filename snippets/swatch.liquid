@@ -42,13 +42,7 @@
 </div>
 {% else %}
 <div class="swatch clearfix product-form__item--swatch" data-option-index="{{ option_index }}">
-  
-  {% comment %}Just Change Nicotine, Strength to Choose your Strenth: {% endcomment %}
-  {% if swatch contains 'icotine' or if swatch contains 'trength' %}
-    <p>Choose your Strength:</p>
-  {% else %}
-    <p>{{ swatch | remove: ":" }}</p>
-  {% endif %}
+  <p>{{ swatch | remove: ":" }}</p>
 
   {% assign values = '' %}
   {% for variant in product.variants %}

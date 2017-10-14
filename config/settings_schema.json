@@ -22,6 +22,26 @@
     ]
   },
   {
+    "name": "Store Info",
+    "settings": [
+      {
+        "type": "url",
+        "id": "store_addr_link",
+        "label": "Store Address Link"
+      },
+      {
+        "type": "text",
+        "id": "store_addr",
+        "label": "Store Address"
+      },
+      {
+        "type": "text",
+        "id": "store_phone",
+        "label": "Phone Number"
+      }
+    ]
+  },
+  {
     "name": "Colors",
     "settings": [
       {
@@ -47,6 +67,12 @@
         "id": "color_borders",
         "label": "Borders",
         "default": "#e5e5e5"
+      },
+      {
+        "type": "color",
+        "id": "color_icon",
+        "label": "Icon Color",
+        "default": "#333333"
       },
       {
         "type": "header",
