@@ -8,24 +8,12 @@
       "title": "404 Page Not Found",
       "subtext_html": "The page you requested does not exist. Click <a href=\"\/collections\/all\">here<\/a> to continue shopping."
     },
-    "password_page": {
-      "login_form_heading": "Enter store using password:",
-      "login_form_password_label": "Password",
-      "login_form_password_placeholder": "Your password",
-      "login_form_submit": "Enter",
-      "signup_form_email_label": "Email",
-      "signup_form_success": "We will send you an email right before we open!",
-      "admin_link_html": "Are you the store owner? <a href=\"\/admin\" class=\"text-link\">Log in here<\/a>",
-      "password_link": "Enter using password",
-      "powered_by_shopify_html": "This shop will be powered by {{ shopify }}",
-      "close": "Close (Esc)"
-    },
     "breadcrumbs": {
       "home": "Home",
-      "home_link_title": "Back to the frontpage"
+      "home_link_title": "Back to the home page"
     },
     "newsletter_form": {
-      "newsletter_email": "Your email",
+      "newsletter_email": "email@example.com",
       "submit": "Subscribe",
       "confirmation": "Thanks for subscribing"
     },
@@ -33,27 +21,17 @@
       "no_results_html": "Your search for \"{{ terms }}\" did not yield any results.",
       "results_for_html": "Your search for \"{{ terms }}\" revealed the following:",
       "title": "Search for products on our site",
-      "placeholder": "Search",
+      "placeholder": "Search our store",
       "submit": "Search"
-    },
-    "social": {
-      "share_on_facebook": "Share",
-      "share_on_twitter": "Tweet",
-      "share_on_pinterest": "Pin it",
-      "alt_text": {
-        "share_on_facebook": "Share on Facebook",
-        "share_on_twitter": "Tweet on Twitter",
-        "share_on_pinterest": "Pin on Pinterest"
-      }
     }
   },
   "blogs": {
     "article": {
+      "author_on_date_html": "Posted by {{ author }} on {{ date }}",
       "older_post": "Older Post",
       "newer_post": "Newer Post",
       "tags": "Tags",
       "comment_meta_html": "{{ author }} on {{ date }}",
-      "view_all": "View all",
       "read_more": "Read more"
     },
     "comments": {
@@ -64,7 +42,11 @@
       "post": "Post comment",
       "moderated": "Please note, comments must be approved before they are published",
       "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
-      "success": "Your comment was posted successfully! Thank you!"
+      "success": "Your comment was posted successfully! Thank you!",
+      "with_count": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
     },
     "sidebar": {
       "recent_articles": "Recent Articles",
@@ -77,32 +59,40 @@
       "remove": "Remove",
       "note": "Special instructions for seller",
       "subtotal": "Subtotal",
-      "savings_html": "You're saving {{ price }}",
-      "shipping_at_checkout": "Shipping, taxes, and discounts will be calculated at checkout.",
+      "shipping_at_checkout": "Shipping & taxes calculated at checkout",
       "update": "Update Cart",
-      "checkout": "Check Out",
-      "empty": "Your cart is currently empty.",
-      "cookies_required": "Enable cookies to use the shopping cart",
+      "checkout": "CheckOut",
+      "empty": "Let's fill this thing up!",
       "continue_browsing_html": "Continue browsing <a href=\"\/collections\/all\">here<\/a>.",
-      "continue_shopping": "Continue shopping"
+      "close_cart": "Close Cart",
+      "savings_html": "You're saving {{ price }}",
+      "reduce_quantity": "Reduce item quantity by one",
+      "increase_quantity": "Increase item quantity by one"
     },
     "label": {
+      "product": "Product",
       "price": "Price",
       "quantity": "Quantity",
-      "total": "Total",
-      "add_note": "Add a note to your order"
+      "total": "Total"
     }
   },
   "collections": {
     "general": {
-      "title": "Collections",
+      "all_of_collection": "All {{ collection }}",
       "no_matches": "Sorry, there are no products in this collection",
-      "link_title": "Browse our {{ title }} collection"
+      "link_title": "Browse our {{ title }} collection",
+      "grid_view": "Grid view",
+      "list_view": "List view",
+      "items_with_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
+    },
+    "sidebar": {
+      "tags": "Tags"
     },
     "sorting": {
       "title": "Sort by",
-      "browse": "Browse by",
-      "all_tags": "All",
       "featured": "Featured",
       "best_selling": "Best Selling",
       "az": "Alphabetically, A-Z",
@@ -111,6 +101,11 @@
       "price_descending": "Price, high to low",
       "date_descending": "Date, new to old",
       "date_ascending": "Date, old to new"
+    },
+    "onboarding": {
+      "modal_title": "This page will show all of your store's products",
+      "no_products_html": "There are no products yet, but once you begin adding them they will show up here regardless if they are in a collection.",
+      "add_product": "Add Product"
     }
   },
   "contact": {
@@ -158,8 +153,7 @@
       "update": "Update Address",
       "cancel": "Cancel",
       "edit": "Edit",
-      "delete": "Delete",
-      "delete_confirm": "Are you sure you wish to delete this address?"
+      "delete": "Delete"
     },
     "login": {
       "title": "Login",
@@ -198,8 +192,7 @@
       "quantity": "Quantity",
       "total": "Total",
       "fulfilled_at": "Fulfilled {{ date }}",
-      "subtotal": "Subtotal",
-      "track_shipment": "Track shipment"
+      "subtotal": "Subtotal"
     },
     "recover_password": {
       "title": "Reset your password",
@@ -226,12 +219,19 @@
       "cancel": "Return to Store"
     }
   },
-  "home_page": {
+  "homepage": {
+    "sections": {
+      "frontpage_title": "Frontpage Collection",
+      "featured_title": "Featured Collections",
+      "news_title": "Latest News"
+    },
     "onboarding": {
-      "product_vendor": "Product vendor",
+      "modal_title": "Almost there...",
+      "no_products_html": "You have no products in your home page collection. This placeholder will appear until you <a href=\"\/admin\/collections?tutorial=Frontpage\">add a product to this collection<\/a>.",
+      "add_product": "Add a Product",
       "product_title": "Example Product Title",
-      "blog_title": "Your post's title",
-      "blog_excerpt": "Your store hasn’t published any blog posts yet. A blog can be used to talk about new product launches, tips, or other news you want to share with your customers. You can check out Shopify’s ecommerce blog for inspiration and advice for your own store and blog.",
+      "no_collections_html": "You don't have any collections to show here. <a href=\"\/admin\/custom_collections\">Add some collections<\/a> to go along with the default home page.",
+      "add_collection": "Add a Collection",
       "collection_title": "Example Collection Title"
     }
   },
@@ -239,55 +239,55 @@
     "navigation": {
       "menu": "Menu"
     },
+    "drawers": {
+      "browse": "Browse",
+      "close_menu": "Close menu"
+    },
     "cart": {
-      "title": "Cart"
+      "title": "Cart",
+      "items_count": {
+        "one": "item",
+        "other": "items"
+      }
     },
     "customer": {
-      "account": "My Account",
+      "account": "Account",
+      "logged_in_as_html": "Logged in as {{ first_name }}",
       "log_out": "Log out",
       "log_in": "Log in",
-      "create_account": "Create account",
-      "or": "or"
+      "create_account": "Create account"
     },
     "footer": {
-      "blog_title": "Latest News",
-      "social_title": "Follow Us",
-      "social_platform": "{{ name }} on {{ platform }}",
+      "social_title": "Get Connected",
       "newsletter_title": "Newsletter",
-      "newsletter_caption": "Sign up for the latest news, offers and styles",
-      "copyright": "Copyright"
+      "accepted_payments": "Accepted Payments"
+    },
+    "header": {
+      "account_signed_out_html": "{{ login_link }} or {{ signup_link }}",
+      "account_login_link": "Log in",
+      "account_signup_link": "Sign up",
+      "account_signed_in_html": "{{ view_account_link }} or {{ logout_link }}",
+      "account_view_link": "View account",
+      "account_logout_link": "Log out",
+      "account_toggle_link": "Account"
     }
   },
   "products": {
     "general": {
-      "from_html": "From {{ price }}",
-      "share_title": "Share this Product",
-      "related_products_title": "More from this collection"
+      "previous_product_html": "&larr; Previous Product",
+      "next_product_html": "Next Product &rarr;",
+      "from_text_html": "From {{ price }}",
+      "sale_price": "Sale price",
+      "regular_price": "Regular price"
     },
     "product": {
       "sold_out": "Sold Out",
-      "sale": "Sale",
+      "on_sale": "On Sale",
+      "on_sale_from_html": "<strong>On Sale<\/strong> from {{ price }}",
       "unavailable": "Unavailable",
       "compare_at": "Compare at",
       "quantity": "Quantity",
-      "add_to_cart": "Add to Cart",
-      "sale_price": "Sale price",
-      "regular_price": "Regular price",
-      "description": "Description",
-      "full_details": "Full details"
-    },
-    "zoom": {
-      "next": "Next (Right arrow key)",
-      "prev": "Previous (Left arrow key)",
-      "close": "Close (Esc)"
-    }
-  },
-  "map": {
-    "errors": {
-      "address_error": "Error looking up that address",
-      "address_no_results": "No results for that address",
-      "address_query_limit_html": "You have exceeded the Google API usage limit. Consider upgrading to a <a href=\"https:\/\/developers.google.com\/maps\/premium\/usage-limits\">Premium Plan<\/a>.",
-      "auth_error_html": "There was a problem authenticating your Google Maps API Key."
+      "add_to_cart": "Add to Cart"
     }
   },
   "gift_cards": {

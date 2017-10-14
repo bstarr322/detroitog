@@ -54,6 +54,10 @@ $gutter: 30px;
 /*============================================================================
   #Base Styles
 ==============================================================================*/
+header, nav, section, article, aside, footer {
+  display:block;
+}
+
 .template-giftcard,
 .template-giftcard body {
   background: $colorBody;
@@ -361,7 +365,7 @@ $gutter: 30px;
   animation: fadein 0.5s ease-in-out both 0.4s
 }
 
-#qr-code {
+#QrCode {
   img {
     padding: $gutter;
     border: 1px solid $colorBorder;
@@ -459,8 +463,6 @@ $gutter: 30px;
   }
 
   html, body {
-    -webkit-text-size-adjust: 100%;
-    -webkit-print-color-adjust: exact;
     background-color: #fff;
   }
 
@@ -471,8 +473,6 @@ $gutter: 30px;
   .giftcard__content,
   .giftcard__border {
     border: 0 none;
-    padding: 0;
-    background-color: #fff;
   }
 
   .giftcard__actions,

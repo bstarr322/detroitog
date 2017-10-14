@@ -1,14 +1,109 @@
+<!-- /templates/collection.liquid -->
 {% comment %}
-  The contents of the collection.liquid template can be found in /sections/collection-template.liquid
+
+  For more information on collection tags:
+    - http://docs.shopify.com/themes/liquid-variables/collection
+
 {% endcomment %}
 
-{% section 'collection-template' %}
+<div class="wrapper">
 
-<script>
-  // Override default values of shop.strings for each template.
-  // Alternate product templates can change values of
-  // 
-  theme.productStrings = {
-    sortBy: '{{ collection.sort_by | default: collection.default_sort_by }}'
-  }
-</script>
+  {% paginate collection.products by 12 %}
+
+  {% include 'breadcrumb' %}
+  
+  <header class="section-header">
+    <h1 class="section-header__title">{{ collection.title }}</h1>
+  </header>
+
+  {% comment %}
+    Use .grid--rev so that the collection tags appear below the products on mobile
+  {% endcomment %}
+  <div class="grid--rev">
+    <div class="grid__item large--three-quarters">
+
+      {% comment %}
+        Different markup if a collection description exists
+      {% endcomment %}
+      {% if collection.description != blank %}
+      <div class="section-header">
+        <div class="section-header__right">
+          {% include 'collection-sorting' %}
+        </div>
+      </div>  
+      <hr>
+      {% else %}
+        <header class="section-header">
+          <div class="section-header__right">
+            {% include 'collection-sorting' %}
+          </div>
+        </header>
+      {% endif %}
+
+      <!-- Collection Featured Image -->
+      {% if collection.image %}
+        <div class="collection__featured_img">
+          <img src="{{ collection.image.src | collection_img_url: 'original' }}" alt="{{ collection.image.alt }}" />
+        </div>
+      {% endif %}
+
+      {% comment %}
+        Use class grid-uniform to have evenly sized columns clear
+        each other properly at each breakpoint.
+      {% endcomment %}
+      {% if collection.description == blank %}
+        <hr>
+      {% endif %}
+      <div class="grid-uniform">
+
+        {% comment %}
+          Loop through our products in the current collection.
+          See the snippet 'product-grid-item' for the layout.
+        {% endcomment %}
+        {% for product in collection.products %}
+
+          {% include 'product-grid-item' %}
+
+        {% else %}
+
+          {% if collection.handle == 'all' and current_tags == '' %}
+
+            {% comment %}
+              Add default products to help with onboarding for collections/all only
+            {% endcomment %}
+            {% unless emptyState %}
+              {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+              {% assign emptyState = true %}
+            {% endunless %}
+            {% include 'onboarding-empty-collection' %}
+
+          {% else %}
+
+            {% comment %}
+              If collection exists but is empty, display message
+            {% endcomment %}
+            <div class="grid__item">
+              <p>{{ 'collections.general.no_matches' | t }}</p>
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <div class="pagination">
+          {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+        </div>
+      {% endif %}
+
+    </div>
+
+    <div class="grid__item large--one-quarter">
+      {% include 'filter-menu' %}
+    </div>
+  </div>
+</div>
+
+{% endpaginate %}

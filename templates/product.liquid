@@ -1,16 +1,322 @@
+<!-- /templates/product.liquid -->
 {% comment %}
-  The contents of the product.liquid template can be found in /sections/product-template.liquid
+
+  Rich snippets (itemscope, itemtype, etc.) for products are a theme requirement,
+  and allow search engines to easily understand what the content is.
+
+  For more information on these Scheme.org tags, visit:
+    - http://schema.org/docs/gs.html
+
 {% endcomment %}
 
-{% section 'product-template' %}
+<div itemscope itemtype="http://schema.org/Product">
 
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+  
+  <div class="wrapper">
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+
+    {% include 'breadcrumb' %}
+    <header class="grid-item product-single__header">
+      <h1 itemprop="name">{{ product.title }}</h1>
+    </header>
+
+    <div class="grid-item product-single">
+      <div class="grid__item large--one-half text-center product-single__gallery">
+        <div class="product-single__photos" id="ProductPhoto">
+          {% include 'product-gallery' %}
+        </div>
+
+        {% comment %}
+          Create thumbnails if we have more than one product image
+        {% endcomment %}
+        {% if product.images.size > 1 %}
+          <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+
+            {% for image in product.images %}
+              <li class="grid__item one-quarter">
+                <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                  <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+                </a>
+              </li>
+            {% endfor %}
+
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="grid__item large--one-half product-single__details">
+        
+        <div class="product-single__content">
+
+          <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+            <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+            {% comment %}
+              ID addToCartForm is a selector for the ajax cart plugin
+            {% endcomment %}
+            <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
+              
+              {% assign vendor_handle = product.vendor | handleize %}
+              {% assign vendor_url = collections[vendor_handle].url %}
+              {% capture vendor_logo %}vendor-{{ vendor_handle }}.png{% endcapture %}
+              
+              <a href="{% if vendor_url != blank %}{{ vendor_url }}{% else %}/collections/vendors?q={{ vendor_handle | escape }}{% endif %}"
+                 data-toggle="tooltip" data-placement="left"
+                 title="View all {{ product.vendor }} products"
+                 class="product-single__vendor-logo product-single__vendor-logo--{{ vendor_handle }} icon icon-{{ vendor_handle }}">{{ product.vendor }}</a>
+              
+              <h5>Product Description</h5>
+              
+              <div class="sku_style clearfix">
+                <strong>Model #:</strong> <span class="product-sku">{{ variant.sku }}</span>
+                <p class="product-single__availability">
+                  <span id="product-variant-availability">
+                    {% if current_variant.available %}
+                      <strong>Availability:</strong> <span class="text-success">In Stock</span>
+                    {% else %}
+                      <strong>Availability:</strong> <span class="text-danger">Sold Out</span>
+                    {% endif %}
+                  </span>
+                </p>
+              </div>
+              
+              <div class="product-single__price">
+                <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                <strong>Retail Price:&nbsp;</strong>
+                <span class="ProductPrice h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                  {{ current_variant.price | money }}
+                </span>
+
+                {% if product.compare_at_price_max > product.price %}
+                  <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                  <p class="ComparePrice">
+                    Retail Price:<span>{{ current_variant.compare_at_price | money }}</span>
+                  </p>
+                {% endif %}
+              </div>
+
+              {% comment %}
+                Add product variants as a dropdown.
+                  - By default, each variant (or combination of variants) will display as its own <option>
+                  - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
+
+                You can leverage jQuery to add a callback on page load and each time the select element changes:
+                  - Include option_selection.js (as seen at the bottom of this file)
+                  - This allows you to use JavaScript anytime the variant dropdown changes
+                  - This also separates out your variant options (ie. size, color, etc.) to separate select elements
+
+                For more information on products with multiple options, visit:
+                  - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
+              {% endcomment %}
+              <select name="id" id="productSelect-{{product.id}}" class="product-single__variants">
+                {% for variant in product.variants %}
+                  {% if variant.available %}
+
+                    {% comment %}
+                      Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
+                    {% endcomment %}
+                    <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+                  {% else %}
+                    <option disabled="disabled">
+                      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+                
+              {% if product.available and product.variants.size > 1 %}
+                {% for option in product.options %}
+                  {% include 'swatch' with option %}
+                {% endfor %}
+              {% endif %}
+                
+              <div class="product-single__AddToCart clearfix">
+                <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+                <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+
+                <button type="submit" name="add" id="AddToCart" class="btn btn-glow">
+                  <span id="AddToCartText">Add to Cart</span>
+                </button>
+              </div>
+                
+              <div class="product-form__item product-form__bis hide_bis">
+                <button id="BIS_trigger" type="button" class="btn btn--secondary product-form__bis-btn"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Sign up and receive an e-mail as soon as this item arrives in stock">Sold Out, Email me when available</button>
+              </div>
+            </form>
+
+          </div>
+
+            <div class="product-description rte" itemprop="description">
+              {{ product.description }}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="cbb-frequently-bought-box"></div>
+      
+      {% include 'related-products' %}
+      
+      {% include 'recently-viewed' %}
+    </div>
+
+{% comment %}
+  To take advantage of a callback on the select dropdown, add option_selection.js
+  and customize the JS in timber.productPage as needed.
+
+  Currently, timber.productPage does the following:
+    - Hides your <select> tag from above
+    - Breaks out the product variants into separate product options, if more than one exists
+    - Generates a <select> tag for each product option
+    - Enables/disables elements based on variant availability
+
+  Callback notes:
+    - Keep the callback available to the global scope (window.selectCallback) so that advanced
+      addons can override it.
+      * E.g. multiple currencies http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/currencies/how-to-toggle-between-two-currencies
+{% endcomment %}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
 <script>
-  // Override default values of shop.strings for each template.
-  // Alternate product templates can change values of
-  // add to cart button, sold out, and unavailable states here.
-  theme.productStrings = {
-    addToCart: {{ 'products.product.add_to_cart' | t | json }},
-    soldOut: {{ 'products.product.sold_out' | t | json }},
-    unavailable: {{ 'products.product.unavailable' | t | json }}
-  }
+  var selectCallback = function(variant, selector){
+    
+    // BEGIN SWATCHES
+    
+    if (variant) {
+      var form = jQuery('#' + selector.domIdPrefix).closest('form');
+      for (var i=0,length=variant.options.length; i<length; i++) {
+        var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+        if (radioButton.size()) {
+          radioButton.get(0).checked = true;
+        }
+      }
+      
+      // Change Variant SKU
+      $('.product-sku').text(variant.sku);
+      
+      //Available Check
+      if(variant.available){
+        // Show Add to Cart Button        
+        $('#AddToCart').show();
+        $('#AddToCart').html('<span class="default">Add to Cart</span>');
+        // Hide Sold Out.        
+        $('.product-form__bis').hide();
+        // Enable the Add to Cart button
+        $('#AddToCart').removeClass('disabled').removeAttr('disabled');
+        // Show price of the currently selected variant
+        $('.ProductPrice').html('<strong>' + Shopify.formatMoney(variant.price) +'</strong>');
+        $('.ComparePrice span').html(Shopify.formatMoney(variant.compare_at_price));
+        // Availability with a 'In Stock' message
+        $('#product-variant-availability').html('<strong>Availability:</strong> <span class="text-success">In Stock</span>');
+      }else{
+        // Hide Add to Cart button
+        $('#AddToCart').hide();
+        // Show Sold Out
+        $('.product-form__bis').removeClass('hide_bis');
+        $('.product-form__bis').show();
+        // Disable the Add to Cart button
+        // Show price of the currently selected variant
+        $('.ProductPrice').html(Shopify.formatMoney(variant.compare_at_price));
+        $('.ComparePrice span').html(Shopify.formatMoney(variant.compare_at_price));
+        // Availability with a 'Out of Stock' message
+        $('#product-variant-availability').html('<strong>Availability:</strong> <span class="text-danger">Sold Out</span>');
+      }
+    }else{
+      $('.product-sku').empty();
+    }
+    
+    // END SWATCHES
+    
+  };
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('productSelect-{{product.id}}', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+    
+    setTimeout(function() {
+
+      // Unchecked when make a selection.    
+      var radios = jQuery('.product-form__item--swatch').find("input[type='radio']");
+      for ( i = 0; i < radios.length; i++ ) {
+        radios.get(i).checked = false;
+      }
+      
+      // Make a Selection
+      {% if product.variants.size > 1 %}
+        $('#AddToCart').addClass('disabled').attr('disabled', 'disabled');
+        $('#AddToCart').html('<span>Make a Selection</span>');
+      	$('.product-form__bis').addClass('hide_bis');
+      
+        {% unless product.available %}
+          $('#AddToCart').show();
+        {% endunless %}
+      
+      {% else %}
+        $('.product-sku').css('display', 'inline-block');
+      	{% unless product.available %}
+      		$('#AddToCart').addClass('disabled').hide();
+      		$('.product-form__bis').removeClass('hide_bis');
+      	{% endunless %}
+      {% endif %}
+      
+    }, 100);
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+    {% endif %}
+
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+  });
+  
+  // Swatch label
+  // Swatch tooltip fix
+  $(document).ready(function(){
+    $('.swatch-element > input[type=radio][data-title]').on('change', function () {
+      // $('label[for="'+$(this).parents('.upsell-product__option').attr('id')+'"]').find('span').html($(this).data('title'));
+      $(this).parents('.product-form__item--swatch').find('>p').html($(this).data('title'));
+    });
+  });
+  
+  jQuery(document).ready(function($){
+
+    // Initialize popup as usual
+    $('.slides').magnificPopup({
+    delegate: 'a',
+    type: 'image',
+    closeOnContentClick: false,
+    closeBtnInside: false,
+    mainClass: 'mfp-with-zoom mfp-img-mobile',
+    image: {
+      verticalFit: true
+    },
+    gallery: {
+      enabled: true
+    },
+    zoom: {
+      enabled: true,
+      duration: 300, // don't foget to change the duration also in CSS
+      opener: function(element) {
+        return element.find('img');
+        }
+      }
+    });
+  });
 </script>

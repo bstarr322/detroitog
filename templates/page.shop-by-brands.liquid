@@ -1,0 +1,14 @@
+<!-- BEGIN /templates/page.shop-by-brands.liquid -->
+
+<h1 class="small--text-center">{{ page.title }}</h1>
+
+<div class="grid vendor-logos">
+  {% for vendor in shop.vendors %}
+    {% assign vendor_handle = vendor | handleize %}
+      <div class="grid__item one-half medium--one-third large--one-fifth vendor-logos__logo">
+        <a href="/collections/{{ vendor_handle }}" class="vendor-logos__link icon icon-{{ vendor_handle }}"></a>
+      </div>
+  {% endfor %}
+</div>
+
+<!-- END /templates/page.shop-by-brands.liquid -->

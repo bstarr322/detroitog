@@ -1,0 +1,52 @@
+<div id="SearchDrawer" class="drawer drawer--search">
+  <div class="drawer__header">
+    <div class="table-cell drawer__header__left">
+      <span class="drawer__close js-drawer-close">
+          <img src="{{'close-cart.svg' | asset_url}}">
+      </span>
+    </div>
+    <div class="table-cell drawer__header__right">
+      <form action="/search" id="timber_search_form" class="timber_search_form search">
+        <input type="text" placeholder="Search" name="q" value="{{ search.terms | escape }}" class="timber_search_form--text" id="timber_search_form--text"  />
+        <a class="search_form--clear" href="#"></a>
+      </form>
+    </div>
+  </div>
+  <div class="search--content">
+    <ul class="search-module-content">
+      
+      {% assign trendings = 'Dirty, Dirtier, French Toast Fantasy, Just Juice' %}
+      {% assign trendings_array = trendings | split: ',' %}
+      <h5>Trending</h5>
+      {% for trending in trendings_array %}
+          <li class="clearfix">
+            <div class="search-module-title">
+              <a href="/collections/{% if trending contains "Just Juice" %}house-juice{% else %}{{ trending | handleize }}{% endif %}">
+                {{ trending }}
+              </a>
+            </div>
+            <div class="search-module-thumbnail">
+              <a href="{% if trending contains "Just Juice" %}house-juice{% else %}{{ trending | handleize }}{% endif %}" class="icon icon-{{ trending | handleize }}"></a>
+            </div>
+          </li>
+      {% endfor %}
+      
+      {% assign news = 'Fittyz, Rounds, Shrbrt' %}
+      {% assign new_array = news | split: ',' %}
+      <h5>New</h5>
+      {% for new in new_array %}
+          <li class="clearfix">
+            <div class="search-module-title">
+              <a href="/collections/{{ new | handleize }}">
+                {{ new }}
+              </a>
+            </div>
+            <div class="search-module-thumbnail">
+              <a href="collections/{{ new | handleize }}" class="icon icon-{{ new | handleize }}"></a>
+            </div>
+          </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div id="SearchContainer"></div>
+</div>

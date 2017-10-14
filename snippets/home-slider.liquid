@@ -1,0 +1,59 @@
+{{ 'flexslider.css' | asset_url | stylesheet_tag }}
+
+<div class="flexslider home-slider">
+  <ul class="slides">
+  {% assign number_of_slides = 5 %}
+  	{% for i in (1..number_of_slides) %}
+      {% capture slide_enabled %}slideshow_{{ i }}_active{% endcapture %}
+      {% capture slide_image %}slideshow_{{ i }}.jpg{% endcapture %}
+      {% capture slide_caption %}slideshow_{{ i }}_caption_active{% endcapture %}
+      {% capture slide_caption_overlay %}slideshow_{{ i }}_caption_overlay{% endcapture %}
+      {% capture slide_title %}slideshow_{{ i }}_title{% endcapture %}
+      {% capture slide_subtitle %}slideshow_{{ i }}_subtitle{% endcapture %}
+      {% capture slide_subsubtitle %}slideshow_{{ i }}_subsubtitle{% endcapture %}
+      {% capture slide_button %}slideshow_{{ i }}_button_text{% endcapture %}
+      {% capture slide_link %}slideshow_{{ i }}_link{% endcapture %}
+      {% if settings[slide_enabled] %}
+    	<!-- new slide -->
+        <li>
+          {% if settings[slide_link] != blank %}
+          <a href="{{ settings[slide_link] }}">
+          {% endif %}
+            <img {% if settings[slide_title] != blank %}alt="{{ settings[slide_title] }}"{% endif %} src="{{ slide_image | asset_url }}" width="1600" height="800" />
+          {% if settings[slide_link] != blank %}
+          </a>
+          {% endif %}
+
+          {% if settings[slide_title] != blank %}
+          <div class="flex-caption">
+            <div class="banner" {% unless settings[slide_caption_overlay] %}style="background:transparent;"{% endunless %}>                
+              {% if settings[slide_title] != blank %}
+              <h2>{{ settings[slide_title] }}</h2>
+              {% endif %}
+
+              {% if settings[slide_title] != blank and settings[slide_subtitle] != blank %}
+              <div class="line_1"></div>
+              {% endif %}
+
+              {% if settings[slide_subtitle] != blank %}
+              <h4>{{ settings[slide_subtitle] }}</h4>
+              {% endif %}
+
+              {% if settings[slide_subsubtitle] != blank %}
+              <p>{{ settings[slide_subsubtitle] }}</p>
+              {% endif %}
+
+              {% if settings[slide_link] != blank %}
+              <a class="btn_c" href="{{ settings[slide_link] }}">{{ settings[slide_button] }}</a>
+              {% endif %} 
+            </div>
+          </div>
+          {% endif %}
+          
+        </li>    
+      <!-- end of slide -->
+  	  {% endif %} 	      
+    {% endfor %}
+  </ul>
+</div>
+<!--SLIDER END -->

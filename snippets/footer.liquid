@@ -1,0 +1,121 @@
+<!-- Back To Top -->
+<div class="backToTop footer__jumpTop">
+  <a class="footer_scrollup" href="#"><i class="fa fa-chevron-up"></i></a>
+</div>
+<!-- /Back To Top -->
+
+<!-- Site Footer -->
+<footer class="site-footer small--text-center" role="contentinfo">
+  <div class="wrapper">
+    <div class="grid footer__location">
+      <div class="contactMenu">
+        <ul id="menu-contact-menu" class="menu">
+          <li id="menu-item-address">
+            <a href="https://www.google.com.tw/maps/place/34842+Mound+Rd,+Sterling+Heights,+MI+48310,+USA/@42.5492896,-83.0496521,17z/data=!3m1!4b1!4m5!3m4!1s0x8824db11c7a8f9a9:0x367eb1f58cbc425d!8m2!3d42.5492896!4d-83.0474634?hl=en">34842 Mound Rd. Sterling Heights, MI 48310</a>
+          </li>
+          <li id="menu-item-tel">
+            <a href="tel:+1-586.983.9741">586.983.9741</a>
+          </li>
+          <li id="menu-item-contact">
+            <a href="/pages/contact-us">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="grid footer__main-wrapper">
+      <div class="grid__item large--one-third medium--one-half">
+        {% if settings.logo_use_image %}
+          <a href="/" itemprop="url" class="site-footer__logo-link">
+            <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+          </a>
+        {% else %}
+          <a href="/" itemprop="url">{{ shop.name }}</a>
+        {% endif %}
+      </div>
+      <div class="grid__item large--one-third medium--one-half footer__contact-menu">
+        <h4>{{ settings.footer_2_heading }}</h4>
+        {% if settings.footer_linklist_2 != '' %}
+          <ul>
+            {% for link in linklists[settings.footer_linklist_2].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="desc">
+            {{ settings.footer_2_text }}
+          </div>
+        {% endif %}
+      </div>
+      {% if settings.footer_newsletter_enable %}
+        <div class="grid__item large--one-third medium--one-half">
+          {% comment %}
+            MailChimp is the go-to newsletter service for Shopify.
+            Use the link below to find your MailChimp form action
+            and insert it in your site settings.
+
+            If the form action URL is not set in the theme settings,
+            it will fallback to a customer form so you can still capture the email.
+
+            MailChimp newsletter integration and requirement:
+             - http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action
+          {% endcomment %}
+          <h4>{{ 'layout.footer.newsletter_title' | t }}</h4>
+          {% if settings.newsletter_form_action != blank %}
+            <form action="{{ settings.newsletter_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group">
+              <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+              <span class="input-group-btn">
+                <input type="submit" class="btn" name="subscribe" id="subscribe" value="{{ 'general.newsletter_form.submit' | t }}">
+              </span>
+            </form>
+          {% else %}
+            {% form 'customer' %}
+              {{ form.errors | default_errors }}
+              {% if form.posted_successfully? %}
+                <p class="note form-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+              {% else %}
+                <div class="input-group">
+                  <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <span class="input-group-btn">
+                    <input type="submit" class="btn" name="subscribe" id="subscribe" value="{{ 'general.newsletter_form.submit' | t }}">
+                  </span>
+                </div>
+              {% endif %}
+            {% endform %}
+          {% endif %}
+
+        </div>
+      {% endif %}
+      <div class="grid__item text-center">
+        {% comment %}
+          Loop through available payment methods and show their icons.
+        {% endcomment %}
+        {% if settings.footer_social_enable %}
+        <div class="one-whole">
+          {% include 'social-profiles' %}
+        </div>
+        {% endif %}
+        {% unless shop.enabled_payment_types == empty %}
+          {% assign payment_icons_available = 'amazon_payments,american_express,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,paypal,visa' | split: ',' %}
+          <ul class="inline-list payment-icons">
+            {% for type in shop.enabled_payment_types %}
+              {% capture payment_type_img %}cc-{{type}}@2x.png{% endcapture %}
+              <li class="payment-{{type}}"><img src="{{ payment_type_img | asset_url }}" alt="{{ type | replace: '_', ' ' }}" width="48" height="34"></li>
+            {% endfor %}
+          </ul>
+        {% endunless %}
+        <p class="footer__shop-copyright">
+          Copyright &copy; {{ 'now' | date: "%Y" }} {{ shop.name | link_to: '/' }}
+        </p>
+      </div>
+      <div class="clearfix"></div>
+      <div id="justdistro">
+        <a href="http://plugdetroit.com/" target="_blank">
+          <img src="//cdn.shopify.com/s/files/1/1450/9978/t/7/assets/powered-by-plug_2x.png?2267229916633493028" alt="Powered by Just Juice Distro" height="46">
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- /Site Footer -->

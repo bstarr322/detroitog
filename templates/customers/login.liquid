@@ -1,124 +1,365 @@
-<div class="grid">
+{% layout none %}<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="{{ canonical_url }}">
 
-  <div class="grid__item wide--one-third large--one-half small--text-center">
+  {{ 'modernizr.min.js' | asset_url | script_tag }}
 
-    {% comment %}
-      If a user has successfully requested a new password, the form.posted_successfully? variable
-      is set to true within the 'recover_customer_password' form only. Within that form you'll see
-      us assign a variable 'reset_success' to true, which is used in JS to show our success message.
-    {% endcomment %}
-    <div class="note form-success" id="ResetSuccess" style="display:none;">
-      {{ 'customer.recover_password.success' | t }}
-    </div>
+  {{ content_for_header }}
 
-    <div id="CustomerLoginForm">
-      {% form 'customer_login' %}
+  <link href="https://fonts.googleapis.com/css?family=Prompt:300,500" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'futura-pt';
+      src: url('futura-pt-medium.otf') format('otf');
+    }
+    
+    *, *:before, *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box
+    }
+    html, body {
+      min-height: 100%;
+    }
+    html {
+      font-family: sans-serif;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      margin: 0;
+      background: #000 url("{{ 'login_bg-min.jpg' | asset_url }}") no-repeat 50% 100%;
+      -webkit-background-size: cover;
+      background-size: cover;
+      background-position: center center;
+      font-family: "futura-pt", sans-serif;
+      font-weight: 300;
+    }
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    main,
+    menu,
+    nav,
+    section,
+    summary {
+      display: block;
+    }
+    input, button {
+      font: inherit;
+    }
+    ::-webkit-input-placeholder {
+      color: #fff;
+    }
+    ::-moz-placeholder {
+      color: #fff;
+    }
+    :-ms-input-placeholder {
+      color: #fff;
+    }
+    :-moz-placeholder {
+      color: #fff;
+    }
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+    .text-center a {
+      color: #4f4f4f;
+      font-family: "futura-pt", sans-serif;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #4f4f4f;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0
+    }
+    .sr-only-focusable:active, .sr-only-focusable:focus {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip: auto
+    }
+    .text-right {
+      text-align: right;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 439px;
+      padding: 40px;
+      background-color: #f5f5f5;
+      box-shadow: 0 2px 8px 0 rgba(0,75,150,.16), 0 4px 16px 0 rgba(0,0,0,.16);
+}
+    }
+    .logo {
+      margin-bottom: 30px;
+    }
+    .logo__link {
+    }
+    .logo__img {
+      display: block;
+      width: 100%;
+      max-width: 439px;
+    }
+    .form {
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 10px 15px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      border: 1px solid #4f4f4f;
+      font-size: 20px;
+      line-height: 1;
+      color: #4f4f4f;
+    }
+    .form-control::-webkit-input-placeholder {
+      color: #4f4f4f !important;
+      font-family: "futura-pt", sans-serif;
+    }
 
-        <div class="section-header section-header--large">
-          <h1 class="section-header__title">{{ 'customer.login.title' | t }}</h1>
-        </div>
+    .form-control:-moz-placeholder { /* Firefox 18- */
+      color: #4f4f4f !important;
+      font-family: "futura-pt", sans-serif;
+    }
 
-        {{ form.errors | default_errors }}
+    .form-control::-moz-placeholder {  /* Firefox 19+ */
+      color: #4f4f4f !important;
+      font-family: "futura-pt", sans-serif;
+    }
 
-        <label for="CustomerEmail" class="label--hidden">{{ 'customer.login.email' | t }}</label>
-        <input type="email" name="customer[email]" id="CustomerEmail" placeholder="{{ 'customer.login.email' | t }}"{% if form.errors contains "email" %} class="error"{% endif %} autocorrect="off" autocapitalize="off" autofocus>
+    .form-control:-ms-input-placeholder {  
+      color: #4f4f4f !important;
+      font-family: "futura-pt", sans-serif;
+    }
+    .btn {
+      display: inline-block;
+      padding: 15px;
+      border: 0;
+      border-radius: 4px;
+      text-decoration: none !important;
+      line-height: 1;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 500;
+      font-size: 24px;
+      transition: all .2s ease;
+      cursor: pointer;
+    }
+    .btn-default {
+      background: #4f4f4f;
+      border-color: #4f4f4f;
+      color: #f5f5f5;
+    }
+    .btn-default:hover, .btn-default:focus {
+      background: #000;
+      border-color: #000;
+      color: #fff;
+    }
+    .btn-primary {
+      background: #f5f5f5;
+      color: #4f4f4f;
+      font-family: "futura-pt", sans-serif;
+      border: 1px solid #e81600;
+    }
+    .btn-primary:hover, .btn-primary:focus {
+      background: #fff;
+      color: #e81600;
+    }
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+    .form-register p {
+      text-align: center;
+      color: #4f4f4f;
+      font-size: 20px;
+      font-family: "futura-pt", sans-serif;
+    }
+    .form-reset-content {
+      color: #4f4f4f;
+      font-family: "futura-pt", sans-serif;
+    }
+    .login_left {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-148%, -20%);
+      width: 285px;
+      pointer-events: none;
+    }
+    .login_top {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-119%, -110%);
+      width: 362px;
+      pointer-events: none;
+    }
+    .login_right {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-55%, -150%);
+      width: 260px;
+      pointer-events: none;
+    }
 
-        {% if form.password_needed %}
+    #snize-sticky-searchbox-searchbox {
+      display: none !important;
+    }
+    
+    @media (max-width: 740px) {
+      .login_left {
+        display: none;
+      }
+      .login_right {
+        display: none;
+      }
+    }
+    @media (max-width: 414px) {
+      .login_left {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img class="login_left" src="{{ 'login_apple.png' | asset_url }}" alt="login_apple">
+    <img class="login_top" src="{{ 'login_just_juice.png' | asset_img_url:'grande' }}" alt="login_just_juice">
+    <img class="login_right" src="{{ 'login_milk.png' | asset_url }}" alt="login_milk">	
+    <div class="form">
 
-          <label for="CustomerPassword" class="label--hidden">{{ 'customer.login.password' | t }}</label>
-          <input type="password" value="" name="customer[password]" id="CustomerPassword" placeholder="{{ 'customer.login.password' | t }}" {% if form.errors contains "password" %} class="error"{% endif %}>
+      <div id="form-login" class="form-login">
+          {% form 'customer_login' %}
+          {{ form.errors | default_errors }}
 
-          <p>
-            <a href="#" onclick="showRecoverPasswordForm();return false;">{{ 'customer.login.forgot_password' | t }}</a>
-          </p>
+          <div class="form-group">
+            <label for="form-login-email" class="sr-only">{{ 'customer.login.email' | t }}</label>
+            <input id="form-login-email" type="email" name="customer[email]" value="" placeholder="Email" class="form-control {% if form.errors contains "email" %}error{% endif %}" autofocus required>
+          </div>
 
-        {% endif %}
+          {% if form.password_needed %}
+            <div class="form-group">
+              <label for="form-login-password" class="sr-only">{{ 'customer.login.password' | t }}</label>
+              <input id="form-login-password" type="password" name="customer[password]" value="" placeholder="Password" class="form-control {% if form.errors contains "password" %}error{% endif %}" required>
+            </div>
+          {% endif %}
 
-        <p>
-          <input type="submit" class="btn" value="{{ 'customer.login.sign_in' | t }}">
-        </p>
-        <p>
-          {{ 'layout.customer.create_account' | t | customer_register_link }}
-        </p>
-        <a href="{{ shop.url }}">{{ 'customer.login.cancel' | t }}</a>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">{{ 'customer.login.sign_in' | t }}</button>
+          </div>
 
-      {% endform %}
-    </div>
+          <div class="form-group">
+            <p class="text-center"><a id="form-reset-toggle" href="#form-reset">Forgot Password?</a></p>
+          </div>
 
-    {% comment %}
-      This page uses JavaScript to show/hide the recover password form
-    {% endcomment %}
-    <div id="RecoverPasswordForm" style="display: none;">
-
-      <div class="section-header section-header--large">
-        <h2 class="section-header__title">{{ 'customer.recover_password.title' | t }}</h2>
+        {% endform %}
       </div>
-      <p>{{ 'customer.recover_password.subtext' | t }}</p>
 
-      {% comment %}
-        This form must use 'recover_customer_password'
-      {% endcomment %}
-      {% form 'recover_customer_password' %}
+      <div id="form-reset" class="form-reset" style="display:none;">
+        {% comment %}<h2>{{ 'customer.recover_password.title' | t }}</h2>{% endcomment %}
+        <p><small class="form-reset-content">{{ 'customer.recover_password.subtext' | t }}</small></p>
 
-        {{ form.errors | default_errors }}
+        {% form 'recover_customer_password' %}
+          {{ form.errors | default_errors }}
 
-        {% comment %}
-          form.posted_successfully? is true only inside this form, but we want
-          to show a success message outside of it. To do so, set the variable
-          reset_success to true, then use JS to show our success message above.
-        {% endcomment %}
-        {% if form.posted_successfully? %}
-          {% assign reset_success = true %}
+          {% if form.posted_successfully? %}
+            {% assign reset_success = true %}
+          {% endif %}
+
+          <div class="form-group">
+            <label for="form-reset-email" class="sr-only">Email</label>
+            <input id="form-reset-email" type="email" name="email" value="" placeholder="Email" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            <p class="text-center"><a id="form-login-toggle" href="#form-login">Cancel</a></p>
+          </div>
+        {% endform %}
+
+        {% if shop.checkout.guest_login %}
+          {% form 'guest_login' %}
+            <div class="form-group">
+              <button type="submit" class="btn btn-default btn-block">{{ 'customer.login.guest_continue' | t }}</button>
+            </div>
+          {% endform %}
         {% endif %}
+      </div>
 
-        <label for="RecoverEmail" class="label--hidden">{{ 'customer.recover_password.email' | t }}</label>
-        <input type="email" value="" name="email" id="RecoverEmail" placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
-
-        <p>
-          <input type="submit" class="btn" value="{{ 'customer.recover_password.submit' | t }}">
-        </p>
-        <a href="#" onclick="hideRecoverPasswordForm();return false;">{{ 'customer.recover_password.cancel' | t }}</a>
-      {% endform %}
-
+      <div class="form-register">
+        <hr>
+        <p>Don't have an account?</p>
+        <p><a href="/account/register" class="btn btn-default btn-block">{{ 'customer.register.title' | t }}</a></p>
+      </div>
     </div>
-
-    {% comment %}
-      If accounts are set as optional, the following will be shown as an option
-      during checkout, not on the default /login page.
-    {% endcomment %}
-    {% if shop.checkout.guest_login %}
-      <hr>
-
-      <h2>{{ 'customer.login.guest_title' | t }}</h2>
-
-      {% form 'guest_login' %}
-        <input type="submit" class="btn" value="{{ 'customer.login.guest_continue' | t }}">
-      {% endform %}
-    {% endif %}
-
   </div>
 
-</div>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{ 'jquery-2.2.4.min.js' | asset_url }}"><\/script>')</script>
+  <script>
+    (function($){
+      $(document).ready(function(){
+        $('#form-reset-toggle').on('click', function(){
+          $('#form-login').hide();
+          $('#form-reset').show();
+          // $('#form-login').slideUp('fast', function(){
+          //   $('#form-reset').slideDown('fast');
+          // });
+        });
+        $('#form-login-toggle').on('click', function(){
+          $('#form-reset').hide();
+          $('#form-login').show();
+          // $('#form-reset').slideUp('fast', function(){
+          //   $('#form-login').slideDown('fast');
+          // });
+        });
+      });
+    })(jQuery);
+  </script>
+</body>
+</html>
 
-<script>
-  /*
-    Show/hide the recover password form when requested.
-  */
-  function showRecoverPasswordForm() {
-    document.getElementById('RecoverPasswordForm').style.display = 'block';
-    document.getElementById('CustomerLoginForm').style.display='none';
-  }
 
-  function hideRecoverPasswordForm() {
-    document.getElementById('RecoverPasswordForm').style.display = 'none';
-    document.getElementById('CustomerLoginForm').style.display = 'block';
-  }
-
-  // Allow deep linking to the recover password form
-  if (window.location.hash == '#recover') { showRecoverPasswordForm() }
-
-  // reset_success is only true when the reset form is
-  {% if reset_success %}
-    document.getElementById('ResetSuccess').style.display = 'block';
-  {% endif %}
-</script>

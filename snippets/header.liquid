@@ -1,0 +1,97 @@
+<header class="site-header" role="banner">
+  <div class="header-primary">
+    <h1 class="site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+      <a href="/" itemprop="url" class="site-header__logo-link">
+        <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+      </a>
+    </h1>
+    <div class="header-options">
+      <a href="/cart" class="site-header__cart-toggle js-drawer-open-right" aria-controls="CartDrawer" aria-expanded="false">
+        {% include 'icon-cart' %}
+        <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+        <span class="site-header__cart-indicator {% if cart.item_count == 0 %}hidden-count{% endif %}">{{ cart.item_count }}</span>
+      </a>
+
+      <a href="#search" class="js-drawer-open-search">
+        {% include 'icon-search' %}
+      </a>
+      
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          {% if customer.first_name != blank %}
+            <a href="#" class="main-nav__user account-open">
+              {% include 'icon-account' %}
+            </a>
+          {% else %}
+            <a href="/account" class="main-nav__user icon-account">
+              {% include 'icon-account' %}
+            </a>
+          {% endif %}
+        {% else %}
+          <a href="/account" class="main-nav__user">
+            {% include 'icon-account' %}
+          </a>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="account-container">
+      {% if customer %}
+        {% assign view_account_link = 'layout.header.account_view_link' | t %}
+        {% capture view_account_link %}<a href="/account">{{ view_account_link }}</a>{% endcapture %}
+        {% assign logout_link = 'layout.header.account_logout_link' | t %}
+        {% assign logout_link = logout_link | customer_logout_link %}
+
+        {{ 'layout.header.account_signed_in_html' | t: view_account_link: view_account_link, logout_link: logout_link  }}
+      {% endif %}
+      <a href="#" aria-hidden="true" class="account-close fa fa-close"></a>
+    </div>
+  </div>
+  <div class="header-secondary">
+    <ul class="header-collections">
+      {% for link in linklists.[settings.header_menu_linklist].links %}
+        {% assign child_list_handle = link.title | handleize %}
+        {% if linklists[child_list_handle].links != blank %}
+          <li class="header-collections__menu header-collections__menu--dropdown">
+            <a href="#subcollection-{{ link.title | handleize }}" class="header-collections__link header-collections__link--toggle">{{ link.title }}</a>
+            <ul id="subcollection-{{ link.title | handleize }}" class="sub__menu--dropdown header-subcollections header-subcollections--{{ link.title | handleize }}">
+              {% for childlink in linklists[child_list_handle].links %}
+                <li class="header-subcollections__menu">
+                  <a href="{{ childlink.url }}" class="header-subcollections__link">
+                    <div class="icon icon-{{ childlink.title | handleize }} alt header-subcollections__icon" data-grunticon-embed></div>
+                    <span class="header-subcollections__label">{{ childlink.title }}</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <li class="header-collections__menu"><a href="{{ link.url }}" class="header-collections__link">{{ link.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {% comment %} Hide for now, we will check NavDrawer on mobile again {% endcomment %}
+    <div class="hide">
+      <div class="grid">
+        <div class="grid__item one-half">
+          <div class="site-nav--mobile">
+            <button type="button" class="icon-fallback-text site-nav__link js-drawer-open-left" aria-controls="NavDrawer" aria-expanded="false">
+              <span class="icon icon-hamburger" aria-hidden="true"></span>
+              <span class="fallback-text">{{ 'layout.navigation.menu' | t }}</span>
+            </button>
+          </div>
+        </div>
+        <div class="grid__item one-half text-right">
+          <div class="site-nav--mobile">
+            <a href="/cart" class="js-drawer-open-right site-nav__link" aria-controls="CartDrawer" aria-expanded="false">
+              <span class="icon-fallback-text">
+                <span class="icon icon-cart" aria-hidden="true"></span>
+                <span class="fallback-text">{{ 'layout.cart.title' | t }}</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

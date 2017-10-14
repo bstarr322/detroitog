@@ -1,0 +1,44 @@
+<ul class="social-icons">
+  {% assign social_icons = 'twitter|facebook|pinterest|google_plus|instagram|youtube|vimeo' | split: '|' %}
+  {% for social_icon in social_icons %}
+    {% capture social_link %}{{ social_icon }}_link{% endcapture %}
+      {% capture social_icon_img %}social-icon-{{ social_icon | replace: '_', '-' }}@2x.png{% endcapture %}
+      <li>
+        <a href="{{ settings[social_link] }}" target="_blank" title="{{ social_icon | replace: '_', ' ' | capitalize }}">
+          <img src="{{ social_icon_img | asset_url }}" alt="{{ social_icon | replace: '_', ' ' | capitalize }}">
+        </a>
+      </li>
+  {% endfor %}
+</ul>
+
+
+{% comment %}
+<div class="social">
+  <ul>
+    <li class="twitter">
+      <a href="{{ settings.twitter_link }}" target="_blank" title="Twitter"><span class="fa fa-twitter"></span></a>
+    </li>
+    <li class="facebook">
+      <a href="{{ settings.facebook_link }}" target="_blank" title="Facebook"><span class="fa fa-facebook"></span></a>
+    </li>
+    <li class="pinterest">
+      <a href="{{ settings.pinterest_link }}" target="_blank" title="Pinterest"><span class="fa fa-pinterest"></span></a>
+    </li>
+    <li class="google">
+      <a href="{{ settings.google_plus_link }}" target="_blank" title="Pinterest"><span class="fa fa-google-plus"></span></a>
+    </li>
+    <li class="instagram">
+      <a href="{{ settings.instagram_link }}" target="_blank" title="Instagram"><span class="fa fa-instagram"></span></a>
+    </li>
+    <li class="tumblr">
+      <a href="{{ settings.tumblr_link }}" target="_blank" title="Tumblr"><span class="fa fa-tumblr"></span></a>
+    </li>
+    <li class="youtube">
+      <a href="{{ settings.youtube_link }}" target="_blank" title="YouTube"><span class="fa fa-youtube"></span></a>
+    </li>
+    <li class="vimeo">
+      <a href="{{ settings.vimeo_link }}" target="_blank" title="Vimeo"><span class="fa fa-vimeo-square"></span></a>
+    </li>
+  </ul>
+</div>
+{% endcomment %}

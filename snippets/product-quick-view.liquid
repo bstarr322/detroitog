@@ -1,0 +1,276 @@
+{% comment %}
+<!--
+
+  product-quick-view.liquid
+  =========================
+
+  This file is used when the quick view option is enabled on the theme.
+
+  Take note of the special way to load swatches:
+  (This is required for the quick view to work on the search page)
+  {% include 'swatch' with option qvScope:scope product:qvp %}
+
+
+-->
+{% endcomment %}
+
+{% assign showQuickViewForm = true %}
+{% assign current_variant = qvp.selected_or_first_available_variant %}
+{% assign collection_link = collection.url %}
+{% assign variant_size = qvp.variants | size %}
+
+{% assign featured_image = qvp.selected_or_first_available_variant.featured_image | default: qvp.featured_image %}
+{% capture scope %}qv-{{ qvp.url | within: collection | replace: '/', '-' }}{% endcapture %}
+
+<div data-id="{{ qvp.id }}" data-available="{{qvp.available}}" data-variant-size="{{qvp.variants.size}}" data-name="product_{{ qvp.handle | replace:'-','_' }}" class="mfp-with-anim mfp-hide mfp-dialog mfp-dialog-big clearfix quick-view-panel" id="{{ scope }}">
+  <div class="grid-item product-single">
+      <div class="grid__item large--one-half text-center product-single__gallery">
+        <div class="product-single__photos" id="ProductPhoto">
+          {% include 'product-gallery' %}
+        </div>
+
+        {% comment %}
+          Create thumbnails if we have more than one product image
+        {% endcomment %}
+        {% if qvp.images.size > 1 %}
+          <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+
+            {% for image in qvp.images %}
+              <li class="grid__item one-quarter">
+                <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                  <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+                </a>
+              </li>
+            {% endfor %}
+
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="grid__item large--one-half product-single__details">
+        
+        <div class="product-single__content">
+
+          <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+            <link itemprop="availability" href="http://schema.org/{% if qvp.available %}InStock{% else %}OutOfStock{% endif %}">
+
+            {% comment %}
+              ID addToCartForm is a selector for the ajax cart plugin
+            {% endcomment %}
+            <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
+              
+              <h3>{{ qvp.title }}</h3>
+              
+              {% assign vendor_handle = qvp.vendor | handleize %}
+              {% assign vendor_url = collections[vendor_handle].url %}
+              
+              <a href="{% if vendor_url != blank %}{{ vendor_url }}{% else %}/collections/vendors?q={{ vendor_handle | escape }}{% endif %}"
+                 data-toggle="tooltip" data-placement="left"
+                 title="View all {{ qvp.vendor }} products"
+                 class="product-single__vendor-logo product-single__vendor-logo--{{ vendor_handle }} icon icon-{{ vendor_handle }}">{{ qvp.vendor }}</a>
+              
+              <h5>Product Description</h5>
+              
+              <div class="sku_style clearfix">
+                <strong>Model #:</strong> <span class="product-sku">{{ variant.sku }}</span>
+                <p class="product-single__availability">
+                  <span id="product-variant-availability">
+                    {% if current_variant.available %}
+                      <strong>Availability:</strong> <span class="text-success">In Stock</span>
+                    {% else %}
+                      <strong>Availability:</strong> <span class="text-danger">Sold Out</span>
+                    {% endif %}
+                  </span>
+                </p>
+              </div>
+              
+              <div class="product-single__price">
+                <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                <strong>Retail Price:&nbsp;</strong>
+                <span class="ProductPrice h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                  {{ current_variant.price | money }}
+                </span>
+
+                {% if qvp.compare_at_price_max > qvp.price %}
+                  <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                  <p class="ComparePrice">
+                    Retail Price:<span>{{ current_variant.compare_at_price | money }}</span>
+                  </p>
+                {% endif %}
+              </div>
+
+              {% comment %}
+                Add product variants as a dropdown.
+                  - By default, each variant (or combination of variants) will display as its own <option>
+                  - To separate these into multiple steps, which we suggest, use option_selection.js (see below)
+
+                You can leverage jQuery to add a callback on page load and each time the select element changes:
+                  - Include option_selection.js (as seen at the bottom of this file)
+                  - This allows you to use JavaScript anytime the variant dropdown changes
+                  - This also separates out your variant options (ie. size, color, etc.) to separate select elements
+
+                For more information on products with multiple options, visit:
+                  - http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options#update-product-liquid
+              {% endcomment %}
+              <select name="id" id="productSelect-{{product.id}}" class="product-single__variants">
+                {% for variant in qvp.variants %}
+                  {% if variant.available %}
+
+                    {% comment %}
+                      Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
+                    {% endcomment %}
+                    <option {% if variant == qvp.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+                  {% else %}
+                    <option disabled="disabled">
+                      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+                
+              {% if qvp.available and qvp.variants.size > 1 %}
+                {% for option in qvp.options %}
+                  {% include 'swatch' with option %}
+                {% endfor %}
+              {% endif %}
+                
+              <div class="product-single__AddToCart clearfix">
+                <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+                <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+
+                <button type="submit" name="add" id="AddToCart" class="btn btn-glow">
+                  <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+                </button>
+              </div>
+            </form>
+              
+            <p class="product-single__view-product">
+              <a href="{{ qvp.url }}" target="_top">View product details {% include 'icon-arrow-right' %}</a>
+            </p>
+
+          </div>
+
+          {% comment %}
+            If the user is on a collection product page (ie with /collections/collection-handle/products/product-handle)
+            in the URL, we can show next/previous links to other products in the collection.
+          {% endcomment %}
+          {% if collection %}
+            {% if collection.previous_product or collection.next_product %}
+              <p>
+                {% if collection.previous_product %}
+                  <span class="left">
+                    {{ 'products.general.previous_product_html' | t | link_to: collection.previous_product }}
+                  </span>
+                {% endif %}
+                {% if collection.next_product %}
+                  <span class="right">
+                    {{ 'products.general.next_product_html' | t | link_to: collection.next_product }}
+                  </span>
+                {% endif %}
+              </p>
+            {% endif %}
+          {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %}
+  To take advantage of a callback on the select dropdown, add option_selection.js
+  and customize the JS in timber.productPage as needed.
+
+  Currently, timber.productPage does the following:
+    - Hides your <select> tag from above
+    - Breaks out the product variants into separate product options, if more than one exists
+    - Generates a <select> tag for each product option
+    - Enables/disables elements based on variant availability
+
+  Callback notes:
+    - Keep the callback available to the global scope (window.selectCallback) so that advanced
+      addons can override it.
+      * E.g. multiple currencies http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/currencies/how-to-toggle-between-two-currencies
+{% endcomment %}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+<script>
+  var selectCallback = function(variant, selector){
+    
+    // BEGIN SWATCHES
+    
+    if (variant) {
+      var form = jQuery('#' + selector.domIdPrefix).closest('form');
+      for (var i=0,length=variant.options.length; i<length; i++) {
+        var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+        if (radioButton.size()) {
+          radioButton.get(0).checked = true;
+        }
+      }
+      
+      // Change Variant SKU
+      $('.mfp-wrap .product-sku').text(variant.sku);
+      
+      //Available Check
+      if(variant.available){
+        // Show Add to Cart Button        
+        $('.mfp-wrap #AddToCart').show();
+        $('.mfp-wrap #AddToCart').html('<span class="default">Add to Cart</span>');
+        // Hide Sold Out.        
+        $('.mfp-wrap .product-form__bis').hide();
+        // Enable the Add to Cart button
+        $('.mfp-wrap #AddToCart').removeClass('disabled').removeAttr('disabled');
+        // Show price of the currently selected variant
+        $('.mfp-wrap .ProductPrice').html('<strong>' + Shopify.formatMoney(variant.price) +'</strong>');
+        $('.mfp-wrap .ComparePrice span').html(Shopify.formatMoney(variant.compare_at_price));
+        // Availability with a 'In Stock' message
+        $('.mfp-wrap #product-variant-availability').html('<strong>Availability:</strong> <span class="text-success">In Stock</span>');
+      }else{
+        // Hide Add to Cart button
+        $('.mfp-wrap #AddToCart').hide();
+        // Show Sold Out
+        $('.mfp-wrap .product-form__bis').removeClass('hide_bis');
+        $('.mfp-wrap .product-form__bis').show();
+        // Disable the Add to Cart button
+        // Show price of the currently selected variant
+        $('.mfp-wrap .ProductPrice').html(Shopify.formatMoney(variant.compare_at_price));
+        $('.mfp-wrap .ComparePrice span').html(Shopify.formatMoney(variant.compare_at_price));
+        // Availability with a 'Out of Stock' message
+        $('.mfp-wrap #product-variant-availability').html('<strong>Availability:</strong> <span class="text-danger">Sold Out</span>');
+      }
+    }else{
+      $('.mfp-wrap .product-sku').empty();
+    }
+    
+    // END SWATCHES
+    
+  };
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('productSelect-{{qvp.id}}', {
+      product: {{ qvp | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if qvp.options.size == 1 and qvp.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ qvp.options.first | escape }}</label>');
+    {% endif %}
+
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    {% if qvp.variants.size == 1 and qvp.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+  });
+  
+  // Swatch label
+  // Swatch tooltip fix
+  $(document).ready(function(){
+    $('.swatch-element > input[type=radio][data-title]').on('change', function () {
+      // $('label[for="'+$(this).parents('.upsell-product__option').attr('id')+'"]').find('span').html($(this).data('title'));
+      $(this).parents('.product-form__item--swatch').find('>p').html($(this).data('title'));
+    });
+  });
+</script>
