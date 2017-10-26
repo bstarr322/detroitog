@@ -36,17 +36,19 @@
           Create thumbnails if we have more than one product image
         {% endcomment %}
         {% if product.images.size > 1 %}
-          <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
+          <div id="ProductThumbs">
+            <ul class="product-single__thumbnails slides" >
 
-            {% for image in product.images %}
-              <li class="grid__item one-quarter">
-                <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
-                  <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-                </a>
-              </li>
-            {% endfor %}
+              {% for image in product.images %}
+                <li class="">
+                  <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                    <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+                  </a>
+                </li>
+              {% endfor %}
 
-          </ul>
+            </ul>
+          </div>
         {% endif %}
       </div>
 
@@ -195,12 +197,31 @@
     
     if (variant) {
       var form = jQuery('#' + selector.domIdPrefix).closest('form');
+
       for (var i=0,length=variant.options.length; i<length; i++) {
         var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
         if (radioButton.size()) {
           radioButton.get(0).checked = true;
         }
       }
+
+      if(variant.featured_image){
+        // Get Variant Image
+        var switchImage_src = variant.featured_image.src;
+        var slashIndexOf = switchImage_src.lastIndexOf('/');
+        var questionIndexOf = switchImage_src.lastIndexOf('.');
+        var switchImage = switchImage_src.substr(slashIndexOf + 1, questionIndexOf - slashIndexOf - 1);
+
+        // Select Thumbnail Image when select variant color.
+        var thumbnail_number = jQuery('.product-single__thumbnail');
+        for (var i = 0; i < thumbnail_number.length; i++) {
+          if(thumbnail_number[i].getAttribute('href').indexOf(switchImage) > 0) {
+            $(thumbnail_number[i]).trigger('click');
+            break;
+          }
+        }
+      }
+
       
       // Change Variant SKU
       $('.product-sku').text(variant.sku);
@@ -297,26 +318,26 @@
   
   jQuery(document).ready(function($){
 
-    // Initialize popup as usual
-    $('.slides').magnificPopup({
-    delegate: 'a',
-    type: 'image',
-    closeOnContentClick: false,
-    closeBtnInside: false,
-    mainClass: 'mfp-with-zoom mfp-img-mobile',
-    image: {
-      verticalFit: true
-    },
-    gallery: {
-      enabled: true
-    },
-    zoom: {
-      enabled: true,
-      duration: 300, // don't foget to change the duration also in CSS
-      opener: function(element) {
-        return element.find('img');
+    // Initialize Product Main Photo Popup
+    $('#ProductPhoto .slides').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      closeOnContentClick: false,
+      closeBtnInside: false,
+      mainClass: 'mfp-with-zoom mfp-img-mobile',
+      image: {
+        verticalFit: true
+      },
+      gallery: {
+        enabled: true
+      },
+      zoom: {
+        enabled: true,
+        duration: 300, // don't foget to change the duration also in CSS
+        opener: function(element) {
+          return element.find('img');
+          }
         }
-      }
+      });
     });
-  });
 </script>

@@ -134,7 +134,7 @@ jQuery(function ($) {
   /*PRODUCT FLEXSLIDER*/
    
    
-   $('#carousel').flexslider({
+   $('#ProductThumbs').flexslider({
     animation: "slide",
     controlNav: false,
     animationLoop: false,
@@ -149,9 +149,10 @@ jQuery(function ($) {
     touch: false,
     pauseOnHover: true,
     directionNav: true,
-    animation: "fade",
+    animation: "slide",
     slideshow: false,
-    slideshowSpeed: 10*1000
+    slideshowSpeed: 10*1000,
+    sync: '#ProductThumbs'
   });
 
   {% if settings.show_product_zoom %}
@@ -159,11 +160,11 @@ jQuery(function ($) {
   //  Product Image Zoom
   /////////////////////////////////////
   if(typeof $.zoom === 'function'){
-    var imageBlock = $('#image-block');
-    if(imageBlock.length){
-      var imageSlideLinks = imageBlock.find('a.image-slide-link');
-      if(imageSlideLinks.length){
-        imageSlideLinks.each(function(){
+    var $mainPhotoWrapper = $('#ProductPhoto');
+    if($mainPhotoWrapper.length){
+      var $imageSlideLinks = $mainPhotoWrapper.find('a.image-slide-link');
+      if($imageSlideLinks.length){
+        $imageSlideLinks.each(function(){
           var t = $(this);
           var url = t[0].href;
           t.zoom({ url:url,touch:false });

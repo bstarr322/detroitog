@@ -1793,7 +1793,8 @@ label.error {
   position: relative;
   z-index: ( $zindexDrawer - 1 ) !important;
   padding: 0;
-
+  background: url('{{"site-bg.jpg" | asset_url}}') center center;
+  
   .is-sticky & {
     -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
     box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
@@ -1845,7 +1846,6 @@ label.error {
   position: relative;
   z-index: 9;
   min-height: 71px;
-  background: #ffffff;
   border-bottom: 1px solid #e1e1e1;
 }
 
@@ -1885,7 +1885,6 @@ label.error {
   z-index: 9;
   position: relative;
   min-height: 60px;
-  background: #ffffff;
   padding: 3px 0;
 }
 
@@ -2789,7 +2788,6 @@ label.error {
 .collection-lists {
   max-width: 100%;
   width: 100%;
-  background-color: #ffffff;
   padding: 30px 0;
   margin: 0;
 }
@@ -2932,6 +2930,22 @@ label.error {
   visibility: hidden;
 }
 
+#ProductThumbs .slides li {
+  margin-right: 5px;
+
+  &:last-child {
+    margin-right: initial;
+  }
+
+  &.flex-active-slide {
+    border: 1px solid #37bbec;
+  }
+}
+
+#ProductThumbs .flex-direction-nav {
+  display:  none;
+}
+
 // Collection Featured Image
 .collection__featured_img {
   text-align: center;
@@ -3019,7 +3033,6 @@ label.error {
   max-width: 100%;
   margin: 0;
   padding: 30px 0;
-  background-color: #ffffff;
 }
 
 .product__main-single .breadcrumb {
