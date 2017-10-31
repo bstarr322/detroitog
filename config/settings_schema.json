@@ -75,6 +75,12 @@
         "default": "#333333"
       },
       {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent Color",
+        "default": "#37bbec"
+      },
+      {
         "type": "header",
         "content": "Body"
       },
@@ -91,6 +97,18 @@
         "default": "#333333"
       },
       {
+        "type": "color",
+        "id": "color_success",
+        "label": "Text",
+        "default": "#00a01e"
+      },
+      {
+        "type": "color",
+        "id": "color_danger",
+        "label": "Text",
+        "default": "#ec523e"
+      },
+      {
         "type": "header",
         "content": "Footer"
       },
@@ -98,7 +116,13 @@
         "type": "color",
         "id": "color_footer_bg",
         "label": "Background",
-        "default": "#f2f2f2"
+        "default": "#2d3034"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_header",
+        "label": "Header Text",
+        "default": "#fff"
       },
       {
         "type": "color",
