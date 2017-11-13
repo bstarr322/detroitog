@@ -1,0 +1,99 @@
+{% comment %}
+  SIZE CHARTS MODAL
+
+  TAG NAMING FORMAT
+
+    _[fulfillment]_[style]
+
+    _manual_as  --> Style: Adult Crewneck Sweatshirt
+    _manual_al  --> Style: Adult Long Sleeve T-Shirt
+{% endcomment %}
+
+{% comment %}
+  Find reserved tags (i.e. starts with _size_chart_)
+{% endcomment %}
+{% assign size_chart = '' %}
+{% for tag in product.tags %}
+  {% assign prefix = tag | slice: 0, 12 %}
+  {% if prefix == '_size_chart_' %}
+    {% assign size_chart = tag | downcase %}
+    {% capture size_chart %}{% include size_chart %}{% endcapture %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% unless size_chart contains 'Liquid error' %}
+  <aside id="modal-size-chart" class="mfp-with-anim mfp-hide mfp-dialog mfp-dialog-big clearfix modal-size-chart">
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid__item one-whole">
+          <img src="{{ 'logo.png' | asset_url }}" alt="" class="modal-size-chart__logo" width="180">
+          <h1 class="modal-size-chart__head">Size &amp; Fit Info</h1>
+          <h2 class="modal-size-chart__subhead">{{ size_chart_heading }}</h2>
+        </div>
+      </div>
+      <div class="grid modal-size-chart__chart">
+        {% unless size_chart_image == blank %}
+          <div class="grid__item medium--one-third large--one-third">
+            <img src="{{ size_chart_image | asset_url }}" alt="" class="img-responsive modal-size-chart__image">
+          </div>
+        {% endunless %}
+        <div class="grid__item {% if size_chart_image == blank %}one-whole{% else %}medium--two-thirds large--two-thirds{% endif %}">
+          <div class="table-responsive">
+            <table class="table modal-size-chart__table">
+              <thead>
+                <tr>
+                  {% unless size_chart_nosize %}
+                    <th>Size</th>
+                  {% endunless %}
+                  <th>Width</th>
+                  <th>Length</th>
+                </tr>
+              </thead>
+{% comment %}
+              <tfoot>
+                <tr>
+                  <td>
+                    <small style="display: inline-block; line-height: 22px;">All Measurements in <strong>Inches</strong></small>
+                  </td>
+                  <td colspan="4" align="right">
+                    <button type="button" class="btn btn-default btn-xs">Switch to Centimeters</button>
+                  </td>
+                </tr>
+              </tfoot>
+{% endcomment %}
+              <tbody>
+                {% assign size_chart_table = size_chart_table | strip | newline_to_br | strip_newlines | split: '<br />' %}
+                {% for size_chart_row in size_chart_table %}
+                  {% assign size_chart_cells = size_chart_row | split: ' ' %}
+                  <tr>
+                    {% if size_chart_nosize %}
+                      <td align="center"><strong>{{ size_chart_cells[0] }}</strong></td>
+                      <td align="center"><strong>{{ size_chart_cells[1] }}</strong></td>
+                    {% else %}
+                      <td><strong>{{ size_chart_cells[0] }}</strong></td>
+                      <td align="center"><strong>{{ size_chart_cells[1] }}</strong></td>
+                      <td align="center"><strong>{{ size_chart_cells[2] }}</strong></td>
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <script>
+    (function($){
+      $('#modal-size-chart-toggle')
+        .fadeIn('fast')
+        .magnificPopup({
+          type:'inline',
+          midClick: true,
+          mainClass:'mfp-move-from-top',
+          removalDelay: 1000
+        });
+    })(jQuery);
+  </script>
+{% endunless %}

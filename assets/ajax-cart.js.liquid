@@ -278,13 +278,16 @@ var ajaxCart = (function(module, $) {
 
     function timer() {
       count = count+counterIncrement;
-      if (((count * 100 >= cart.total_price) && (counterIncrement > 0)) || ((count * 100 <= cart.total_price) && (counterIncrement < 0))) {
+      var countToFixed = filterFloat((Math.round(count * 100)).toFixed(2));
+      
+      if (((countToFixed >= cart.total_price) && (counterIncrement >= 0)) || ((countToFixed <= cart.total_price) && (counterIncrement < 0))) {
         clearInterval(counter);
+        $(".ajaxcart__total__price strong").html(Shopify.formatMoney(cart.total_price, settings.moneyFormat));
         return false;
       }
-      console.log(filterFloat((Math.round(count * 100) / 100).toFixed(2)));
       $(".ajaxcart__total__price strong").html(Shopify.formatMoney(count*100, settings.moneyFormat));
     }
+
   };
   
   formOverride = function () {

@@ -140,6 +140,13 @@
                   {% include 'swatch' with option %}
                 {% endfor %}
               {% endif %}
+
+              <div class="product-single__size-chart">
+                <a id="modal-size-chart-toggle" href="#modal-size-chart" class="size-chart-toggle__btn" style="display:none;">
+                  <img src="{{ 'size-chart-icon.png' | asset_url }}" alt="" width="24" height="24">
+                  Size Chart
+                </a>
+              </div>
                 
               <div class="product-single__AddToCart clearfix">
                 <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>

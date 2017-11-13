@@ -56,20 +56,27 @@ $viewportIncrement: 1px;
 
 $small: 480px;
 $medium: 768px;
-$large: 769px;
+$large: 992px;
+$xlarge: 1200px;
 
 $postSmall: $small + $viewportIncrement;
 $preMedium: $medium - $viewportIncrement;
 $preLarge: $large - $viewportIncrement;
+$preXLarge: $xlarge - $viewportIncrement;
 
 /*================ The following are dependencies of csswizardry grid ================*/
 $breakpoints: (
   'small' '(max-width: #{$small})',
+  'preMedium' '(max-width: #{$preMedium})',
   'medium' '(min-width: #{$postSmall}) and (max-width: #{$medium})',
   'medium-down' '(max-width: #{$medium})',
-  'large' '(min-width: #{$large})'
+  'medium-up' '(min-width: #{$medium})',
+  'large-down' '(max-width: #{$preLarge})',
+  'large' '(min-width: #{$large})',
+  'xlarge' '(min-width: #{$xlarge})',
+  'xlarge-down' '(max-width: #{$preXLarge})'
 );
-$breakpoint-has-widths: ('small', 'medium', 'medium-down', 'large');
+$breakpoint-has-widths: ('small', 'medium', 'medium-down', 'large', 'large-down', 'xlarge', 'xlarge-down');
 $breakpoint-has-push:  ('medium', 'medium-down', 'large');
 $breakpoint-has-pull:  ('medium', 'medium-down', 'large');
 
@@ -119,7 +126,8 @@ $colorFooterBg: {{ settings.color_footer_bg }};
 $colorFooterText: {{ settings.color_footer_text }};
 
 // Logo max width
-$logoMaxWidth: {{ settings.logo_max_width | default: '450' | remove: 'px' }}px;
+$logoMaxWidth: {{ settings.logo_max_width | default: '100' | remove: 'px' }}px;
+$logoMaxHeight: {{ settings.logo_max_height | default: '60' | remove: 'px' }}px;
 
 // Helper colors
 $disabledGrey: #f6f6f6;
@@ -145,7 +153,7 @@ $radius: 3px;
 
 // Z-index
 $zindexNavDropdowns: 5;
-$zindexDrawer: 10;
+$zindexDrawer: 15;
 
 
 /*================ Typography ================*/
@@ -233,6 +241,169 @@ $socialIconFontStack: 'icons';
       @warn "Unrecognized prefix: #{$prefix}";
     }
   }
+}
+
+// Transitions
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+       -o-transition: $transition;
+          transition: $transition;
+}
+@mixin transition-property($transition-property...) {
+  -webkit-transition-property: $transition-property;
+          transition-property: $transition-property;
+}
+@mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+          transition-delay: $transition-delay;
+}
+@mixin transition-duration($transition-duration...) {
+  -webkit-transition-duration: $transition-duration;
+          transition-duration: $transition-duration;
+}
+@mixin transition-timing-function($timing-function) {
+  -webkit-transition-timing-function: $timing-function;
+          transition-timing-function: $timing-function;
+}
+@mixin transition-transform($transition...) {
+  -webkit-transition: -webkit-transform $transition;
+     -moz-transition: -moz-transform $transition;
+       -o-transition: -o-transform $transition;
+          transition: transform $transition;
+}
+
+// Flexbox display
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+// The 'flex' shorthand
+// - applies to: flex items
+// <positive-number>, initial, auto, or none
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+     -moz-box-flex: $values;
+      -webkit-flex: $values;
+      -ms-flex: $values;
+          flex: $values;
+}
+
+// Flex Flow Direction
+// - applies to: flex containers
+// row | row-reverse | column | column-reverse
+@mixin flex-direction($direction) {
+  -webkit-flex-direction: $direction;
+     -moz-flex-direction: $direction;
+      -ms-flex-direction: $direction;
+          flex-direction: $direction;
+}
+
+// Flex Line Wrapping
+// - applies to: flex containers
+// nowrap | wrap | wrap-reverse
+@mixin flex-wrap($wrap) {
+  -webkit-flex-wrap: $wrap;
+     -moz-flex-wrap: $wrap;
+      -ms-flex-wrap: $wrap;
+          flex-wrap: $wrap;
+}
+
+// Flex Direction and Wrap
+// - applies to: flex containers
+// <flex-direction> || <flex-wrap>
+@mixin flex-flow($flow) {
+  -webkit-flex-flow: $flow;
+     -moz-flex-flow: $flow;
+      -ms-flex-flow: $flow;
+          flex-flow: $flow;
+}
+
+// Display Order
+// - applies to: flex items
+// <integer>
+@mixin order($val) {
+  -webkit-box-ordinal-group: $val;  
+     -moz-box-ordinal-group: $val;     
+         -ms-flex-order: $val;     
+          -webkit-order: $val;  
+            order: $val;
+}
+
+// Flex grow factor
+// - applies to: flex items
+// <number>
+@mixin flex-grow($grow) {
+  -webkit-flex-grow: $grow;
+     -moz-flex-grow: $grow;
+      -ms-flex-grow: $grow;
+          flex-grow: $grow;
+}
+
+// Flex shrink
+// - applies to: flex item shrink factor
+// <number> 
+@mixin flex-shrink($shrink) {
+  -webkit-flex-shrink: $shrink;
+     -moz-flex-shrink: $shrink;
+      -ms-flex-shrink: $shrink;
+          flex-shrink: $shrink;
+}
+
+// Flex basis
+// - the initial main size of the flex item
+// - applies to: flex itemsnitial main size of the flex item
+// <width> 
+@mixin flex-basis($width) {
+  -webkit-flex-basis: $width;
+     -moz-flex-basis: $width;
+      -ms-flex-basis: $width;
+          flex-basis: $width;
+}
+
+// Axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | space-between | space-around 
+@mixin justify-content($justify) {
+  -webkit-justify-content: $justify;
+     -moz-justify-content: $justify;
+      -ms-justify-content: $justify;
+          justify-content: $justify;
+            -ms-flex-pack: $justify;
+}
+
+// Packing Flex Lines
+// - applies to: multi-line flex containers
+// flex-start | flex-end | center | space-between | space-around | stretch 
+@mixin align-content($align) {
+  -webkit-align-content: $align;
+     -moz-align-content: $align;
+      -ms-align-content: $align;
+          align-content: $align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | baseline | stretch 
+@mixin align-items($align) {
+  -webkit-align-items: $align;
+     -moz-align-items: $align;
+      -ms-align-items: $align;
+          align-items: $align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex items
+// auto | flex-start | flex-end | center | baseline | stretch 
+@mixin align-self($align) {
+  -webkit-align-self: $align;
+     -moz-align-self: $align;
+      -ms-align-self: $align;
+          align-self: $align;
 }
 
 @mixin transform($transform) {
@@ -1236,14 +1407,15 @@ table.full {
   -webkit-overflow-scrolling: touch;
 }
 
-th {
-  font-weight: bold;
+th, td {
+  padding: $gutter / 4;
+  border-bottom: 1px solid $colorBorder;
 }
 
-th, td {
-  text-align: left;
-  padding: $gutter / 2;
-  border: 1px solid $colorBorder;
+
+th {
+  font-weight: bold;
+  border-bottom: 2px solid $colorBorder;
 }
 
 /*============================================================================
@@ -1350,6 +1522,7 @@ th, td {
 ==============================================================================*/
 img {
   border: 0 none;
+  vertical-align: middle;
 }
 
 svg:not(:root) {
@@ -1649,21 +1822,21 @@ label.error {
 /*============================================================================
   #Icons
 ==============================================================================*/
-.icon {
-  color: $colorIcon;
+// .icon {
+//   color: $colorIcon;
 
-  path {
-    fill: $colorIcon;
-  }
+//   path {
+//     fill: $colorIcon;
+//   }
 
-  &:hover {
-    color: $colorAccent;
+//   &:hover {
+//     color: $colorAccent;
 
-    path {
-      fill: $colorAccent;
-    }
-  }
-}
+//     path {
+//       fill: $colorAccent;
+//     }
+//   }
+// }
 .icon-fallback-text .icon {
   display: none;
 
@@ -1809,16 +1982,17 @@ label.error {
 /*============================================================================
   #Site Header
 ==============================================================================*/
-.site-header {
+.sticky-wrapper {
   position: relative;
   z-index: ( $zindexDrawer - 1 ) !important;
-  padding: 0;
-  background: url('{{"site-bg.jpg" | asset_url}}') center center;
-  
+}
+.site-header {
+  position: relative;
+  background-color: $colorBody;
+  box-shadow: 1px 1px 8px rgba(102, 102, 102, 0.3);
+  -webkit-box-shadow: 1px 1px 8px rgba(102, 102, 102, 0.3);
+
   .is-sticky & {
-    -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-    box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     top: -1px !important;
   }
@@ -1837,11 +2011,7 @@ label.error {
 }
 
 .site-header__logo {
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  height: 70px;
-  padding: 10px;
+  margin: initial;
   z-index: 30;
 
   a,
@@ -1855,36 +2025,38 @@ label.error {
   }
 
   img {
-    width: 50px;
-    height: 50px;
+    width: $logoMaxWidth;
+    max-height: $logoMaxHeight;
     object-fit: contain;
     margin: 0 auto;
   }
 }
 
 .header-primary {
+  padding: 10px 0;
+  background-color: $colorBody;
   position: relative;
-  z-index: 9;
-  min-height: 71px;
-  border-bottom: 1px solid #e1e1e1;
-}
+  z-index: 20;
 
-.site-header__logo-link {
-  max-width: $logoMaxWidth;
-  margin: 0 auto;
-}
+  .grid {
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(space-between);
+  }
 
-.site-header__cart-toggle {
-  position: relative;
-  display: block;
-  float: right;
-  margin: 25px 50px 0 0;
+  @include at-query ($max, $preMedium) {
 
-  @include at-query ($max, $small) {
-    margin-right: 15px;
+    .header-collections__link {
+      font-size: 12px;
+      padding: 0 6px;
+    }
   }
 }
 
+.icon-hamburger,
+.icon-x {
+  font-size: 22px;
+}
 .site-header__search {
   display: inline-block;
   max-width: 400px;
@@ -1914,133 +2086,100 @@ label.error {
   list-style: none;
   text-align: center;
   line-height: 60px;
+  flex: 1;
 }
 
 .header-collections__menu--dropdown {
-  // position: relative;
-  // &:hover .sub__menu--dropdown,
-  // &:focus .sub__menu--dropdown,
-  &.dropdown-opened .sub__menu--dropdown {
+  position: relative;
+
+  &:before,
+  &:after {
+    // content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
     position: absolute;
-    top: 100%;
-    visibility: visible;
-    opacity: 1;
+    left: 50%;
+    bottom: -10px;
+    opacity: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    -webkit-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    border-bottom-color: #eee !important;
   }
 }
 
 .header-collections__menu {
   display: inline-block;
-}
+  margin: 0 $gutter/2;
 
-
-
-.header-collections__menu--dropdown:before, .header-collections__menu--dropdown:after {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  margin-left: -10px;
-  position: absolute;
-  left: 50%;
-  bottom: -10px;
-  opacity: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  -webkit-transition: all 0.1s ease-in-out;
-  -o-transition: all 0.1s ease-in-out;
-  transition: all 0.1s ease-in-out;
-}
-
-.header-collections__menu--dropdown:before {
-  border-bottom-color: #fff !important;
-}
-.header-collections__menu--dropdown:after {
-  border-bottom-color: #fff !important;
-}
-
-.header-collections__link {
-  display: inline-block;
-  padding: 0 15px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 60px;
-  letter-spacing: 0.4px;
-  color: $colorTextBody;
-}
-
-// the main menu toggle
-.header-collections__menu--active {
-  &:before,
-  &:after {
-    opacity: 1;
-    transition: none;
-  }
-  &:before {
-    bottom: -4px;
-  }
-  &:after {
-    bottom: -5px;
+  .header-collections__link {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 60px;
+    letter-spacing: 0.4px;
+    color: $colorTextBody;
   }
 }
+
+// Subcollection nav
 
 .header-subcollections-container {
-  z-index: 5;
+  z-index: 1;
   position: absolute;
-  top: -10px;
+  top: -130px;
   left: 0;
   right: 0;
-  height: auto;
-  padding-top: 0;
-  padding-bottom: 0;
-  background: #fff;
-  -webkit-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-  -webkit-transition-timing-function: ease-in-out;
-  transition-timing-function: ease-in-out;
-  visibility: hidden;
+  height: 210px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: $colorBody;
+  border-top: 1px solid #ccc;
+
+  @include transition-duration(.4s);
+  @include transition-timing-function(ease-in-out);
+
+  @include at-query($max, $preXLarge) {
+    height: 135px;
+  }
 }
 
 .header-subcollections {
-  margin: 0;
-  z-index: 1;
   position: absolute;
-  top: -10px;
-  left: 0;
-  right: 0;
-  height: auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background: #fff;
-  -webkit-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-  -webkit-transition-timing-function: ease-in-out;
-  transition-timing-function: ease-in-out;
-  opacity: 0;
+  top: -1000px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   text-align: center;
-  visibility: hidden;
-  -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-
-}
-
-.fix-scroll-nav .header-subcollections {
-  position: fixed !important;
-  top: 70px !important;
+  opacity: 0;
+  @include transition-duration(.4s);
+  @include transition(opacity .1s ease-in-out);
 }
 
 .header-subcollections__menu {
   display: inline-block;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .header-subcollections__link {
   display: inline-block;
-}
+  color: $colorNavText;
 
-.header-subcollections__link:hover .header-subcollections__label {
-  color: $colorAccent;
+  svg path, svg polygon, svg rect {
+    @include transition(all .1s ease-in-out);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    color: $colorAccent;
+  }
 }
 
 .header-subcollections__icon {
@@ -2050,11 +2189,38 @@ label.error {
   margin: 0 auto 3px auto;
   background-size: contain;
   margin-bottom: 15px;
+
+  @include at-query($max, $preXLarge) {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 3px;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.header-subcollections__icon svg {
-  width: 100%;
-  height: 100%;
+// Active nav
+
+// the main menu toggle
+.header-collections__menu--active {
+  &:before,
+  &:after {
+    opacity: 1;
+    @include transition(none);
+  }
+  &:before {
+    bottom: 0;
+  }
+  &:after {
+    bottom: -1px;
+  }
+}
+
+.header-subcollections__link:hover .header-subcollections__label {
+  color: $colorAccent;
 }
 
 .account-container {
@@ -2086,7 +2252,29 @@ label.error {
 }
 
 .header-options {
+  @include flexbox();
+  @include flex-direction(row-reverse);
+  
+  a {
+    float: right;
+    display: block;
+    margin-left: $gutter / 2;
+    font-size: 0;
 
+    &.site-header__cart-toggle {
+      position: relative;
+    }
+
+    &:last-child {
+      margin-left: initial;
+    }
+
+    svg {
+      position: relative;
+      width: 25px;
+      height: 25px;
+    } 
+  }
 }
 
 // the submenu container
@@ -2137,6 +2325,7 @@ label.error {
   background: #fff;
   z-index: 3;
 }
+
 
 /*============================================================================
   #Site Nav and Dropdowns
@@ -2238,7 +2427,7 @@ label.error {
 ==============================================================================*/
 .mobile-nav {
   // Negative of .drawer left/right padding for full-width link tap area
-  margin: (-$gutter / 2) (-$gutter / 2) 0 (-$gutter / 2);
+  margin: 0;
 
   li {
     margin-bottom: 0;
@@ -2512,7 +2701,7 @@ label.error {
 
 .drawer__close button {
   position: relative;
-  right: -20px;
+  right: 0;
   height: 100%;
   padding: 0 20px;
   color: inherit;
@@ -3106,6 +3295,20 @@ label.error {
 }
 
 
+.product-single__size-chart {
+  padding: 0 25px 30px 25px;
+
+  a {
+    display: inline-block;
+
+    img {
+      margin-right: 5px;
+    }
+  }
+}
+
+
+
 // Page - Brands
 .vendor-logos__logo {
   margin-bottom: $gutter;
@@ -3184,7 +3387,6 @@ label.error {
 }
 
 .product-single__AddToCart #AddToCart:hover {
-  background: #41dcfa;
   box-shadow: 0 2px 8px 0 rgba(0,75,150,.16), 0 4px 16px 0 rgba(0,0,0,.16);
 }
 
@@ -3421,7 +3623,7 @@ label.error {
   height: 52px;
   display: block;
   position: absolute;
-  background: #01C6E4;
+  background: #333;
   border: 0;
   border-radius: 3px;
   font: 700 18px/18px "futura-pt", sans-serif;
@@ -3758,11 +3960,6 @@ label.error {
 .js-drawer-open-search {
   position: relative;
   display: block;
-}
-
-.drawer-page-content .js-drawer-open-search {
-  float: right;
-  margin: 25px 20px 0 0;
 }
 
 .filter-menu {
@@ -4431,4 +4628,74 @@ Animate
 }
 .swatch.error code {
   font-family:monospace;
+}
+
+
+// Modal - Size Chart
+.modal-size-chart {
+  .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  thead {
+    color: #000;
+  }
+  strong {
+    font-weight: 900;
+    color: #37bbec;
+  }
+}
+
+.modal-size-chart__logo {
+  display: block;
+  margin: 0 auto;
+  max-height: 70px;
+  object-fit: contain;
+
+  @media (min-width: 768px) {
+    float: right;
+    margin: 0 -5px 0 0;
+  }
+}
+
+.modal-size-chart__head {
+  line-height: 60px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 28px;
+  @media (min-width: 768px) {
+    text-align: left;
+  }
+}
+
+.modal-size-chart__subhead {
+  border-top: 1px dashed #ccc;
+  border-bottom: 1px dashed #ccc;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #37bbec;
+  @media (min-width: 768px) {
+    text-align: left;
+  }
+}
+
+.modal-size-chart__chart {
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+.modal-size-chart__table {
+  th {
+    text-align: center;
+    &:first-child {
+      text-align: left;
+    }
+  }
+}
+
+.modal-size-chart__image {
+  margin-bottom: 20px;
 }
