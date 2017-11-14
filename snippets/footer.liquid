@@ -27,7 +27,7 @@
       <div class="grid__item large--one-third medium--one-half">
         {% if settings.logo_use_image %}
           <a href="/" itemprop="url" class="site-footer__logo-link">
-            <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo">
+            <img src="{{ 'logo-footer.png' | asset_img_url: '150x150' }}" alt="{{ shop.name }}" itemprop="logo">
           </a>
         {% else %}
           <a href="/" itemprop="url">{{ shop.name }}</a>
