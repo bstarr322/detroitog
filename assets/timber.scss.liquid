@@ -47,6 +47,8 @@
   #Notes and Form Feedback
   #Cart Page
   #Ajax Cart Styles
+  #Password page
+  #Social Sharing
 ==============================================================================*/
 
 /*============================================================================
@@ -155,6 +157,7 @@ $radius: 3px;
 $zindexNavDropdowns: 5;
 $zindexDrawer: 15;
 
+$passwordPageUseBgImage: true;
 
 /*================ Typography ================*/
 
@@ -4699,4 +4702,357 @@ Animate
 
 .modal-size-chart__image {
   margin-bottom: 20px;
+}
+
+
+/*============= #Password page =============*/
+
+/*============= Templates | Password page =============*/
+
+.template-password {
+  height: 100vh;
+  text-align: center;
+
+  .mfp-bg.mfp-fade {
+    -webkit-backface-visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    background-color: #fff;
+  }
+
+  .mfp-bg.mfp-fade.mfp-ready {
+    opacity: 1;
+  }
+
+  button.mfp-arrow, button.mfp-close {
+    margin: 30px;
+    font-size: 2.5em;
+    font-weight: 300;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    color: #1c1d1d;
+  }
+}
+
+.password-page__wrapper {
+  display: table;
+  height: 100%;
+  width: 100%;
+
+  @if $passwordPageUseBgImage {
+    background-image: url({{ 'password-page-background.jpg' | asset_url }});
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ffffff;
+  } @else {
+    color: $colorTextBody;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: unset;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  hr {
+    @if $passwordPageUseBgImage {
+      border-color: inherit;
+    } @else {
+      border-color: $colorBorder;
+    }
+  }
+
+  .social-sharing.clean a {
+    color: inherit;
+    background: transparent;
+  }
+}
+
+.password-header-section {
+  display: table-row;
+}
+
+.password-page__header {
+  display: table-cell;
+  height: 1px;
+}
+
+.password-page__header__inner {
+  padding: ($gutter / 2) $gutter;
+}
+
+.password-page__logo {
+  margin-top: 3 * $gutter;
+
+  .logo {
+    max-width: 100%;
+  }
+}
+
+.password-page__main {
+  display: table-row;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.password-page__main__inner {
+  display: table-cell;
+  vertical-align: middle;
+  padding: ( $gutter / 2 ) $gutter;
+}
+
+.password-page__hero {
+  // font-family: $headerFontStack;
+  // font-weight: $headerFontWeight;
+  font-size: em(42px);
+  line-height: 1.25;
+  text-transform: none;
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+
+  @include at-query($min, $postSmall) {
+    font-size: em(60px);
+  }
+
+  @include at-query($min, $large) {
+    font-size: em(64px);
+  }
+}
+
+.password-page__message {
+  font-style: italic;
+  font-size: 120%;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.password-page__hr {
+  margin: $gutter auto;
+}
+
+.password-page__message,
+.password-page__login-form,
+.password-page__signup-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.password-page__login-form {
+  text-align: center;
+  padding: $gutter;
+}
+
+.password-page__login-form,
+.password-page__signup-form {
+  @include at-query($min, $small) {
+    padding: 0 $gutter;
+  }
+
+  .input-group {
+    width: 100%;
+  }
+
+  .errors ul {
+    list-style-type: none;
+    margin-left: 0;
+  }
+}
+
+.password-page__signup-form__heading {
+  margin-bottom: 0.8em;
+}
+
+.lt-ie9 .template-password {
+  .newsletter__submit-text--small,
+  .password-page__login-form__submit-text--small {
+    display: none !important;
+  }
+}
+
+.password-page__social-sharing {
+  margin-top: $gutter;
+}
+
+.password-page__social-sharing__heading {
+  margin-bottom: 0;
+}
+
+.password-login,
+.admin-login  {
+  margin-top: $gutter / 2;
+  a:hover {
+    color: inherit;
+  }
+}
+
+.password-login {
+  // @include accentFontStack;
+  font-size: em( 0.8 * $baseFontSize );
+  line-height: 0.8 * $baseFontSize;
+}
+
+.lock-icon-svg {
+  width: 0.8 * $baseFontSize;
+  height: 0.8 * $baseFontSize;
+  display: inline-block;
+  vertical-align: baseline;
+
+  path {
+    fill: currentColor;
+  }
+
+  /* Hiding the SVG logo in IE8 */
+  .lt-ie9 & {
+    display: none;
+  }
+}
+
+.admin-login {
+  font-size: 95%;
+}
+
+.password-page__footer {
+  display: table-row;
+  height: 1px;
+}
+
+.password-page__footer_inner {
+  display: table-cell;
+  vertical-align: bottom;
+  padding: $gutter;
+  line-height: 1.5 * $baseFontSize;
+  font-size: 95%;
+}
+
+
+
+/*============================================================================
+  Social Sharing
+
+  Social Icon Buttons v1.0
+  Author:
+    Carson Shold | @cshold
+    http://www.carsonshold.com
+  MIT License
+==============================================================================*/
+
+/*================ Social share buttons ================*/
+$shareButtonHeight: 22px;
+$shareButtonCleanHeight: 30px;
+$shareCountBg: $colorBody;
+
+.social-sharing {
+  font-family: $bodyFontStack;
+
+  * {
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+  }
+
+  a {
+    display: inline-block;
+    color: $colorTextBody;
+    border-radius: 2px;
+    margin: 5px 0;
+    height: $shareButtonHeight;
+    line-height: $shareButtonHeight;
+    text-decoration: none;
+    font-weight: normal;
+  }
+
+  span {
+    display: inline-block;
+    vertical-align: top;
+    height: $shareButtonHeight;
+    line-height: $shareButtonHeight;
+    font-size: 12px;
+  }
+
+  .icon {
+    padding: 0 5px 0 10px;
+
+    &:before {
+      line-height: $shareButtonHeight;
+    }
+  }
+
+  /*================ Large Buttons ================*/
+  &.is-large a {
+    height: $shareButtonHeight*2;
+    line-height: $shareButtonHeight*2;
+
+    span {
+      height: $shareButtonHeight*2;
+      line-height: $shareButtonHeight*2;
+      font-size: 18px;
+    }
+
+    .icon {
+      padding: 0 10px 0 18px;
+
+      &:before {
+        line-height: $shareButtonHeight*2;
+      }
+    }
+  }
+}
+
+.share-title {
+  font-size: em(18px);
+  padding-right: 10px;
+
+  .is-large & {
+    padding-right: 16px;
+  }
+}
+
+/*================ Clean Buttons ================*/
+.social-sharing.clean {
+  a {
+    background-color: $shareCountBg;
+    color: $colorTextBody;
+    height: $shareButtonCleanHeight;
+    line-height: $shareButtonCleanHeight;
+
+    span {
+      height: $shareButtonCleanHeight;
+      line-height: $shareButtonCleanHeight;
+      font-size: 13px;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:hover .share-count {
+      opacity: 0.8;
+
+      &:after {
+        border-right-color: $shareCountBg;
+      }
+    }
+
+    .share-title {
+      font-weight: normal;
+    }
+  }
+
+  .share-count {
+    top: -1px;
+  }
 }

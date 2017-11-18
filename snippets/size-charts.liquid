@@ -12,6 +12,7 @@
 {% comment %}
   Find reserved tags (i.e. starts with _size_chart_)
 {% endcomment %}
+
 {% assign size_chart = '' %}
 {% for tag in product.tags %}
   {% assign prefix = tag | slice: 0, 12 %}
