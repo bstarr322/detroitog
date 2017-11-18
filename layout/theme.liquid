@@ -38,6 +38,8 @@
   {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
 
   <!-- Header hook for plugins ================================================== -->
+  {% include 'buddha-megamenu-before' %}
+  {% include 'buddha-megamenu' %}
   {{ content_for_header }}
   {% include 'oldIE-js' %}
 
@@ -57,6 +59,7 @@
   Add the page template as a class for easy page or template specific styling.
 {% endcomment %}
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+  {% include 'buddha-megamenu-wireframe' %}
   <div id="NavDrawer" class="drawer drawer--left">
     <div class="drawer__header">
       <div class="drawer__title h3">{{ 'layout.drawers.browse' | t }}</div>
