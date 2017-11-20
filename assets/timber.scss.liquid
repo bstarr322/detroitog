@@ -3129,11 +3129,20 @@ label.error {
   visibility: hidden;
 }
 
+#ProductThumbs {
+  position: absolute;
+  bottom: 30px;
+
+  .mfp-wrap & {
+    position: initial;
+  }
+}
 #ProductThumbs .slides li {
-  margin-right: 5px;
+  margin: 0 10px 0 0;
+  border: 1px solid $colorBorder;
 
   &:last-child {
-    margin-right: initial;
+    margin: initial;
   }
 
   &.flex-active-slide {
@@ -3212,7 +3221,7 @@ label.error {
   box-shadow: 0 2px 2px rgba(11,25,28,0.1);
   border-radius: 5px;
   margin: 0 0 30px 0;
-  padding: 0;
+  padding: 20px 25px;
 }
 
 .product-single__photos,
@@ -3331,7 +3340,7 @@ label.error {
 
 .product-single__content .sku_style {
   border-bottom: 1px solid #efefef;
-  padding: 0px 25px 20px 25px;
+  padding: 20px 25px;
 }
 
 .product-single__content .sku_style strong {
@@ -3366,19 +3375,24 @@ label.error {
 }
 
 .product-single__AddToCart {
-  padding: 15px 25px 15px 25px;
+  @include flexbox();
+  @include align-items(center);
+  @include justify-content(center);
+  padding: 25px;
   background-color: #fafafa;
 }
 
 .product-single__AddToCart .js-qty {
   display: inline-block;
-  margin-left: 5px;
+  margin: initial;
+  flex: 1;
 }
 
 .product-single__AddToCart #AddToCart {
   display: block;
   width: 100%;
   height: 50px;
+  flex: 1;
   // background-color: $colorAccent;
   background-color: #333;
   padding: 8px 12px;
@@ -3410,7 +3424,7 @@ label.error {
   margin-right: 10px;
 }
 
-.product-description.rte {
+.product-description {
   padding: 15px 25px 20px 25px;
 }
 
@@ -3424,6 +3438,7 @@ label.error {
   display: inline-block;
   color: $colorAccent;
   margin: initial;
+  font-family: Lato, "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .product-single__price .ComparePrice {
@@ -3896,22 +3911,6 @@ label.error {
   display: none;
 }
 
-.drawer-page-content .js-drawer-open-search .icon-search {
-  position: relative;
-  top: -1px;
-  width: 25px;
-  height: 25px;
-  margin-top: -3px;
-}
-
-
-.site-header__cart-toggle .icon-cart {
-  position: relative;
-  top: -1px;
-  width: 25px;
-  height: 25px;
-  margin-top: -3px;
-}
 
 .icon__fallback-text {
   position: absolute !important;
@@ -3944,21 +3943,6 @@ label.error {
   display: none;
   visibility: hidden;
   opacity: 0;
-}
-
-.main-nav__user {
-  position: relative;
-  display: block;
-  float: right;
-  margin: 25px 20px 0 0;
-}
-
-.main-nav__user .icon-account {
-  position: relative;
-  top: -1px;
-  width: 25px;
-  height: 25px;
-  margin-top: -3px;
 }
 
 .js-drawer-open-search {
@@ -5055,4 +5039,9 @@ $shareCountBg: $colorBody;
   .share-count {
     top: -1px;
   }
+}
+
+
+ul.slides {
+  margin: initial;
 }

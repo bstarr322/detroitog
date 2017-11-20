@@ -27,24 +27,26 @@
       <div class="grid__item large--one-half text-center product-single__gallery">
         <div class="product-single__photos" id="ProductPhoto">
           {% include 'product-gallery' %}
+
+          {% comment %}
+            Create thumbnails if we have more than one product image
+          {% endcomment %}
+          {% if qvp.images.size > 1 %}
+            <div id="ProductThumbs">
+              <ul class="product-single__thumbnails slides" >
+
+                {% for image in qvp.images %}
+                  <li class="">
+                    <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                      <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+                    </a>
+                  </li>
+                {% endfor %}
+
+              </ul>
+            </div>
+          {% endif %}
         </div>
-
-        {% comment %}
-          Create thumbnails if we have more than one product image
-        {% endcomment %}
-        {% if qvp.images.size > 1 %}
-          <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
-
-            {% for image in qvp.images %}
-              <li class="grid__item one-quarter">
-                <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
-                  <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-                </a>
-              </li>
-            {% endfor %}
-
-          </ul>
-        {% endif %}
       </div>
 
       <div class="grid__item large--one-half product-single__details">
@@ -63,18 +65,7 @@
               
               <h3>{{ qvp.title }}</h3>
               
-              {% assign vendor_handle = qvp.vendor | handleize %}
-              {% assign vendor_url = collections[vendor_handle].url %}
-              
-              <a href="{% if vendor_url != blank %}{{ vendor_url }}{% else %}/collections/vendors?q={{ vendor_handle | escape }}{% endif %}"
-                 data-toggle="tooltip" data-placement="left"
-                 title="View all {{ qvp.vendor }} products"
-                 class="product-single__vendor-logo product-single__vendor-logo--{{ vendor_handle }} icon icon-{{ vendor_handle }}">{{ qvp.vendor }}</a>
-              
-              <h5>Product Description</h5>
-              
               <div class="sku_style clearfix">
-                <strong>Model #:</strong> <span class="product-sku">{{ variant.sku }}</span>
                 <p class="product-single__availability">
                   <span id="product-variant-availability">
                     {% if current_variant.available %}
@@ -138,7 +129,7 @@
               {% endif %}
                 
               <div class="product-single__AddToCart clearfix">
-                <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+                <label for="Quantity" class="quantity-selector hide">{{ 'products.product.quantity' | t }}</label>
                 <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
 
                 <button type="submit" name="add" id="AddToCart" class="btn btn-glow">

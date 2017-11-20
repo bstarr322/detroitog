@@ -28,33 +28,33 @@
 
     <div class="grid-item product-single">
       <div class="grid__item large--one-half text-center product-single__gallery">
-        <div class="product-single__photos" id="ProductPhoto">
+        <div class="product-single__photos" id="ProductPhoto" data-mh="match-product-panel">
           {% include 'product-gallery' %}
+
+          {% comment %}
+            Create thumbnails if we have more than one product image
+          {% endcomment %}
+          {% if product.images.size > 1 %}
+            <div id="ProductThumbs">
+              <ul class="product-single__thumbnails slides" >
+
+                {% for image in product.images %}
+                  <li class="">
+                    <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                      <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+                    </a>
+                  </li>
+                {% endfor %}
+
+              </ul>
+            </div>
+          {% endif %}
         </div>
-
-        {% comment %}
-          Create thumbnails if we have more than one product image
-        {% endcomment %}
-        {% if product.images.size > 1 %}
-          <div id="ProductThumbs">
-            <ul class="product-single__thumbnails slides" >
-
-              {% for image in product.images %}
-                <li class="">
-                  <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
-                    <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-                  </a>
-                </li>
-              {% endfor %}
-
-            </ul>
-          </div>
-        {% endif %}
       </div>
 
       <div class="grid__item large--one-half product-single__details">
         
-        <div class="product-single__content">
+        <div class="product-single__content" data-mh="match-product-panel">
 
           <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
             <meta itemprop="priceCurrency" content="{{ shop.currency }}">
@@ -66,19 +66,7 @@
             {% endcomment %}
             <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
               
-              {% assign vendor_handle = product.vendor | handleize %}
-              {% assign vendor_url = collections[vendor_handle].url %}
-              {% capture vendor_logo %}vendor-{{ vendor_handle }}.png{% endcapture %}
-              
-              <a href="{% if vendor_url != blank %}{{ vendor_url }}{% else %}/collections/vendors?q={{ vendor_handle | escape }}{% endif %}"
-                 data-toggle="tooltip" data-placement="left"
-                 title="View all {{ product.vendor }} products"
-                 class="product-single__vendor-logo product-single__vendor-logo--{{ vendor_handle }} icon icon-{{ vendor_handle }}">{{ product.vendor }}</a>
-              
-              <h5>Product Description</h5>
-              
               <div class="sku_style clearfix">
-                <strong>Model #:</strong> <span class="product-sku">{{ variant.sku }}</span>
                 <p class="product-single__availability">
                   <span id="product-variant-availability">
                     {% if current_variant.available %}
@@ -92,8 +80,8 @@
               
               <div class="product-single__price">
                 <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-                <strong>Retail Price:&nbsp;</strong>
-                <span class="ProductPrice h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                <strong>Price:&nbsp;</strong>
+                <span class="ProductPrice h3" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
                   {{ current_variant.price | money }}
                 </span>
 
@@ -103,6 +91,10 @@
                     Retail Price:<span>{{ current_variant.compare_at_price | money }}</span>
                   </p>
                 {% endif %}
+              </div>
+
+              <div class="product-description" itemprop="description">
+                {{ product.description }}
               </div>
 
               {% comment %}
@@ -149,7 +141,7 @@
               </div>
                 
               <div class="product-single__AddToCart clearfix">
-                <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
+                <label for="Quantity" class="quantity-selector hide">{{ 'products.product.quantity' | t }}</label>
                 <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
 
                 <button type="submit" name="add" id="AddToCart" class="btn btn-glow">
@@ -166,20 +158,13 @@
             </form>
 
           </div>
-
-            <div class="product-description rte" itemprop="description">
-              {{ product.description }}
-            </div>
-          </div>
         </div>
       </div>
-      
-      <div id="cbb-frequently-bought-box"></div>
-      
-      {% include 'related-products' %}
-      
-      {% include 'recently-viewed' %}
     </div>
+
+    {% include 'related-products' %}
+      
+    {% include 'recently-viewed' %}
 
 {% comment %}
   To take advantage of a callback on the select dropdown, add option_selection.js
@@ -322,29 +307,4 @@
       $(this).parents('.product-form__item--swatch').find('>p').html($(this).data('title'));
     });
   });
-  
-  jQuery(document).ready(function($){
-
-    // Initialize Product Main Photo Popup
-    $('#ProductPhoto .slides').magnificPopup({
-      delegate: 'a',
-      type: 'image',
-      closeOnContentClick: false,
-      closeBtnInside: false,
-      mainClass: 'mfp-with-zoom mfp-img-mobile',
-      image: {
-        verticalFit: true
-      },
-      gallery: {
-        enabled: true
-      },
-      zoom: {
-        enabled: true,
-        duration: 300, // don't foget to change the duration also in CSS
-        opener: function(element) {
-          return element.find('img');
-          }
-        }
-      });
-    });
 </script>

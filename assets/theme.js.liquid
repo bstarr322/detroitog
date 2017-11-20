@@ -131,6 +131,22 @@ var Detroitog = {
 
   globalEvents: function() {
 
+    $(".product_images img").unveil(200);
+
+    "use strict";
+
+    /////////////////////////////////////
+    //  animate elements when they are in viewport
+    /////////////////////////////////////
+
+    $('.noIE .animated').waypoint(function () {
+      var animation = $(this).data('animation');
+      $(this).addClass('animation-done').addClass(animation);
+    }, {
+      triggerOnce: true,
+      offset: '70%'
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
 
     $('#plugdetroit').on('mouseenter', function() {
@@ -240,7 +256,10 @@ var Detroitog = {
             
             var data = $('.mfp-wrap .quick-view-panel').data();
             $('.product-sku').css('display', 'none');
-              
+            
+            Detroitog.productPageEvents();
+            $(window).trigger('resize');
+
             setTimeout(function() {
 
               // Unchecked when make a selection.    
@@ -274,43 +293,48 @@ var Detroitog = {
   },
 
   productPageEvents: function() {
-    $(".product_images img").unveil(200);
-
-    "use strict";
-
-    /////////////////////////////////////
-    //  animate elements when they are in viewport
-    /////////////////////////////////////
-
-    $('.noIE .animated').waypoint(function () {
-      var animation = $(this).data('animation');
-      $(this).addClass('animation-done').addClass(animation);
-    }, {
-      triggerOnce: true,
-      offset: '70%'
-    });
-
+    
     $('#ProductThumbs').flexslider({
       animation: "slide",
       controlNav: false,
       animationLoop: false,
       slideshow: false,
-      itemWidth: 80,
-      itemMargin: 5,
+      itemWidth: 100,
+      itemMargin: 15,
       asNavFor: '.product_images'
     });
    
     $('.product_images').flexslider({
-      startAt: parseInt($('.featured_image', $(this)).data('index'), 10),
-      touch: false,
-      pauseOnHover: true,
-      directionNav: true,
+      // startAt: parseInt($('.featured_image', $(this)).data('index'), 10),
       animation: "slide",
+      controlNav: false,
+      animationLoop: false,
       slideshow: false,
-      slideshowSpeed: 10*1000,
       sync: '#ProductThumbs'
     });
 
+    // Initialize Product Main Photo Popup
+    $('.product_gallery .slides').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      closeOnContentClick: false,
+      closeBtnInside: false,
+      mainClass: 'mfp-with-zoom mfp-img-mobile',
+      image: {
+        verticalFit: true
+      },
+      gallery: {
+        enabled: true
+      },
+      zoom: {
+        enabled: true,
+        duration: 300, // don't foget to change the duration also in CSS
+        opener: function(element) {
+          return element.find('img');
+        }
+      }
+    });
+    
     {% if settings.show_product_zoom %}
     /////////////////////////////////////
     //  Product Image Zoom
