@@ -7,7 +7,7 @@
   
   {% else %} 
   <div id="image-block" data-zoom="{% if settings.show_product_zoom %}disabled{% else %}enabled{% endif %}">
-    <div class="flexslider product_gallery {% if product-images == blank %}product_images{% endif %}" id="product-{{ product.id }}-gallery">
+    <div class="flexslider product_gallery {% if product-images == blank %}product_images{% endif %} {% if magnificPopup != true %}nomagnific{% endif %}" id="product-{{ product.id }}-gallery">
       <ul class="slides">
         {% for image in product.images %}
         <li data-thumb="{{ image | product_img_url: 'grande' }}" data-title="{% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}{{ product.title }}{% else %}{{ image.alt | escape }}{% endif %}">

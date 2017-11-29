@@ -314,7 +314,7 @@ var Detroitog = {
     });
 
     // Initialize Product Main Photo Popup
-    $('.product_gallery .slides').magnificPopup({
+    $('.product_gallery.nomagnific .slides').magnificPopup({
       delegate: 'a',
       type: 'image',
       closeOnContentClick: false,
@@ -334,7 +334,7 @@ var Detroitog = {
         }
       }
     });
-    
+
     {% if settings.show_product_zoom %}
     /////////////////////////////////////
     //  Product Image Zoom
