@@ -22,11 +22,8 @@
   {% assign current_variant = product.selected_or_first_available_variant %}
 
     {% include 'breadcrumb' %}
-    <header class="grid-item product-single__header">
-      <h1 itemprop="name">{{ product.title }}</h1>
-    </header>
 
-    <div class="grid-item product-single">
+    <div class="grid product-single">
       <div class="grid__item large--one-half text-center product-single__gallery">
         <div class="product-single__photos" id="ProductPhoto" data-mh="match-product-panel">
           {% include 'product-gallery' %}
@@ -61,6 +58,21 @@
 
             <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
+            <header class="product-single__header">
+              <h1 itemprop="name">{{ product.title }}</h1>
+              <div class="product-single__price">
+                <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                <span class="ProductPrice h3" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                  {{ current_variant.price | money }}
+                </span>
+
+                {% if product.compare_at_price_max > product.price %}
+                  <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                  <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+            </header>
+            
             {% comment %}
               ID addToCartForm is a selector for the ajax cart plugin
             {% endcomment %}
@@ -78,21 +90,6 @@
                 </p>
               </div>
               
-              <div class="product-single__price">
-                <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-                <strong>Price:&nbsp;</strong>
-                <span class="ProductPrice h3" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
-                  {{ current_variant.price | money }}
-                </span>
-
-                {% if product.compare_at_price_max > product.price %}
-                  <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-                  <p class="ComparePrice">
-                    Retail Price:<span>{{ current_variant.compare_at_price | money }}</span>
-                  </p>
-                {% endif %}
-              </div>
-
               <div class="product-description" itemprop="description">
                 {{ product.description }}
               </div>
@@ -140,6 +137,18 @@
                 </a>
               </div>
                 
+              <a href="/pages/return-policy" class="product-details__shipping">
+                <span class="product-details__shipping-van">
+                  <svg class="new-icon icon-truck"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-shipping"><svg id="icon-shipping" viewBox="0 0 41 18" width="100%" height="100%">
+                    <title>shipping truck</title>
+                    <g fill-rule="nonzero" fill="none">
+                      <path d="M40.474 7.434H39l-.858-5.016c-.046-.253-.265-.442-.52-.442h-5.978V.536c0-.296-.24-.536-.53-.536H12.527c-.29 0-.527.24-.527.536v14.142c0 .298.237.54.527.54h2.677C15.454 16.793 16.8 18 18.414 18c1.615 0 2.96-1.207 3.21-2.783h9.816C31.693 16.794 33.035 18 34.65 18c1.616 0 2.956-1.207 3.21-2.783h2.614c.29 0 .526-.24.526-.54V7.972c0-.297-.234-.536-.526-.536zm-19.866 7.38c-.068 1.175-1.025 2.11-2.195 2.11-1.213 0-2.2-1.006-2.2-2.246 0-1.238.987-2.244 2.2-2.244 1.17 0 2.127.935 2.195 2.11.005.093.005.19 0 .27zm14.04 2.11c-1.17 0-2.133-.94-2.195-2.126-.003-.06-.003-.188 0-.238.062-1.18 1.024-2.127 2.196-2.127 1.215 0 2.2 1.007 2.2 2.245 0 1.24-.985 2.246-2.2 2.246zm5.3-2.783h-2.09c-.252-1.575-1.593-2.782-3.21-2.782-1.613 0-2.955 1.207-3.208 2.783h-9.815c-.252-1.575-1.596-2.782-3.212-2.782-1.613 0-2.958 1.207-3.21 2.783h-2.15V1.076H30.59v7.052c0 .3.236.54.525.54.29 0 .53-.24.53-.54V3.053h5.534l.86 5.01c.043.26.262.446.52.446h1.388v5.63z" fill="#737373"></path>
+                      <path d="M11.454 11H4.547c-.303 0-.547.224-.547.5 0 .277.244.5.547.5h6.907c.302 0 .546-.223.546-.5 0-.276-.244-.5-.546-.5zM11.464 4H3.538C3.24 4 3 4.226 3 4.5c0 .28.24.5.538.5h7.926c.296 0 .536-.22.536-.5 0-.274-.24-.5-.536-.5zM10.45 7H5.553C5.25 7 5 7.225 5 7.5c0 .276.25.5.554.5h4.895c.304 0 .55-.224.55-.5 0-.275-.246-.5-.55-.5zM3.633 7H.37C.166 7 0 7.225 0 7.5c0 .276.166.5.37.5h3.263C3.836 8 4 7.776 4 7.5c0-.275-.164-.5-.367-.5z" fill="#C8C8C8"></path>
+                    </g></svg></use></svg>
+                </span>
+                <span class="text-link">Free Returns and Exchanges!</span>
+              </a>
+
               <div class="product-single__AddToCart clearfix">
                 <label for="Quantity" class="quantity-selector hide">{{ 'products.product.quantity' | t }}</label>
                 <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
@@ -304,7 +313,7 @@
   $(document).ready(function(){
     $('.swatch-element > input[type=radio][data-title]').on('change', function () {
       // $('label[for="'+$(this).parents('.upsell-product__option').attr('id')+'"]').find('span').html($(this).data('title'));
-      $(this).parents('.product-form__item--swatch').find('>p').html($(this).data('title'));
+      $(this).parents('.product-form__item--swatch').find('>p').html($(this).data('optionTitle') + ': ' + $(this).data('title'));
     });
   });
 </script>

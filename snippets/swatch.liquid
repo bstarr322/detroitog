@@ -65,6 +65,7 @@
           {% endif %}
           {% comment %}{% unless variant.available %}disabled{% endunless %}{% endcomment %}
           data-title="{{ value | escape }}"
+          data-option-title="{{ option }}"
         >
         {% if is_color %}
         <label for="swatch-{{ option_index }}-{{ value | handle }}" data-toggle="tooltip" data-placement="top" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
