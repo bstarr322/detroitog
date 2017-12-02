@@ -42,7 +42,7 @@
 </div>
 {% else %}
 <div class="swatch clearfix product-form__item--swatch" data-option-index="{{ option_index }}">
-  <p>{{ swatch | remove: ":" }}</p>
+  <p>{{ swatch }}</p>
 
   {% assign values = '' %}
   {% for variant in product.variants %}
@@ -68,7 +68,7 @@
           data-option-title="{{ option }}"
         >
         {% if is_color %}
-        <label for="swatch-{{ option_index }}-{{ value | handle }}" data-toggle="tooltip" data-placement="top" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
+        <label for="swatch-{{ option_index }}-{{ value | handle }}" data-toggle="tooltip" data-placement="top" style="background-color: {{ value | split: ' ' | last | handle }};">
           <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
         </label>
         {% else %}

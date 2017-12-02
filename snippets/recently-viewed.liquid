@@ -3,13 +3,15 @@
 
 <div id="recently-viewed-products-wrapper" class="product-grid recently-viewed-products" style="display:none">
   <h2 class="section-header__title text-center">Recently Viewed</h2>
-  <div id="recently-viewed-products" class="grid">
+  <div class="swiper-container">
+    <div id="recently-viewed-products" class="swiper-wrapper">
+    </div>
   </div>
 </div>
 
 {% raw %}
 <script id="recently-viewed-product-template"  type="text/x-jquery-tmpl">
-<div class="grid__item large--one-quarter medium--one-third small--one-half">
+<div class="swiper-slide">
   <div id="product-${handle}" class="product__single-grid">
     <div class="image">
       <a href="${url}" class="grid__image">

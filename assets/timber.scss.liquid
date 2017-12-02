@@ -16,7 +16,8 @@
 
 /*============================================================================
   Table of Contents
-
+  
+  #Libraries
   #Breakpoint and Grid Variables
   #General Variables
   #Sass Mixins
@@ -50,6 +51,15 @@
   #Password page
   #Social Sharing
 ==============================================================================*/
+
+
+
+/*============================================================================
+  #Libraries
+==============================================================================*/
+
+
+
 
 /*============================================================================
   #Breakpoint and Grid Variables
@@ -1375,7 +1385,7 @@ ul, ol {
 ol { list-style: decimal; }
 ul ul, ul ol,
 ol ol, ol ul { margin: 4px 0 5px 20px; }
-li { margin-bottom: 0.25em; }
+li { margin-bottom: 0.25em; list-style: none;}
 
 ul.square { list-style: square outside; }
 ul.disc { list-style: disc outside; }
@@ -3050,15 +3060,15 @@ label.error {
     }
 
     .grid__image {
-      position: relative;
-      z-index: 2;
-      opacity: 0.6;
+      // position: relative;
+      // z-index: 2;
+      // opacity: 0.6;
     }
 
     .h6 {
-      position: relative;
-      z-index: 2;
-      opacity: 0.6;
+      // position: relative;
+      // z-index: 2;
+      // opacity: 0.6;
     }
   }
 
@@ -3142,9 +3152,6 @@ label.error {
 }
 
 #ProductThumbs {
-  position: absolute;
-  bottom: 30px;
-
   .mfp-wrap & {
     position: initial;
   }
@@ -3222,19 +3229,22 @@ label.error {
     }
   }
 
-  .product-single {
-    padding: 0 4rem 2rem;
-  }
+  @include at-query ($min, $postSmall) {
 
-  .product-grid {
-    padding: 4rem;
-
-    &.related-products {
+    .product-single {
+      padding: 0 4rem 2rem;
       background-color: #fff;
     }
 
-    &.recently-viewed-products {
-      
+    .product-grid {
+      padding: 4rem 4rem 0;
+
+      &.related-products {
+      }
+
+      &.recently-viewed-products {
+        
+      }
     }
   }
 
@@ -3286,11 +3296,10 @@ label.error {
 .product-single__header {
   @include flexbox();
   @include align-items(center);
+  padding: 2rem 25px 1rem;
 
   h1 {
     font-size: 28px;
-    color: #34495e;
-    padding: 2rem 25px 1rem;
     margin: 0;
   }
 }
@@ -3462,19 +3471,19 @@ label.error {
 .product-single__availability {
   float: left;
   clear: right;
-  color: $colorAccent;
+  // color: $colorAccent;
   font-size: 16px;
   margin-top: 5px;
   margin-bottom: 0;
 }
 
 .text-success {
-  color: $colorSuccess;
+  // color: $colorSuccess;
   font-weight: bold;
 }
 
 .text-danger {
-  color: $colorDanger;
+  // color: $colorDanger;
   font-weight: bold;
 }
 
@@ -3483,7 +3492,6 @@ label.error {
   @include align-items(center);
   @include justify-content(center);
   padding: 25px;
-  background-color: #fafafa;
 }
 
 .product-single__AddToCart .js-qty {
@@ -3497,7 +3505,8 @@ label.error {
   width: 100%;
   height: 50px;
   flex: 1;
-  background-color: #b72025;
+  background-color: #333;
+  // background-color: #b72025;
   padding: 8px 12px;
   border-radius: 3px;
   letter-spacing: 0.06em;
@@ -3507,7 +3516,7 @@ label.error {
   transition: all .24s cubic-bezier(.52,.01,.55,1);
 
   &:hover {
-    background-color: #940f13;
+    // background-color: #940f13;
     box-shadow: 0 2px 8px 0 rgba(0,75,150,.16), 0 4px 16px 0 rgba(0,0,0,.16);
   }
 
@@ -3536,22 +3545,24 @@ label.error {
 .product-single__price {
   @include flexbox();
   @include align-items(center);
-  padding: 15px 25px 15px 25px;
+  margin-left: 2rem;
+}
 
-  .ProductPrice {
-    display: inline-block;
-    color: #b72025;
-    margin: initial;
-    font-family: Lato, "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-  }
 
-  .ComparePrice {
-    color: #a6a6a6;
-    font-weight: 700;
-    font-size: 18px;
-  }
+.ProductPrice {
+  display: inline-block;
+  // color: #b72025;
+  margin: initial;
+  font-family: Lato, "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.ComparePrice {
+  // color: #a6a6a6;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: line-through;
 }
 
 .product-single__content .selector-wrapper {
@@ -3569,7 +3580,6 @@ label.error {
 .product-form__item--swatch > p {
   font-size: 14px;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 /*============================================================================

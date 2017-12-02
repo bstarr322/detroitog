@@ -294,24 +294,31 @@ var Detroitog = {
 
   productPageEvents: function() {
     
-    $('#ProductThumbs').flexslider({
-      animation: "slide",
-      controlNav: false,
-      animationLoop: false,
-      slideshow: false,
-      itemWidth: 100,
-      itemMargin: 15,
-      asNavFor: '.product_images'
+     var galleryTop = new Swiper('#product_gallery', {
+      spaceBetween: 10,
+      allowTouchMove: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
     });
-   
-    $('.product_images').flexslider({
-      // startAt: parseInt($('.featured_image', $(this)).data('index'), 10),
-      animation: "slide",
-      controlNav: false,
-      animationLoop: false,
-      slideshow: false,
-      sync: '#ProductThumbs'
+    window.galleryThumbs = new Swiper('#ProductThumbs', {
+      allowTouchMove: true,
+      slidesPerView: 4,
+      spaceBetween: 10,
+      touchRatio: 0.2,
+      slideToClickedSlide: true,
+      breakpoints: {
+        1024: {
+          slidesPerView: 3,
+        },
+        640: {
+          slidesPerView: 2,
+        }
+      }
     });
+    galleryTop.controller.control = galleryThumbs;
+    galleryThumbs.controller.control = galleryTop;
 
     // Initialize Product Main Photo Popup
     $('.product_gallery.nomagnific .slides').magnificPopup({
@@ -331,6 +338,35 @@ var Detroitog = {
         duration: 300, // don't foget to change the duration also in CSS
         opener: function(element) {
           return element.find('img');
+        }
+      }
+    });
+
+    // Product Grid Slider, we will use swiper slider.
+    var swiper = new Swiper('.related-products .swiper-container', {
+      slidesPerView: 4,
+      spaceBetween: 10,
+      // init: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 10,
         }
       }
     });

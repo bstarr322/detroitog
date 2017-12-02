@@ -1,0 +1,53 @@
+<div class="product__single-grid">
+
+  {% comment %}
+    Link to your product with the 'within: collection' filter for the link to be aware of the collection.
+    This allows you to create collection-based navigation on the product page.
+
+    Results of using 'within: collection':
+    - Instead of a URL with /products/product-handle
+      you would get /collections/collection-handle/products/product-handle
+
+    For more info on navigation within a collection
+      - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
+
+  {% endcomment %}
+  <a href="{{ product.url | within: collection }}" class="grid__image">
+    <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+  </a>
+
+  <p class="grid-product-title h6">
+    <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+    {% comment %}
+      You can show a leading 'from' or 'up to' by checking 'product.price_varies'
+      if your variants have different prices.
+    {% endcomment %}
+
+    {% if on_sale %}
+      {% if product.price_varies %}
+        {% assign sale_price = product.price | money %}
+        <span>{{ 'products.product.on_sale_from_html' | t: price: sale_price }}</span>
+      {% else %}
+        <strong>{{ 'products.product.on_sale' | t }}</strong>
+        <span>{{ product.price | money }}</span>
+      {% endif %}
+    {% else %}
+      {% if product.price_varies %}
+        {% assign price = product.price | money %}
+          <span>{{ 'products.general.from_text_html' | t: price: price }}</span>
+      {% else %}
+        <span>{{ product.price | money }}</span>
+      {% endif %}
+    {% endif %}
+    {% if sold_out %}
+      <br><strong>{{ 'products.product.sold_out' | t }}</strong>
+    {% endif %}
+  </p>
+  {% if settings.show_collection_overlay and settings.collection_overlay == 'quick-view' %}
+    {% include 'product-quick-view-btn' qvp:product %}
+  {% endif %}
+  
+  {% if settings.show_collection_overlay and settings.collection_overlay == 'quick-view' %}
+    {% include 'product-quick-view' qvp:product %}
+  {% endif %}
+</div>

@@ -1,4 +1,3 @@
-{{ 'flexslider-product.css' | asset_url | stylesheet_tag }}
 {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
 
 <div class="slider_1 clearfix">
@@ -7,10 +6,10 @@
   
   {% else %} 
   <div id="image-block" data-zoom="{% if settings.show_product_zoom %}disabled{% else %}enabled{% endif %}">
-    <div class="flexslider product_gallery {% if product-images == blank %}product_images{% endif %} {% if magnificPopup != true %}nomagnific{% endif %}" id="product-{{ product.id }}-gallery">
-      <ul class="slides">
+    <div class="product_gallery {% if product-images == blank %}product_images swiper-container {% endif %} {% if magnificPopup != true %}nomagnific{% endif %}" id="product_gallery">
+      <ul class="slides swiper-wrapper">
         {% for image in product.images %}
-        <li data-thumb="{{ image | product_img_url: 'grande' }}" data-title="{% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}{{ product.title }}{% else %}{{ image.alt | escape }}{% endif %}">
+        <li data-thumb="{{ image | product_img_url: 'grande' }}" data-title="{% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}{{ product.title }}{% else %}{{ image.alt | escape }}{% endif %}" class="swiper-slide">
           {% if image.alt contains 'youtube' or image.alt contains 'vimeo' %}
           {% assign video = image.alt | split: 'src="' %}
           {% assign video = video[1] | split: '"' | first %}

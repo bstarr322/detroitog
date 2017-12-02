@@ -27,6 +27,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <meta name="theme-color" content="{{ settings.color_primary }}">
   
+  {{ 'swiper.min.css' | asset_url | stylesheet_tag }}
   {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
 
   <!-- Header hook for plugins ================================================== -->
@@ -180,6 +181,7 @@
 
   {{ 'jquery.magnific-popup.min.js' | asset_url | script_tag }}
   {{ 'fastclick.min.js' | asset_url | script_tag }}
+  {{ 'swiper.min.js' | asset_url | script_tag }}
   {{ 'jquery.products.js' | asset_url | script_tag }}
   {{ 'timber.js' | asset_url | script_tag }}
   {{ 'theme.js' | asset_url | script_tag }}

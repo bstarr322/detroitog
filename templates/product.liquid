@@ -24,7 +24,7 @@
     {% include 'breadcrumb' %}
 
     <div class="grid product-single">
-      <div class="grid__item large--one-half text-center product-single__gallery">
+      <div class="grid__item large--one-half xlarge--two-thirds text-center product-single__gallery">
         <div class="product-single__photos" id="ProductPhoto" data-mh="match-product-panel">
           {% include 'product-gallery' %}
 
@@ -32,11 +32,11 @@
             Create thumbnails if we have more than one product image
           {% endcomment %}
           {% if product.images.size > 1 %}
-            <div id="ProductThumbs">
-              <ul class="product-single__thumbnails slides" >
+            <div id="ProductThumbs" class="swiper-container">
+              <ul class="product-single__thumbnails slides swiper-wrapper" >
 
                 {% for image in product.images %}
-                  <li class="">
+                  <li class="swiper-slide">
                     <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
                       <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
                     </a>
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="grid__item large--one-half product-single__details">
+      <div class="grid__item large--one-half xlarge--one-third product-single__details">
         
         <div class="product-single__content" data-mh="match-product-panel">
 
@@ -217,7 +217,12 @@
         var thumbnail_number = jQuery('.product-single__thumbnail');
         for (var i = 0; i < thumbnail_number.length; i++) {
           if(thumbnail_number[i].getAttribute('href').indexOf(switchImage) > 0) {
-            $(thumbnail_number[i]).trigger('click');
+            if (typeof window.galleryThumbs != 'undefined') {
+              var index = $(thumbnail_number[i]).closest('.swiper-slide').index();
+              window.galleryThumbs.slideTo(index);
+            } else {
+              $(thumbnail_number[i]).trigger('click');
+            }
             break;
           }
         }
@@ -313,7 +318,7 @@
   $(document).ready(function(){
     $('.swatch-element > input[type=radio][data-title]').on('change', function () {
       // $('label[for="'+$(this).parents('.upsell-product__option').attr('id')+'"]').find('span').html($(this).data('title'));
-      $(this).parents('.product-form__item--swatch').find('>p').html($(this).data('optionTitle') + ': ' + $(this).data('title'));
+      $(this).parents('.product-form__item--swatch').find('>p').html($(this).data('optionTitle') + ' ' + $(this).data('title'));
     });
   });
 </script>

@@ -79,16 +79,13 @@
               
               <div class="product-single__price">
                 <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-                <strong>Retail Price:&nbsp;</strong>
-                <span class="ProductPrice h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                <span class="ProductPrice" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
                   {{ current_variant.price | money }}
                 </span>
 
                 {% if qvp.compare_at_price_max > qvp.price %}
                   <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-                  <p class="ComparePrice">
-                    Retail Price:<span>{{ current_variant.compare_at_price | money }}</span>
-                  </p>
+                  <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
                 {% endif %}
               </div>
 

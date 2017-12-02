@@ -97,6 +97,35 @@ Shopify.Products = (function() {
     // Assume you have Jquery MatchHeight Plugin.
     $('.grid-product-title').matchHeight();
     
+    // Product Grid Slider, we will use swiper slider.
+    var swiper = new Swiper('#recently-viewed-products-wrapper .swiper-container', {
+      slidesPerView: 4,
+      spaceBetween: 10,
+      // init: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 10,
+        }
+      }
+    });
+
     // If we have a callback.
     if (config.onComplete) {
       try { config.onComplete() } catch (error) { }
