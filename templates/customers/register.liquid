@@ -1,36 +1,258 @@
-<!-- /templates/customers/register.liquid -->
+{% layout none %}<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<div class="grid">
+  {% if settings.favicon_enable %}
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
 
-  <div class="grid__item large--one-third push--large--one-third text-center">
+  <title>{{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
 
-    <h1>{{ 'customer.register.title' | t }}</h1>
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="{{ canonical_url }}">
 
-    <div class="form-vertical">
-      {% form 'create_customer' %}
+  {{ 'modernizr.min.js' | asset_url | script_tag }}
 
-        {{ form.errors | default_errors }}
+  {{ content_for_header }}
 
-        <label for="FirstName" class="hidden-label">{{ 'customer.register.first_name' | t }}</label>
-        <input type="text" name="customer[first_name]" id="FirstName" class="input-full" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+  <style>
 
-        <label for="LastName" class="hidden-label">{{ 'customer.register.last_name' | t }}</label>
-        <input type="text" name="customer[last_name]" id="LastName" class="input-full" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+    *, *:before, *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box
+    }
+    html, body {
+      min-height: 100%;
+    }
+    html {
+      font-family: sans-serif;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      margin: 0;
+      background: #000 url("{{ 'bg-register.jpg' | asset_url }}") no-repeat 50% 100%;
+      color: #fff;
+      -webkit-background-size: cover;
+      background-size: cover;
+      background-position: center center;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 300;
+    }
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    main,
+    menu,
+    nav,
+    section,
+    summary {
+      display: block;
+    }
+    input, button {
+      font: inherit;
+    }
+    ::-webkit-input-placeholder {
+      color: #fff;
+    }
+    ::-moz-placeholder {
+      color: #fff;
+    }
+    :-ms-input-placeholder {
+      color: #fff;
+    }
+    :-moz-placeholder {
+      color: #fff;
+    }
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0
+    }
+    .text-right {
+      text-align: right;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 73%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 439px;
+      padding: 40px;
+      box-shadow: 0 2px 8px 0 rgba(0,75,150,.16), 0 4px 16px 0 rgba(0,0,0,.16);
+    }
 
-        <label for="Email" class="hidden-label">{{ 'customer.register.email' | t }}</label>
-        <input type="email" name="customer[email]" id="Email" class="input-full{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'customer.register.email' | t }}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 14px 15px;
+      background: #ffffffab;
+      border-radius: initial;
+      border: 1px solid #212b31;
+      font-size: 16px;
+      line-height: 1;
+      color: #212b31;
+    }
 
-        <label for="CreatePassword" class="hidden-label">{{ 'customer.register.password' | t }}</label>
-        <input type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" placeholder="{{ 'customer.register.password' | t }}">
+    .form-control:focus {
+      background-color: #fff;
+    }
 
-        <p>
-          <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn btn--full">
-        </p>
-        <a href="{{ shop.url }}">{{ 'customer.register.cancel' | t }}</a>
+    .form-control::-webkit-input-placeholder {
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
+    }
 
-      {% endform %}
+    .form-control:-moz-placeholder { /* Firefox 18- */
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .form-control::-moz-placeholder {  /* Firefox 19+ */
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .form-control:-ms-input-placeholder {  
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .btn {
+      display: inline-block;
+      padding: 15px;
+      border: 0;
+      border-radius: initial;
+      text-decoration: none !important;
+      line-height: 1;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 500;
+      font-size: 24px;
+      transition: all .2s ease;
+      cursor: pointer;
+    }
+    .btn-default {
+      background: #84020287;
+      color: #fff;
+    }
+    .btn-default:hover, .btn-default:focus {
+      background: #840202d1;
+      color: #fff;
+    }
+    .btn-primary {
+      background: #00aeff87;
+      color: #fff;
+    }
+    .btn-primary:hover, .btn-primary:focus {
+      background: #00aeffd1;
+      color: #fff;
+    }
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+    .form-register p {
+      color: #fff;
+      font-size: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .form-register a {
+      font-weight: bold;
+    }
+    .form-reset-content {
+      color: #212b31;
+    } 
+
+    .flex-vc {
+      display: flex;
+      align-items: center;
+    }
+    .flex-sb {
+      display: flex;
+      justify-content: space-between;
+    }
+    .forgot-pass-wrapper {
+      display: flex;align-items: center;
+      justify-content: space-between;
+    }
+    .forgot-pass-wrapper * {
+      margin: initial;
+    }
+
+    #snize-sticky-searchbox-searchbox {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form">
+      <div class="form-vertical">
+        {% form 'create_customer' %}
+
+          {{ form.errors | default_errors }}
+
+          <div class="form-group">
+            <label for="FirstName" class="sr-only" >{{ 'customer.register.first_name' | t }}</label>
+            <input type="text" name="customer[first_name]" id="FirstName" class="form-control" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+          </div>
+
+          <div class="form-group">
+            <label for="LastName" class="sr-only" >{{ 'customer.register.last_name' | t }}</label>
+            <input type="text" name="customer[last_name]" id="LastName" class="form-control" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+          </div>
+
+          <div class="form-group">
+            <label for="Email" class="sr-only" >{{ 'customer.register.email' | t }}</label>
+            <input type="email" name="customer[email]" id="Email" class="form-control{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'customer.register.email' | t }}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+          </div>
+
+          <div class="form-group">
+            <label for="CreatePassword" class="sr-only" >{{ 'customer.register.password' | t }}</label>
+            <input type="password" name="customer[password]" id="CreatePassword" class="form-control{% if form.errors contains 'password' %} error{% endif %}" placeholder="{{ 'customer.register.password' | t }}">
+          </div>
+
+          <div class="form-group">
+            <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn btn-block btn-default">
+          </div>
+        {% endform %}
+      </div>
     </div>
-
   </div>
-
-</div>
+</body>
+</html>

@@ -3,7 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  {% if settings.favicon_enable %}
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+
   <title>{{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+
   {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}">
   {% endif %}
@@ -14,13 +20,9 @@
 
   {{ content_for_header }}
 
-  <link href="https://fonts.googleapis.com/css?family=Prompt:300,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'futura-pt';
-      src: url('futura-pt-medium.otf') format('otf');
-    }
-    
+
     *, *:before, *:after {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -36,11 +38,12 @@
     }
     body {
       margin: 0;
-      background: #000 url("{{ 'login_bg-min.jpg' | asset_url }}") no-repeat 50% 100%;
+      background: #000 url("{{ 'bg-login.jpg' | asset_url }}") no-repeat 50% 100%;
+      color: #fff;
       -webkit-background-size: cover;
       background-size: cover;
       background-position: center center;
-      font-family: "futura-pt", sans-serif;
+      font-family: 'Open Sans', sans-serif;
       font-weight: 300;
     }
     article,
@@ -75,21 +78,13 @@
     }
     a {
       text-decoration: none;
-      color: #000;
+      color: #fff;
     }
     a:hover, a:focus {
       text-decoration: underline;
     }
     p:last-child {
       margin-bottom: 0;
-    }
-    .text-center a {
-      color: #4f4f4f;
-      font-family: "futura-pt", sans-serif;
-    }
-    hr {
-      border: 0;
-      border-top: 1px solid #4f4f4f;
     }
     .sr-only {
       position: absolute;
@@ -101,14 +96,6 @@
       clip: rect(0, 0, 0, 0);
       border: 0
     }
-    .sr-only-focusable:active, .sr-only-focusable:focus {
-      position: static;
-      width: auto;
-      height: auto;
-      margin: 0;
-      overflow: visible;
-      clip: auto
-    }
     .text-right {
       text-align: right;
     }
@@ -118,65 +105,56 @@
     .container {
       position: absolute;
       top: 50%;
-      left: 50%;
+      left: 73%;
       transform: translate(-50%, -50%);
       width: 100%;
       max-width: 439px;
       padding: 40px;
-      background-color: #f5f5f5;
       box-shadow: 0 2px 8px 0 rgba(0,75,150,.16), 0 4px 16px 0 rgba(0,0,0,.16);
-}
     }
-    .logo {
-      margin-bottom: 30px;
-    }
-    .logo__link {
-    }
-    .logo__img {
-      display: block;
-      width: 100%;
-      max-width: 439px;
-    }
-    .form {
-    }
+
     .form-group {
       margin-bottom: 20px;
     }
     .form-control {
       display: block;
       width: 100%;
-      padding: 10px 15px;
-      background: #f5f5f5;
-      border-radius: 4px;
-      border: 1px solid #4f4f4f;
-      font-size: 20px;
+      padding: 14px 15px;
+      background: #ffffffab;
+      border-radius: initial;
+      border: 1px solid #212b31;
+      font-size: 16px;
       line-height: 1;
-      color: #4f4f4f;
+      color: #212b31;
     }
+    .form-control:focus {
+      background-color: #fff;
+    }
+    
     .form-control::-webkit-input-placeholder {
-      color: #4f4f4f !important;
-      font-family: "futura-pt", sans-serif;
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
     }
 
     .form-control:-moz-placeholder { /* Firefox 18- */
-      color: #4f4f4f !important;
-      font-family: "futura-pt", sans-serif;
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
     }
 
     .form-control::-moz-placeholder {  /* Firefox 19+ */
-      color: #4f4f4f !important;
-      font-family: "futura-pt", sans-serif;
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
     }
 
     .form-control:-ms-input-placeholder {  
-      color: #4f4f4f !important;
-      font-family: "futura-pt", sans-serif;
+      color: #212b31 !important;
+      font-family: 'Open Sans', sans-serif;
     }
     .btn {
       display: inline-block;
       padding: 15px;
       border: 0;
-      border-radius: 4px;
+      border-radius: initial;
       text-decoration: none !important;
       line-height: 1;
       text-transform: uppercase;
@@ -187,8 +165,8 @@
       cursor: pointer;
     }
     .btn-default {
-      background: #4f4f4f;
-      border-color: #4f4f4f;
+      background: #212b31;
+      border-color: #212b31;
       color: #f5f5f5;
     }
     .btn-default:hover, .btn-default:focus {
@@ -197,78 +175,53 @@
       color: #fff;
     }
     .btn-primary {
-      background: #f5f5f5;
-      color: #4f4f4f;
-      font-family: "futura-pt", sans-serif;
-      border: 1px solid #e81600;
+      background: #00aeff87;
+      color: #fff;
     }
     .btn-primary:hover, .btn-primary:focus {
-      background: #fff;
-      color: #e81600;
+      background: #00aeffd1;
+      color: #fff;
     }
     .btn-block {
       display: block;
       width: 100%;
     }
     .form-register p {
-      text-align: center;
-      color: #4f4f4f;
+      color: #fff;
       font-size: 20px;
-      font-family: "futura-pt", sans-serif;
+      display: flex;
+      justify-content: space-between;
+    }
+    .form-register a {
+      font-weight: bold;
     }
     .form-reset-content {
-      color: #4f4f4f;
-      font-family: "futura-pt", sans-serif;
+      color: #212b31;
+    } 
+
+    .flex-vc {
+      display: flex;
+      align-items: center;
     }
-    .login_left {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-148%, -20%);
-      width: 285px;
-      pointer-events: none;
+    .flex-sb {
+      display: flex;
+      justify-content: space-between;
     }
-    .login_top {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-119%, -110%);
-      width: 362px;
-      pointer-events: none;
+    .forgot-pass-wrapper {
+      display: flex;align-items: center;
+      justify-content: space-between;
     }
-    .login_right {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-55%, -150%);
-      width: 260px;
-      pointer-events: none;
+    .forgot-pass-wrapper * {
+      margin: initial;
     }
 
     #snize-sticky-searchbox-searchbox {
       display: none !important;
     }
-    
-    @media (max-width: 740px) {
-      .login_left {
-        display: none;
-      }
-      .login_right {
-        display: none;
-      }
-    }
-    @media (max-width: 414px) {
-      .login_left {
-        display: block;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <img class="login_left" src="{{ 'login_apple.png' | asset_url }}" alt="login_apple">
-    <img class="login_top" src="{{ 'login_just_juice.png' | asset_img_url:'grande' }}" alt="login_just_juice">
-    <img class="login_right" src="{{ 'login_milk.png' | asset_url }}" alt="login_milk">	
     <div class="form">
 
       <div id="form-login" class="form-login">
@@ -291,7 +244,10 @@
             <button type="submit" class="btn btn-primary btn-block">{{ 'customer.login.sign_in' | t }}</button>
           </div>
 
-          <div class="form-group">
+          <div class="form-group forgot-pass-wrapper">
+            <label class="checkbox">
+              <input type="checkbox" value="remember-me" id="remember_me"> Remember me
+            </label>
             <p class="text-center"><a id="form-reset-toggle" href="#form-reset">Forgot Password?</a></p>
           </div>
 
@@ -330,9 +286,7 @@
       </div>
 
       <div class="form-register">
-        <hr>
-        <p>Don't have an account?</p>
-        <p><a href="/account/register" class="btn btn-default btn-block">{{ 'customer.register.title' | t }}</a></p>
+        <p>Don't have an account? <a href="/account/register" class="">{{ 'customer.register.register_now' | t }}</a></p>
       </div>
     </div>
   </div>
@@ -355,6 +309,30 @@
           // $('#form-reset').slideUp('fast', function(){
           //   $('#form-login').slideDown('fast');
           // });
+        });
+
+        if (localStorage.chkbx && localStorage.chkbx != '') {
+          $('#remember_me').attr('checked', 'checked');
+          $('#form-login-email').val(localStorage.usrname);
+          $('#form-login-password').val(localStorage.pass);
+        } else {
+          $('#remember_me').removeAttr('checked');
+          $('#form-login-email').val('');
+          $('#form-login-password').val('');
+        }
+
+        $('#remember_me').click(function() {
+
+          if ($('#remember_me').is(':checked')) {
+            // save username and password
+            localStorage.usrname = $('#form-login-email').val();
+            localStorage.pass = $('#form-login-password').val();
+            localStorage.chkbx = $('#remember_me').val();
+          } else {
+            localStorage.usrname = '';
+            localStorage.pass = '';
+            localStorage.chkbx = '';
+          }
         });
       });
     })(jQuery);
