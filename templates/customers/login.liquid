@@ -110,7 +110,6 @@
       width: 100%;
       max-width: 439px;
       padding: 40px;
-      box-shadow: 0 2px 8px 0 rgba(0,75,150,.16), 0 4px 16px 0 rgba(0,0,0,.16);
     }
 
     .form-group {
@@ -218,6 +217,38 @@
     #snize-sticky-searchbox-searchbox {
       display: none !important;
     }
+
+    @media screen and (max-width: 767px) {
+      body {
+        margin: 0;
+        background: #000 url("{{ 'bg-login-mobile.jpg' | asset_url }}") no-repeat 50% 20%;
+        background-size: cover;
+      }
+
+      .container {
+        top: 67%;
+        left: 50%;
+        padding: 40px 20px;
+      }
+
+      .form-register p {
+        font-size: 16px;
+      }
+
+      .form-group {
+        margin-bottom: 10px;
+      }
+      .form-control {
+        padding: 10px 15px;
+        font-size: 13px;
+      }
+
+      .btn {
+        font-size: 16px;
+        padding: 10px 15px;
+      }
+    }
+
   </style>
 </head>
 <body>

@@ -32,12 +32,11 @@
             Create thumbnails if we have more than one product image
           {% endcomment %}
           {% if product.images.size > 1 %}
-            <div id="ProductThumbs" class="swiper-container">
-              <ul class="product-single__thumbnails slides swiper-wrapper" >
-
+            <div id="ProductThumbs" class="flexslider">
+              <ul class="product-single__thumbnails slides">
                 {% for image in product.images %}
-                  <li class="swiper-slide">
-                    <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+                  <li class="product-single__thumbnail"  data-src="{{ image.src | img_url: 'compact' }}">
+                    <a href="{{ image.src | img_url: 'large' }}">
                       <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
                     </a>
                   </li>
@@ -216,11 +215,13 @@
         // Select Thumbnail Image when select variant color.
         var thumbnail_number = jQuery('.product-single__thumbnail');
         for (var i = 0; i < thumbnail_number.length; i++) {
-          if(thumbnail_number[i].getAttribute('href').indexOf(switchImage) > 0) {
+          if(thumbnail_number[i].getAttribute('data-src').indexOf(switchImage) > 0) {
+            // If it's based on Swiper slider.
             if (typeof window.galleryThumbs != 'undefined') {
               var index = $(thumbnail_number[i]).closest('.swiper-slide').index();
               window.galleryThumbs.slideTo(index);
-            } else {
+            }else {
+              // If it's based on other slider like slick.
               $(thumbnail_number[i]).trigger('click');
             }
             break;

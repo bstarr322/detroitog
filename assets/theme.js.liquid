@@ -131,7 +131,7 @@ var Detroitog = {
 
   globalEvents: function() {
 
-    $(".product_images img").unveil(200);
+    $(".product_gallery img").unveil(200);
 
     "use strict";
 
@@ -294,34 +294,27 @@ var Detroitog = {
 
   productPageEvents: function() {
     
-     var galleryTop = new Swiper('#product_gallery', {
-      spaceBetween: 10,
-      allowTouchMove: true,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
+    $('#ProductThumbs').flexslider({
+      animation: "slide",
+      controlNav: false,
+      animationLoop: false,
+      slideshow: false,
+      itemWidth: 120,
+      itemMargin: 5,
+      asNavFor: '.product_images'
     });
-    window.galleryThumbs = new Swiper('#ProductThumbs', {
-      allowTouchMove: true,
-      slidesPerView: 4,
-      spaceBetween: 10,
-      touchRatio: 0.2,
-      slideToClickedSlide: true,
-      breakpoints: {
-        1024: {
-          slidesPerView: 3,
-        },
-        640: {
-          slidesPerView: 2,
-        }
-      }
+   
+    $('.product_images').flexslider({
+      // startAt: parseInt($('.featured_image', $(this)).data('index'), 10),
+      animation: "slide",
+      controlNav: false,
+      animationLoop: false,
+      slideshow: false,
+      sync: '#ProductThumbs'
     });
-    galleryTop.controller.control = galleryThumbs;
-    galleryThumbs.controller.control = galleryTop;
 
     // Initialize Product Main Photo Popup
-    $('.product_gallery.nomagnific .slides').magnificPopup({
+    $('.product_gallery .slides').magnificPopup({
       delegate: 'a',
       type: 'image',
       closeOnContentClick: false,
@@ -378,7 +371,7 @@ var Detroitog = {
     if(typeof $.zoom === 'function'){
       var $mainPhotoWrapper = $('#ProductPhoto');
       if($mainPhotoWrapper.length){
-        var $imageSlideLinks = $mainPhotoWrapper.find('a.image-slide-link');
+        var $imageSlideLinks = $mainPhotoWrapper.find('.image-slide-link');
         if($imageSlideLinks.length){
           $imageSlideLinks.each(function(){
             var t = $(this);

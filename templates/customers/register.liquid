@@ -110,7 +110,6 @@
       width: 100%;
       max-width: 439px;
       padding: 40px;
-      box-shadow: 0 2px 8px 0 rgba(0,75,150,.16), 0 4px 16px 0 rgba(0,0,0,.16);
     }
 
     .form-group {
@@ -185,13 +184,13 @@
       display: block;
       width: 100%;
     }
-    .form-register p {
+    .form-login p {
       color: #fff;
       font-size: 20px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
     }
-    .form-register a {
+    .form-login a {
       font-weight: bold;
     }
     .form-reset-content {
@@ -216,6 +215,36 @@
 
     #snize-sticky-searchbox-searchbox {
       display: none !important;
+    }
+
+    @media screen and (max-width: 767px) {
+      body {
+        margin: 0;
+        background: #000 url("{{ 'bg-register-mobile.jpg' | asset_url }}") no-repeat 50% 20%;
+        background-size: cover;
+      }
+
+      .container {
+        top: 70%;
+        left: 50%;
+      }
+
+      .form-group {
+        margin-bottom: 10px;
+      }
+      .form-control {
+        padding: 10px 15px;
+        font-size: 13px;
+      }
+
+      .btn {
+        font-size: 16px;
+        padding: 10px 15px;
+      }
+
+      .form-login p {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -249,6 +278,10 @@
 
           <div class="form-group">
             <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn btn-block btn-default">
+          </div>
+
+          <div class="form-login">
+            <p>Already a member?&nbsp; <a href="/account/login" class="">Login Now!</a></p>
           </div>
         {% endform %}
       </div>

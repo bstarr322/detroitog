@@ -61,6 +61,8 @@
 #image-block .flexslider .slides img {
   max-width: 100%;
   display: block;
+  height: 450px;
+  object-fit: contain;
 }
 #image-block .flex-pauseplay span {
   text-transform: capitalize;
@@ -118,9 +120,10 @@ html[xmlns] #image-block .slides {
   display: block;
   width: 40px;
   height: 80px;
-  margin: -20px 0 0;
+  margin: 0;
   position: absolute;
   top: 50%;
+  transform: translateY(-50%);
   z-index: 10;
   overflow: hidden;
   opacity: 0.4;
@@ -158,16 +161,12 @@ html[xmlns] #image-block .slides {
 }
 #image-block .flex-direction-nav .flex-prev {
   left: 0;
-  margin-left: 0px;
-  margin-top: -25px;
 }
 
 #image-block #carousel .flex-direction-nav .flex-prev {
   
 }
 #image-block .flex-direction-nav .flex-next {
-  margin-right: 0;
-  margin-top: -25px;
   right: 0;
 }
 
@@ -292,6 +291,22 @@ html[xmlns] #image-block .slides {
 #image-block .flexslider .slides{ height:auto; }
 .image-slide-link { display: none!important; }
 .flex-active-slide .image-slide-link { display: block!important;}
+
+.slider_1 {
+  padding: 20px 15px;
+}
+
+@media (max-width: 767px) {
+  #image-block .flexslider .slides img {
+    height: 300px;
+    object-fit: contain;
+  }
+}
+@media (min-width: 1200px)
+  .slider_1 {
+    padding: 20px 25px;
+  }
+}
 
 #image-block #carousel .slides li {
   width: auto !important;

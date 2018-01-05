@@ -26,23 +26,21 @@
   <div class="grid-item product-single">
       <div class="grid__item large--one-half text-center product-single__gallery">
         <div class="product-single__photos" id="ProductPhoto">
-          {% include 'product-gallery', magnificPopup: true %}
+          {% include 'product-gallery-quickview' %}
 
           {% comment %}
             Create thumbnails if we have more than one product image
           {% endcomment %}
           {% if qvp.images.size > 1 %}
-            <div id="ProductThumbs">
-              <ul class="product-single__thumbnails slides" >
-
-                {% for image in qvp.images %}
-                  <li class="">
-                    <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+            <div id="ProductThumbs" class="flexslider">
+              <ul class="product-single__thumbnails slides">
+                {% for image in product.images %}
+                  <li class="product-single__thumbnail" data-src="{{ image.src | img_url: 'compact' }}">
+                    <a href="{{ image.src | img_url: 'large' }}">
                       <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
                     </a>
                   </li>
                 {% endfor %}
-
               </ul>
             </div>
           {% endif %}
