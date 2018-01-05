@@ -131,7 +131,7 @@ var Detroitog = {
 
   globalEvents: function() {
 
-    $(".product_images img").unveil(200);
+    $(".product_gallery img").unveil(200);
 
     "use strict";
 
@@ -299,8 +299,8 @@ var Detroitog = {
       controlNav: false,
       animationLoop: false,
       slideshow: false,
-      itemWidth: 100,
-      itemMargin: 15,
+      itemWidth: 120,
+      itemMargin: 5,
       asNavFor: '.product_images'
     });
    
@@ -314,7 +314,7 @@ var Detroitog = {
     });
 
     // Initialize Product Main Photo Popup
-    $('.product_gallery.nomagnific .slides').magnificPopup({
+    $('.product_gallery .slides').magnificPopup({
       delegate: 'a',
       type: 'image',
       closeOnContentClick: false,
@@ -335,6 +335,35 @@ var Detroitog = {
       }
     });
 
+    // Product Grid Slider, we will use swiper slider.
+    var swiper = new Swiper('.related-products .swiper-container', {
+      slidesPerView: 4,
+      spaceBetween: 10,
+      // init: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 10,
+        }
+      }
+    });
+
     {% if settings.show_product_zoom %}
     /////////////////////////////////////
     //  Product Image Zoom
@@ -342,7 +371,7 @@ var Detroitog = {
     if(typeof $.zoom === 'function'){
       var $mainPhotoWrapper = $('#ProductPhoto');
       if($mainPhotoWrapper.length){
-        var $imageSlideLinks = $mainPhotoWrapper.find('a.image-slide-link');
+        var $imageSlideLinks = $mainPhotoWrapper.find('.image-slide-link');
         if($imageSlideLinks.length){
           $imageSlideLinks.each(function(){
             var t = $(this);

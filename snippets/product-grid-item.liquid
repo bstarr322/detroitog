@@ -63,8 +63,6 @@
         if your variants have different prices.
       {% endcomment %}
 
-      <span>Retail Price: </span>
-      
       {% if on_sale %}
         {% if product.price_varies %}
           {% assign sale_price = product.price | money %}

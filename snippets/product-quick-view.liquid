@@ -26,23 +26,21 @@
   <div class="grid-item product-single">
       <div class="grid__item large--one-half text-center product-single__gallery">
         <div class="product-single__photos" id="ProductPhoto">
-          {% include 'product-gallery', magnificPopup: true %}
+          {% include 'product-gallery-quickview' %}
 
           {% comment %}
             Create thumbnails if we have more than one product image
           {% endcomment %}
           {% if qvp.images.size > 1 %}
-            <div id="ProductThumbs">
-              <ul class="product-single__thumbnails slides" >
-
-                {% for image in qvp.images %}
-                  <li class="">
-                    <a href="{{ image.src | img_url: 'large' }}" class="product-single__thumbnail">
+            <div id="ProductThumbs" class="flexslider">
+              <ul class="product-single__thumbnails slides">
+                {% for image in product.images %}
+                  <li class="product-single__thumbnail" data-src="{{ image.src | img_url: 'compact' }}">
+                    <a href="{{ image.src | img_url: 'large' }}">
                       <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
                     </a>
                   </li>
                 {% endfor %}
-
               </ul>
             </div>
           {% endif %}
@@ -79,16 +77,13 @@
               
               <div class="product-single__price">
                 <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-                <strong>Retail Price:&nbsp;</strong>
-                <span class="ProductPrice h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                <span class="ProductPrice" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
                   {{ current_variant.price | money }}
                 </span>
 
                 {% if qvp.compare_at_price_max > qvp.price %}
                   <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-                  <p class="ComparePrice">
-                    Retail Price:<span>{{ current_variant.compare_at_price | money }}</span>
-                  </p>
+                  <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
                 {% endif %}
               </div>
 

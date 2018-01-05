@@ -29,9 +29,9 @@
             </div>
           </div>
           {% else %}
-          <a class="image-slide-link" href="{{ image | product_img_url: 'master' }}" title="{{ image.alt | escape }}">
+          <span class="image-slide-link" href="{{ image | product_img_url: 'master' }}" title="{{ image.alt | escape }}">
             <img src="{{ 'loading.gif' | asset_url }}" data-src="{{ image | product_img_url: 'grande' }}" alt="{{ image.alt | escape }}" data-index="{{ forloop.index0 }}" data-image-id="{{ image.id }}" {% if featured_image.id == image.id %}class="featured_image"{% endif %} />
-          </a>
+          </span>
           {% endif %}
         </li>
         {% endfor %}

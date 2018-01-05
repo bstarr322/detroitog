@@ -14,7 +14,7 @@
   Leave blank if you don't need one.
 {% endcomment %}
 
-{% assign heading = 'Related Products' %}
+{% assign heading = 'You may also like' %}
 
 {% comment %}
   Set either or both to true, if you want
@@ -65,29 +65,14 @@
   {% assign break_at = number_of_rows | times: number_of_related_products_per_row %}
   {% assign current_product = product %}
 
-  {% case number_of_related_products_per_row %}
-    {% when 1 %}
-      {% assign grid_item_width = '' %}
-    {% when 2 %}
-      {% assign grid_item_width = 'large--one-half medium--one-half' %}
-    {% when 3 %}
-      {% assign grid_item_width = 'large--one-third medium--one-half' %}
-    {% when 4 %}
-      {% assign grid_item_width = 'large--one-quarter medium--one-third small--one-half' %}
-    {% when 5 %}
-      {% assign grid_item_width = 'large--one-fifth medium--one-third small--one-half' %}
-    {% when 6 %}
-      {% assign grid_item_width = 'large--one-sixth medium--one-third small--one-half' %}
-    {% else %}
-      {% assign grid_item_width = 'large--one-quarter medium--one-third small--one-half' %}
-  {% endcase %}
-
   {% capture related_items %}
     {% for product in collection.products %}
       {% unless product.handle == current_product.handle %}
          {% unless same_vendor and current_product.vendor != product.vendor %}
            {% unless same_type and current_product.type != product.type %}
-             {% include 'product-grid-item' %}
+            <div class="swiper-slide">
+             {% include 'product-single-grid' %}
+            </div>
              {% assign counter = counter | plus: 1 %}
              {% if counter == break_at %}
                {% break %}
@@ -102,18 +87,23 @@
 
   {% unless related_items == blank %}
 
-  <aside class="grid">
-    <div class="grid__item">
-      {% unless heading == blank %}
-      <header class="section-header">
-        <h2 class="section-header__title">{{ heading }}</h2>
-      </header>
-      {% endunless %}
-      <div class="grid-uniform">
-        {{ related_items }}
+  <div class="product-grid related-products">
+    <div class="grid">
+      <div class="grid__item">
+        {% unless heading == blank %}
+        <header class="section-header">
+          <h2 class="section-header__title text-center">{{ heading }}</h2>
+        </header>
+        {% endunless %}
+
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+          {{ related_items }}
+          </div>
+        </div>
       </div>
     </div>
-  </aside>
+  </div>
 
   {% endunless %}
      
