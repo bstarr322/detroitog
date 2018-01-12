@@ -31,8 +31,6 @@
   {{ 'timber.scss.css' | asset_url | stylesheet_tag }}
   
   <!-- Header hook for plugins ================================================== -->
-  {% include 'buddha-megamenu-before' %}
-  {% include 'buddha-megamenu' %}
   {{ content_for_header }}
   {% include 'oldIE-js' %}
 
@@ -52,7 +50,6 @@
   Add the page template as a class for easy page or template specific styling.
 {% endcomment %}
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
-  {% include 'buddha-megamenu-wireframe' %}
   <div id="NavDrawer" class="drawer drawer--left">
     <div class="drawer__header">
       <div class="drawer__title h3">{{ 'layout.drawers.browse' | t }}</div>
@@ -179,10 +176,18 @@
 
   </div>
 
-  {{ 'jquery.magnific-popup.min.js' | asset_url | script_tag }}
   {{ 'fastclick.min.js' | asset_url | script_tag }}
   {{ 'swiper.min.js' | asset_url | script_tag }}
-  {{ 'jquery.products.js' | asset_url | script_tag }}
+  
+  {% if settings.enable_recently_viewed_products and template contains 'product' %}
+    {{ 'jquery.tmpl.min.js' | asset_url | script_tag }}
+    {{ 'jquery.products.js' | asset_url | script_tag }}
+
+    <script>
+      Shopify.Products.recordRecentlyViewed();
+    </script>
+  {% endif %}
+
   {{ 'timber.js' | asset_url | script_tag }}
   {{ 'theme.js' | asset_url | script_tag }}
 
@@ -241,14 +246,5 @@
     });
   });
   </script>
-  
-  {% if template contains 'product' %}
-
-  <script>
-    Shopify.Products.recordRecentlyViewed();
-  </script>
-
-  {% endif %}
-
 </body>
 </html>

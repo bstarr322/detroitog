@@ -201,6 +201,29 @@
     ]
   },
   {
+    "name": "Homepage",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_featured_products",
+        "label": "Enable Featured Products Section",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_featured_collections",
+        "label": "Enable Featured Collections Section",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_latest_news",
+        "label": "Enable Latest News Section",
+        "default": false
+      }
+    ]
+  },
+  {
     "name": "Home page - slideshow",
     "settings": [
       {
@@ -449,6 +472,133 @@
       }
     ]
   },
+
+  {
+    "name": "Animation Section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_animation_section",
+        "label": "Enable Animation Section",
+        "default": true
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_1"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_1",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "textarea",
+        "id": "anm_col_description_1",
+        "label": "Custom Description of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_2"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_2",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "textarea",
+        "id": "anm_col_description_2",
+        "label": "Custom Description of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_3"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_3",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "textarea",
+        "id": "anm_col_description_3",
+        "label": "Custom Description of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_4"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_4",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "textarea",
+        "id": "anm_col_description_4",
+        "label": "Custom Description of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_5"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_5",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "textarea",
+        "id": "anm_col_description_5",
+        "label": "Custom Description of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_6"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_6",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_7"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_7",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_8"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_8",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_9"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_9",
+        "label": "Custom Title of the selected collection"
+      },
+      {
+        "type": "collection",
+        "id": "anm_col_10"
+      },
+      {
+        "type": "text",
+        "id": "anm_col_title_10",
+        "label": "Custom Title of the selected collection"
+      }
+    ]
+  },
   {
     "name": "Footer",
     "settings": [
@@ -522,6 +672,12 @@
         "type": "checkbox",
         "id": "show_product_zoom",
         "label": "Enable product zoom",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_recently_viewed_products",
+        "label": "Show Recently Viewed Products Section",
         "default": true
       }
     ]

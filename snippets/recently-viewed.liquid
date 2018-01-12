@@ -1,6 +1,3 @@
-{{ 'jquery.tmpl.min.js' | asset_url | script_tag }}
-{{ 'jquery.products.js' | asset_url | script_tag }}
-
 <div id="recently-viewed-products-wrapper" class="product-grid recently-viewed-products" style="display:none">
   <h2 class="section-header__title text-center">Recently Viewed</h2>
   <div class="swiper-container">
@@ -30,5 +27,7 @@
 {% endraw %}
 
 <script>
-Shopify.Products.showRecentlyViewed( { howManyToShow:4 } );
+  $(document).ready(function() {
+    Shopify.Products.showRecentlyViewed( { howManyToShow:4 } );
+  })
 </script>

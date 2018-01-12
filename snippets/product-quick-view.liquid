@@ -23,27 +23,10 @@
 {% capture scope %}qv-{{ qvp.url | within: collection | replace: '/', '-' }}{% endcapture %}
 
 <div data-id="{{ qvp.id }}" data-available="{{qvp.available}}" data-variant-size="{{qvp.variants.size}}" data-name="product_{{ qvp.handle | replace:'-','_' }}" class="mfp-with-anim mfp-hide mfp-dialog mfp-dialog-big clearfix quick-view-panel" id="{{ scope }}">
-  <div class="grid-item product-single">
+  <div class="grid product-single">
       <div class="grid__item large--one-half text-center product-single__gallery">
         <div class="product-single__photos" id="ProductPhoto">
           {% include 'product-gallery-quickview' %}
-
-          {% comment %}
-            Create thumbnails if we have more than one product image
-          {% endcomment %}
-          {% if qvp.images.size > 1 %}
-            <div id="ProductThumbs" class="flexslider">
-              <ul class="product-single__thumbnails slides">
-                {% for image in product.images %}
-                  <li class="product-single__thumbnail" data-src="{{ image.src | img_url: 'compact' }}">
-                    <a href="{{ image.src | img_url: 'large' }}">
-                      <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
         </div>
       </div>
 
@@ -61,8 +44,21 @@
             {% endcomment %}
             <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
               
-              <h3>{{ qvp.title }}</h3>
-              
+              <header class="product-single__header">
+                <h1 itemprop="name">{{ qvp.title }}</h1>
+                <div class="product-single__price">
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <span class="ProductPrice h3" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                    {{ current_variant.price | money }}
+                  </span>
+
+                  {% if qvp.compare_at_price_max > qvp.price %}
+                    <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                    <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+              </header>
+
               <div class="sku_style clearfix">
                 <p class="product-single__availability">
                   <span id="product-variant-availability">
@@ -73,18 +69,6 @@
                     {% endif %}
                   </span>
                 </p>
-              </div>
-              
-              <div class="product-single__price">
-                <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-                <span class="ProductPrice" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
-                  {{ current_variant.price | money }}
-                </span>
-
-                {% if qvp.compare_at_price_max > qvp.price %}
-                  <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-                  <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
-                {% endif %}
               </div>
 
               {% comment %}
@@ -200,6 +184,32 @@
     });
 
     if (variant) {
+
+      if(variant.featured_image){
+        // Get Variant Image
+        var switchImage_src = variant.featured_image.src;
+        var slashIndexOf = switchImage_src.lastIndexOf('/');
+        var questionIndexOf = switchImage_src.lastIndexOf('.');
+        var switchImage = switchImage_src.substr(slashIndexOf + 1, questionIndexOf - slashIndexOf - 1);
+
+        // Select Thumbnail Image when select variant color.
+        var productCarousel = jQuery('.product_gallery ul li');
+        for (var i = 0; i < productCarousel.length; i++) {
+          if(productCarousel[i].getAttribute('data-thumb').indexOf(switchImage) > 0) {
+            // i = index of the selected variant image.
+
+            if (typeof window.productCarousel != 'undefined') {
+              window.productCarousel.goToSlide(i);
+            }else {
+              // If it's based on other slider like slick.
+              $(productCarousel[i]).trigger('click');
+            }
+            break;
+          }
+        }
+      }
+
+
       // Change Variant SKU
       $('.mfp-wrap .product-sku').text(variant.sku);
       

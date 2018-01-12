@@ -1,0 +1,47 @@
+<!-- Section - animation-section -->
+
+<div class="section_animation_wrapper">
+
+{% for i in (1..10) %}
+
+  {% assign col_setting = "anm_col_" | append: i %}
+  {% capture collection_custom_title %}anm_col_title_{{ i }}{% endcapture %}
+  {% capture collection_custom_description %}anm_col_description_{{ i }}{% endcapture %}
+
+  {% capture modulo %}{{ i | modulo: 2 }}{% endcapture %}
+  {% capture class_wrapper %}{% if modulo == '1' %}grid-uniform{% else %}grid--rev{% endif %}{% endcapture %}
+
+  {% assign collection = collections[settings[col_setting]] %}
+
+  {% if settings[col_setting] != blank %}
+  <div class="row {{ class_wrapper }} animation-row animation-{{i}}">
+    <div class="wrapper">
+      <div class="grid__item small--one-whole one-half">
+        {% if collection.image %}
+          <img src="{{ collection.image | img_url: '550x550' }}" />
+        {% else %}
+          <img src="{{ collection.products[0].featured_image | img_url: '550x550' }}" />
+        {% endif %}
+      </div>
+      <div class="grid__item small--one-whole one-half desc-part">
+        {% if settings[collection_custom_title] != blank %}
+          <a href="{{ collection.url }}"><h1 class="">{{ settings[collection_custom_title] }}</h1></a>
+        {% else %}
+          <a href="{{ collection.url }}"><h1 class="icon icon-{{ collection.handle }}"></h1></a>
+        {% endif %}
+
+        {% if settings[collection_custom_description] != blank %}
+          <p>{{ settings[collection_custom_description] }}</p>
+        {% else %}
+          <p>{{ collection.description | default: 'Detroit is huge collection of ejuice flavors by Detroit.'}}</p>
+        {% endif %}
+        
+        <a href="{{ collection.url }}" class="btn-shop-now hvr-sweep-to-right">Shop Now</a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endfor %}
+
+</div>
+<!-- /Section - animation-section -->

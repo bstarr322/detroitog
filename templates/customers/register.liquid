@@ -38,7 +38,7 @@
     }
     body {
       margin: 0;
-      background: #000 url("{{ 'bg-register.jpg' | asset_url }}") no-repeat 50% 100%;
+      background: #000 url("{{ 'bg-register.jpg' |  asset_img_url:'1920x' }}") no-repeat 50% 100%;
       color: #fff;
       -webkit-background-size: cover;
       background-size: cover;
@@ -282,6 +282,7 @@
 
           <div class="form-login">
             <p>Already a member?&nbsp; <a href="/account/login" class="">Login Now!</a></p>
+            <p style="text-align: center;display: block;"><a href="/">Return to store</a></p>
           </div>
         {% endform %}
       </div>

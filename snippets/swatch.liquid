@@ -68,7 +68,7 @@
           data-option-title="{{ option }}"
         >
         {% if is_color %}
-        <label for="swatch-{{ option_index }}-{{ value | handle }}" data-toggle="tooltip" data-placement="top" style="background-color: {{ value | split: ' ' | last | handle }};">
+        <label for="swatch-{{ option_index }}-{{ value | handle }}" data-toggle="tooltip" data-placement="top" style="background-color: {{ value | split: ' ' | last | handle }};" class="color-{{ value | handle }}">
           <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
         </label>
         {% else %}

@@ -27,24 +27,6 @@
       <div class="grid__item large--one-half xlarge--two-thirds text-center product-single__gallery">
         <div class="product-single__photos" id="ProductPhoto" data-mh="match-product-panel">
           {% include 'product-gallery' %}
-
-          {% comment %}
-            Create thumbnails if we have more than one product image
-          {% endcomment %}
-          {% if product.images.size > 1 %}
-            <div id="ProductThumbs" class="flexslider">
-              <ul class="product-single__thumbnails slides">
-                {% for image in product.images %}
-                  <li class="product-single__thumbnail"  data-src="{{ image.src | img_url: 'compact' }}">
-                    <a href="{{ image.src | img_url: 'large' }}">
-                      <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
-                    </a>
-                  </li>
-                {% endfor %}
-
-              </ul>
-            </div>
-          {% endif %}
         </div>
       </div>
 
@@ -218,16 +200,16 @@
         var switchImage = switchImage_src.substr(slashIndexOf + 1, questionIndexOf - slashIndexOf - 1);
 
         // Select Thumbnail Image when select variant color.
-        var thumbnail_number = jQuery('.product-single__thumbnail');
-        for (var i = 0; i < thumbnail_number.length; i++) {
-          if(thumbnail_number[i].getAttribute('data-src').indexOf(switchImage) > 0) {
-            // If it's based on Swiper slider.
-            if (typeof window.galleryThumbs != 'undefined') {
-              var index = $(thumbnail_number[i]).closest('.swiper-slide').index();
-              window.galleryThumbs.slideTo(index);
+        var productCarousel = jQuery('.product_gallery ul li');
+        for (var i = 0; i < productCarousel.length; i++) {
+          if(productCarousel[i].getAttribute('data-thumb').indexOf(switchImage) > 0) {
+            // i = index of the selected variant image.
+
+            if (typeof window.productCarousel != 'undefined') {
+              window.productCarousel.goToSlide(i);
             }else {
               // If it's based on other slider like slick.
-              $(thumbnail_number[i]).trigger('click');
+              $(productCarousel[i]).trigger('click');
             }
             break;
           }

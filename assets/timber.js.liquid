@@ -386,8 +386,6 @@ timber.Drawers = (function () {
   };
 
   Drawer.prototype.open = function (evt) {
-
-    $(".js-drawer-close").trigger('click');
     
     // Keep track if drawer was opened from a click, or called by another function
     var externalCall = false;
