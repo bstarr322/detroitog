@@ -16,12 +16,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href="{{ canonical_url }}">
 
-  {{ 'modernizr.min.js' | asset_url | script_tag }}
-
   {{ content_for_header }}
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Open Sans';
+      src: url('{{ "OpenSans-Light.eot" | asset_url }}');
+      src: url('{{ "OpenSans-Light.eot" | asset_url }}#iefix') format("embedded-opentype"),
+           url('{{ "OpenSans-Light.woff" | asset_url }}') format("woff"),
+           url('{{ "OpenSans-Light.ttf" | asset_url }}') format("truetype"),
+           url('{{ "OpenSans-Light.svg" | asset_url }}#OpenSans-Light') format("svg");
+      font-weight: normal;
+      font-style: normal;
+    }
 
     *, *:before, *:after {
       -webkit-box-sizing: border-box;

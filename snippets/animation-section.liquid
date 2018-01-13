@@ -1,6 +1,6 @@
 <!-- Section - animation-section -->
 
-<div class="section_animation_wrapper">
+<div class="section_animation_wrapper hide">
 
 {% for i in (1..10) %}
 
@@ -17,11 +17,13 @@
   <div class="row {{ class_wrapper }} animation-row animation-{{i}}">
     <div class="wrapper">
       <div class="grid__item small--one-whole one-half">
-        {% if collection.image %}
-          <img src="{{ collection.image | img_url: '550x550' }}" />
-        {% else %}
-          <img src="{{ collection.products[0].featured_image | img_url: '550x550' }}" />
-        {% endif %}
+        <div class="gaa_animation_wrapper">
+          {% if collection.image %}
+            <img src="{{ collection.image | img_url: '550x550' }}" />
+          {% else %}
+            <img src="{{ collection.products[0].featured_image | img_url: '550x550' }}" />
+          {% endif %}
+        </div>
       </div>
       <div class="grid__item small--one-whole one-half desc-part">
         {% if settings[collection_custom_title] != blank %}
@@ -43,5 +45,67 @@
   {% endif %}
 {% endfor %}
 
+</div>
+
+<div class="section_animation_wrapper">
+  <div class="row grid-uniform animation-row animation-1">
+    <div class="wrapper">
+      <div class="grid__item small--one-whole one-half">
+        <div class="gaa_animation_wrapper">
+          <img src="//cdn.shopify.com/s/files/1/2381/9593/products/mockup-77c40423_550x550.jpg?v=1515268199" style="opacity: 1;" class="animated zoomIn">
+        </div>
+      </div>
+      <div class="grid__item small--one-whole one-half desc-part">
+        <a href="/collections/best-selling-products">
+          <h1 class="icon icon-best-selling-products"></h1>
+        </a>
+        <p>Detroit is huge collection of ejuice flavors by Detroit.</p>
+        <a href="/collections/best-selling-products" class="btn-shop-now hvr-sweep-to-right">Shop Now</a>
+      </div>
+    </div>
+  </div>
+  <div class="row grid--rev animation-row animation-2">
+    <div class="wrapper">
+      <div class="grid__item small--one-whole one-half">
+        <div class="gaa_animation_wrapper">
+          <!-- <img src="//cdn.shopify.com/s/files/1/2381/9593/products/Detroit_OG_square_Next_Level_3600_black1_550x550.jpg?v=1515792146" style="opacity: 1;" class="animated rotateZIn rotateZOut"> -->
+          <img src="https://photific.com/wp-content/uploads/Unisex-Tri-Blend-Tank-Top-Mockup-4-drop-shadow-small-rotated.png">
+        </div>
+      </div>
+      <div class="grid__item small--one-whole one-half desc-part">
+        <h2>Sell More</h2>
+        <p class="text-left">Stop losing customers to bad product images. 75% of consumers rate high-quality product photos as critical when buying online<span style="font-size: 10px;">†</span>. Storefront includes 4K high-res mockups created from professional photoshoots. </p>
+        <p class="text-left"><span style="font-size: 10px;">†(2015). IRCE 2012 Report: Consumers explain how they shop online.</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="row grid-uniform animation-row animation-3">
+    <div class="wrapper">
+      <div class="grid__item small--one-whole one-half">
+        <div class="gaa_animation_wrapper">
+          <!-- <img src="//cdn.shopify.com/s/files/1/2381/9593/products/mockup-77c40423_550x550.jpg?v=1515268199" style="opacity: 1;" class="animated skewOut skewIn"> -->
+          <img src="https://photific.com/wp-content/uploads/laptop-screen-full-1.jpg">
+        </div>
+      </div>
+      <div class="grid__item small--one-whole one-half desc-part">
+        <h2>Save Time</h2>
+        <p> Stop wasting time and money taking your own product photos. Create product photos instantly right from your computer. It’s so easy your Grandma could do it. </p>
+      </div>
+    </div>
+  </div>
+  <div class="row grid--rev animation-row animation-4">
+    <div class="wrapper">
+      <div class="grid__item small--one-whole one-half">
+        <div class="gaa_animation_wrapper">
+          <!-- <img src="//cdn.shopify.com/s/files/1/2381/9593/products/mockup-f141f145_550x550.jpg?v=1514588513" style="opacity: 1;" class="animated translateYOut translateYIn"> -->
+          <img src="https://photific.com/wp-content/uploads/All-Over-Unisex-Tee-1.jpg">
+        </div>
+      </div>
+      <div class="grid__item small--one-whole one-half desc-part">
+        <h2>Save Money</h2>
+        <p>500+ mockups worth over $2,000 are included. Never take another product photo. Never buy another mockup.</p>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- /Section - animation-section -->

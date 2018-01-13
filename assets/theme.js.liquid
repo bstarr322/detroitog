@@ -467,16 +467,16 @@ var Detroitog = {
         // Scroll Down
 
         if ($('.animation-1').length > 0 && st + 600 >= $('.animation-1').offset().top ){
-          $('.animation-1 img').animateCss('tada');
+          $('.animation-1 img').animateCss('zoomIn');
         }
         if ($('.animation-2').length > 0 && st + 600 >= $('.animation-2').offset().top ){
-          $('.animation-2 img').animateCss('fadeInRightBig');
+          $('.animation-2 img').animateCss('rotateZIn');
         }
         if ($('.animation-3').length > 0 && st + 600 >= $('.animation-3').offset().top ){
-          $('.animation-3 img').animateCss('jello');
+          $('.animation-3 img').animateCss('skewIn');
         }
         if ($('.animation-4').length > 0 && st + 600 >= $('.animation-4').offset().top ){
-          $('.animation-4 img').animateCss('jackInTheBox');
+          $('.animation-4 img').animateCss('translateYIn');
         }
         if ($('.animation-5').length > 0 && st + 600 >= $('.animation-5').offset().top ){
           $('.animation-5 img').animateCss('pulse');
@@ -488,16 +488,16 @@ var Detroitog = {
         // Scroll Up
 
         if ($('.animation-1').length > 0 && st <= $('.animation-1').offset().top ){
-          $('.animation-1 img').animateCss('tada');
+          $('.animation-1 img').animateCss('zoomOut');
         }
         if ($('.animation-2').length > 0 && st <= $('.animation-2').offset().top ){
-          $('.animation-2 img').animateCss('fadeInRightBig');
+          $('.animation-2 img').animateCss('rotateZOut');
         }
         if ($('.animation-3').length > 0 && st <= $('.animation-3').offset().top ){
-          $('.animation-3 img').animateCss('jello');
+          $('.animation-3 img').animateCss('skewOut');
         }
         if ($('.animation-4').length > 0 && st <= $('.animation-4').offset().top ){
-          $('.animation-4 img').animateCss('jackInTheBox');
+          $('.animation-4 img').animateCss('translateYOut');
         }
         if ($('.animation-5').length > 0 && st <= $('.animation-5').offset().top ){
           $('.animation-5 img').animateCss('pulse');
@@ -510,13 +510,13 @@ var Detroitog = {
       if (st + $(window).height() >= $(document).height() - exclude_height ) {
         // Scroll reached to the Bottom;
         $('.animation-row img').removeAttr('class');
-        $('.animation-4 img').add('.animation-2 img').css('opacity', 0);
+        // $('.animation-4 img').add('.animation-2 img').css('opacity', 0);
 
       } else if ( st == 0 ) {
         // Scroll reached to the Top.
 
         $('.animation-row img').removeAttr('class');
-        $('.animation-4 img').add('.animation-2 img').css('opacity', 0);
+        // $('.animation-4 img').add('.animation-2 img').css('opacity', 0);
       }
 
       lastScrollTop = st;

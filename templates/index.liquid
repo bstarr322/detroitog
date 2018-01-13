@@ -55,8 +55,8 @@
 {% endif %}
 
 {% if settings.show_featured_collections %}
-<section class="section-featured-collection">
-  <h2>{{ 'homepage.sections.featured_title' | t }}</h2>
+<section class="section-featured-collection wrapper">
+  <h2>Collections</h2>
   <div class="grid-uniform">
 
     {% comment %}
@@ -76,25 +76,22 @@
 
         {% unless collection.handle == 'frontpage' %}
           {% assign isEmpty = false %}
-          {% assign collection_item_width = 'large--one-fifth medium--one-third' %}
+          {% assign collection_item_width = 'small--one-whole one-third' %}
           <div class="grid__item {{ collection_item_width }} text-center">
             {% comment %}
               Use capture to put the collection title in a variable that is used in liquid filters
             {% endcomment %}
             {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
-
-            <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}" class="grid__image">
-              {% if collection.image %}
-                {{ collection.image.src | img_url: 'large' | img_tag: collection_title }}
-              {% else %}
-                {{ collection.products.first.featured_image | img_url: 'large' | img_tag: collection_title }}
-              {% endif %}
+            <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}" class="item">
+              <div class="grid__image">
+                {% if collection.image %}
+                  {{ collection.image.src | img_url: 'large' | img_tag: collection_title }}
+                {% else %}
+                  {{ collection.products.first.featured_image | img_url: 'large' | img_tag: collection_title }}
+                {% endif %}
+              </div>
+              <p class="item-title">{{ collection.title }}</p>
             </a>
-
-            <p>
-              <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}">{{ collection.title }}</a><br>
-              {{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}
-            </p>
           </div>
           {% assign index = index | plus: 1 %}
         {% endunless %}
