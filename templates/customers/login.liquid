@@ -19,6 +19,16 @@
   {{ content_for_header }}
 
   <style>
+    @keyframes fadeInDelay {
+      99% {
+        visibility: hidden;
+      }
+      100% {
+        visibility: visible;
+      }
+    }
+
+
     @font-face {
       font-family: 'Open Sans';
       src: url('{{ "OpenSans-Light.eot" | asset_url }}');
@@ -117,6 +127,9 @@
       width: 100%;
       max-width: 439px;
       padding: 40px;
+      animation: .6s fadeInDelay;
+      animation-fill-mode: forwards;
+      visibility: hidden;
     }
 
     .form-group {
