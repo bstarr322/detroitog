@@ -85,7 +85,9 @@ $small: 480px;
 $medium: 768px;
 $large: 992px;
 $xlarge: 1200px;
+$wide: 1500px;
 
+$preWide: $wide - $viewportIncrement;
 $postSmall: $small + $viewportIncrement;
 $preMedium: $medium - $viewportIncrement;
 $preLarge: $large - $viewportIncrement;
@@ -103,7 +105,7 @@ $breakpoints: (
   'xlarge' '(min-width: #{$xlarge})',
   'xlarge-down' '(max-width: #{$preXLarge})'
 );
-$breakpoint-has-widths: ('small', 'medium', 'medium-down', 'large', 'large-down', 'xlarge', 'xlarge-down');
+$breakpoint-has-widths: ('small', 'medium', 'medium-down', 'medium-up', 'large', 'large-down', 'xlarge', 'xlarge-down');
 $breakpoint-has-push:  ('medium', 'medium-down', 'large');
 $breakpoint-has-pull:  ('medium', 'medium-down', 'large');
 
@@ -3266,14 +3268,13 @@ label.error {
   padding: 2rem 0;
 
   .breadcrumb {
-    padding: 0 11rem 2rem;
     margin: 0;
 
     a {
       color: $colorAccent;
     }
 
-    @include at-query ($max, $small) {
+    @include at-query ($max, $preWide) {
       padding: 0 15px 15px;
 
       a, span {
@@ -3282,22 +3283,31 @@ label.error {
     }    
   }
 
-  @include at-query ($min, $postSmall) {
+  .product-single {
+    background-color: #fff;
+  }
 
-    .product-single {
+  @include at-query ($min, $wide) {
+
+    .product-single,
+    .breadcrumb {
       padding: 0 11rem 2rem;
-      background-color: #fff;
     }
 
     .product-grid {
       padding: 4rem 11rem 0;
+    }
+  }
 
-      &.related-products {
-      }
+  @include at-query ($min, $xlarge) {
 
-      &.recently-viewed-products {
-        
-      }
+    .product-single,
+    .breadcrumb {
+      padding: 0 4rem 2rem;
+    }
+
+    .product-grid {
+      padding: 4rem 4rem 0;
     }
   }
 

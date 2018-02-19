@@ -200,18 +200,25 @@
         var switchImage = switchImage_src.substr(slashIndexOf + 1, questionIndexOf - slashIndexOf - 1);
 
         // Select Thumbnail Image when select variant color.
-        var productCarousel = jQuery('.product_gallery ul li');
-        for (var i = 0; i < productCarousel.length; i++) {
-          if(productCarousel[i].getAttribute('data-thumb').indexOf(switchImage) > 0) {
-            // i = index of the selected variant image.
+        var $activeCarousel = jQuery('.product_gallery ul li.lslide.active');
 
-            if (typeof window.productCarousel != 'undefined') {
-              window.productCarousel.goToSlide(i);
-            }else {
-              // If it's based on other slider like slick.
-              $(productCarousel[i]).trigger('click');
+        if (typeof $activeCarousel.data('thumb') != 'undefined' && $activeCarousel.data('thumb').indexOf(switchImage) < 0 ) {
+
+          let productCarousel = jQuery('.product_gallery ul li');
+
+          for (let i = 0; i < productCarousel.length; i++) {
+            if(productCarousel[i].getAttribute('data-thumb').indexOf(switchImage) > 0) {
+              // i = index of the selected variant image.
+              console.log("Product Thumb Index - " + i);
+
+              if (typeof window.productCarousel != 'undefined') {
+                window.productCarousel.goToSlide(i);
+              }else {
+                // If it's based on other slider like slick.
+                $(productCarousel[i]).trigger('click');
+              }
+              break;
             }
-            break;
           }
         }
       }

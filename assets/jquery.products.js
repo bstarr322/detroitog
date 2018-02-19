@@ -135,6 +135,11 @@ Shopify.Products = (function() {
 
   var moveAlong = function() {
     if (productHandleQueue.length && shown < config.howManyToShow) {
+      
+      if (window.location.pathname.indexOf(productHandleQueue[0]) > -1) {
+        productHandleQueue.shift();
+      }
+
       jQuery.ajax({
         dataType: 'json',
         url: '/products/' + productHandleQueue[0] + '.js',

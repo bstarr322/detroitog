@@ -2,7 +2,7 @@
   <div class="header-primary">
     <div class="wrapper">
       <div class="grid">
-        <div class="grid__item small--one-third medium--hide large--hide">
+        <div class="grid__item small--one-third medium-up--hide">
           <div class="site-nav--mobile">
             <button type="button" class="icon-fallback-text site-nav__link js-drawer-open-left" aria-controls="NavDrawer" aria-expanded="false">
               <span class="icon icon-hamburger" aria-hidden="true"></span>
@@ -11,7 +11,7 @@
           </div>
         </div>
 
-        <div class="grid__item small--one-third medium--one-sixth large--one-sixth">
+        <div class="grid__item small--one-third medium-up--one-sixth">
           <h1 class="site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
             <a href="/" itemprop="url" class="site-header__logo-link hvr-wobble-vertical">
               <img src="{{ 'logo.png' | asset_img_url: '200x200' }}" alt="{{ shop.name }}" itemprop="logo">
@@ -20,7 +20,7 @@
         </div>
         
 
-        <ul class="grid__item header-collections small--hide">
+        <ul class="grid__item header-collections medium-down--hide">
           {% for link in linklists.[settings.header_menu_linklist].links %}
             {% assign child_list_handle = link.title | handleize %}
             {% if linklists[child_list_handle].links != blank %}
@@ -33,7 +33,7 @@
           {% endfor %}
         </ul>
 
-        <div class="grid__item header-options small--one-third  medium--one-sixth large--one-sixth">
+        <div class="grid__item header-options small--one-third  medium-up--one-sixth">
           <a href="/cart" class="site-header__cart-toggle js-drawer-open-right" aria-controls="CartDrawer" aria-expanded="false">
             {% include 'icon-cart' %}
             <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
