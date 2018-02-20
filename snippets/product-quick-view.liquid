@@ -200,7 +200,7 @@
           let productCarousel = jQuery('.product_gallery ul li');
 
           for (let i = 0; i < productCarousel.length; i++) {
-            if(productCarousel[i].getAttribute('data-thumb').indexOf(switchImage) > 0) {
+            if(productCarousel[i].getAttribute('data-thumb') !== null && productCarousel[i].getAttribute('data-thumb').indexOf(switchImage) > 0) {
               // i = index of the selected variant image.
               console.log("Product Thumb Index - " + i);
 

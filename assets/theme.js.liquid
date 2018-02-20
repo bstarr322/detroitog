@@ -226,10 +226,71 @@ var Detroitog = {
     // Sticky Header 
     $(".site-header").sticky({topSpacing:0});
 
-    // Header Dropdown
-    $('.header-collections__menu--dropdown').on('click', function() {
-      $(this).siblings().removeClass('dropdown-opened');
-      $(this).toggleClass('dropdown-opened');
+    // Sub Collection Navbar
+    var $headerCollectionsContainer = $('#header-subcollections-container');
+    var subcollectionsOpener;
+    var subcollectionsCloser;
+
+    // Show subcollections
+    $('.header-collections__link').on('mouseenter', function () {
+      var $toggle = $(this);
+      var $target;
+
+      clearTimeout(subcollectionsOpener);
+      clearTimeout(subcollectionsCloser);
+      subcollectionsOpener = setTimeout(function () {
+        $('.header-collections__menu--active').removeClass('header-collections__menu--active');
+        $('.header-collections__link--active').removeClass('header-collections__link--active');
+        $('.header-subcollections-container--active').removeClass('header-subcollections-container--active');
+        $('.header-subcollections--active').removeClass('header-subcollections--active');
+
+        if ($toggle.hasClass('header-collections__link--toggle')) {
+          $toggle.parent().addClass('header-collections__menu--active');
+          $toggle.addClass('header-collections__link--active');
+          $headerCollectionsContainer.addClass('header-subcollections-container--active');
+          $target = $($toggle.attr('href'));
+          $target.addClass('header-subcollections--active');
+        }
+      }, 250);
+    });
+
+    // Hide subcollections
+    $('.header-primary, .header-subcollections-container').on({
+      mouseenter: function () {
+        clearTimeout(subcollectionsCloser);
+      },
+      mouseleave: function () {
+        clearTimeout(subcollectionsOpener);
+        subcollectionsCloser = setTimeout(function () {
+          $('.header-collections__menu--active').removeClass('header-collections__menu--active');
+          $('.header-collections__link--active').removeClass('header-collections__link--active');
+          $('.header-subcollections-container--active').removeClass('header-subcollections-container--active');
+          $('.header-subcollections--active').removeClass('header-subcollections--active');
+        }, 1000);
+      }
+    });
+
+    // Hide Tidio chat when Right Drawer is opened.
+    $('body').on('afterDrawerOpen.timber', function() {
+      if (!$(this).hasClass('js-drawer-open-left')) {
+        $('#tidio-chat').addClass('hide');
+      }
+    }).on('afterDrawerClose.timber', function() {
+      $('#tidio-chat').removeClass('hide');
+    });
+
+
+    // Close Other Drawers if opened
+    $('body').on('beforeDrawerOpen.timber', function(evt, Drawer) {
+      var Drawers = ['SearchDrawer', 'LeftDrawer', 'RightDrawer'];
+      for (drawer of Drawers) {
+        if (timber[drawer].$drawer.attr('id') == Drawer.$drawer.attr('id')) continue;
+
+        var isOpened = timber[drawer].drawerIsOpen;
+        if (isOpened) {
+          timber[drawer].$drawer.find('.js-drawer-close').trigger('click');
+        }
+      }
     });
   },
 

@@ -42,7 +42,7 @@
 </div>
 {% else %}
 <div class="swatch clearfix product-form__item--swatch" data-option-index="{{ option_index }}">
-  <p>{{ swatch }}</p>
+  <p><span class="red">* </span>{{ swatch }}</p>
 
   {% assign values = '' %}
   {% for variant in product.variants %}

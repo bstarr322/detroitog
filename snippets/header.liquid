@@ -20,7 +20,7 @@
         </div>
         
 
-        <ul class="grid__item header-collections medium-down--hide">
+        <ul class="grid__item header-collections preMedium--hide">
           {% for link in linklists.[settings.header_menu_linklist].links %}
             {% assign child_list_handle = link.title | handleize %}
             {% if linklists[child_list_handle].links != blank %}
@@ -83,9 +83,19 @@
       {% if linklists[child_list_handle].links != blank %}
         <ul id="subcollection-{{ link.title | handleize }}" class="header-subcollections header-subcollections--{{ link.title | handleize }}">
           {% for childlink in linklists[child_list_handle].links %}
+            {% assign sub_child_handle = childlink.title | handleize %}
+
             <li class="header-subcollections__menu">
               <a href="{{ childlink.url }}" class="header-subcollections__link">
-                <div class="icon icon-{{ childlink.title | handleize }} alt header-subcollections__icon hvr-pulse" data-grunticon-embed></div>
+                {% if childlink.url contains 'products' %}
+                  {% assign sub_product = all_products[sub_child_handle] %}
+                  <div>
+                    {{ sub_product.featured_image.src | img_url: '150x150' | img_tag }}
+                  </div>
+                {% else %}
+                  <div class="icon icon-{{ childlink.title | handleize }} alt header-subcollections__icon hvr-pulse" data-grunticon-embed></div>
+                {% endif %}
+
                 <span class="header-subcollections__label">{{ childlink.title }}</span>
               </a>
             </li>
