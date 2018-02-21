@@ -5,7 +5,7 @@
 <!-- /Back To Top -->
 
 <!-- Site Footer -->
-<footer class="site-footer small--text-center" role="contentinfo">
+<footer class="site-footer small--text-center hide" role="contentinfo">
   <div class="wrapper">
     <div class="grid footer__location">
       <div class="contactMenu">
@@ -110,12 +110,157 @@
         </p>
       </div>
       <div class="clearfix"></div>
-      <div id="justdistro">
+      <div id="plugdetroit-logo">
         <a href="http://plugdetroit.com/" target="_blank">
-          <img src="//cdn.shopify.com/s/files/1/1450/9978/t/7/assets/powered-by-plug_2x.png?2267229916633493028" alt="Powered by Just Juice Distro" height="46">
+          <img src="//cdn.shopify.com/s/files/1/1450/9978/t/7/assets/powered-by-plug_2x.png?2267229916633493028" alt="Powered by Detroit OG" height="46">
         </a>
       </div>
     </div>
   </div>
 </footer>
 <!-- /Site Footer -->
+
+<div id="footer" class="site-footer section footer-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="widget">
+          <div class="footer-top border-primary-color">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="footer-content-box shipping-icon">
+                  <h3 class="text-uppercase">Group Pricing Discounts</h3>
+                  <p>The more you buy, the more you save with our competitive discounts</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="footer-content-box gift-icon">
+                  <h3 class="text-uppercase">Secure Shopping</h3>
+                  <p>Our website is protected with 128 Bit SSL encryption</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="footer-content-box moneyBack-icon">
+                  <h3 class="text-uppercase">90 Day Warranty</h3>
+                  <p>We provide a 90 day warranty on all of our products</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="widget">
+          <div class="block-title">
+            <h2>About Us</h2>
+          </div>
+          <div class="block-content">
+            {% if settings.logo_use_image %}
+              <a href="/" itemprop="url" class="site-footer__logo-link">
+                <img src="{{ 'logo-footer.png' | asset_img_url: '400x400' }}" alt="{{ shop.name }}" itemprop="logo">
+              </a>
+            {% else %}
+              <a href="/" itemprop="url">{{ shop.name }}</a>
+            {% endif %}
+            {% if settings.footer_about_us != blank %}
+              <p>{{ settings.footer_about_us }}</p>
+            {% endif %}
+
+            {% if footer_about_us_link != blank %}
+              <p><a href="{{ settings.footer_about_us_link }}">Read more <b>→</b></a></p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="widget">
+          <div class="block-title">
+            <h2>{{ settings.footer_2_heading }}</h2>
+          </div>
+        
+          <div class="block-content">
+            {% if settings.footer_linklist_2 != '' %}
+              <ul>
+                {% for link in linklists[settings.footer_linklist_2].links %}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <div class="desc">
+                {{ settings.footer_2_text }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="widget widget-address">
+          <div class="block-content">
+            <h2>contacts</h2>
+          </div>
+          <div class="block-content">
+            {% if settings.store_addr != blank %}
+            <div class="flex"><p>Address:</p><span>{{settings.store_addr}}</span></div>
+            {% endif %}
+
+            {% if settings.store_opening != blank %}
+            <div class="flex"><p>Hours:</p><span>{{settings.store_opening}}</span></div>
+            {% endif %}
+            
+            {% if settings.store_phone != blank %}
+            <p>Phone: <a href="tel:+1-{{ settings.store_phone }}">{{ settings.store_phone }}</a></p>
+            {% endif %}
+
+            {% if settings.store_contact_email != blank %}
+            <p>Email : <a href="mailto:{{ settings.store_contact_email }}">{{ settings.store_contact_email }}</a></p>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="widget">
+          <center>
+            <div class="block-title">
+              <h2>We Accept</h2>
+              <div class="block-content">
+                <ul class="list-h-items">
+                  <li><em class="fa fa-cc-mastercard">&nbsp;</em></li>
+                  <li><em class="fa fa-cc-discover">&nbsp;</em></li>
+                  <li><em class="fa fa-cc-visa">&nbsp;</em></li>
+                  <li><em class="fa fa-credit-card">&nbsp;</em></li>
+                </ul>
+              </div>
+            </div>
+          </center>
+          <span id="siteseal">
+            <script data-cfasync="false" src="/cdn-cgi/scripts/d07b1474/cloudflare-static/email-decode.min.js"></script><script async="" type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=B9CZeN3kAlz61ti2ADeYtwDDBoczGqeBWTUF8wAEWHOSNWhQqEN57bVMqY0u"></script>
+          </span>
+        </div>
+        {% if settings.footer_social_enable %}
+        <div class="footer-social-block">
+          <div class="block-title social-title">
+            <h2>Follow Us</h2>
+          </div>
+          <div class="block-content social-icons">
+            {% assign social_icons = 'twitter|facebook|pinterest|google-plus|instagram|youtube|vimeo' | split: '|' %}
+            {% for social_icon in social_icons %}
+              {% capture social_link %}{{ social_icon }}_link{% endcapture %}
+              <a href="{{ settings[social_link] }}" target="_blank" title="{{ social_icon | replace: '_', ' ' | capitalize }}"><i class="fa fa-{{ social_icon }}"></i></a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div id="plugdetroit-logo">
+      <a href="http://plugdetroit.com/" target="_blank">
+        <img src="//cdn.shopify.com/s/files/1/1450/9978/t/7/assets/powered-by-plug_2x.png?2267229916633493028" alt="Powered by Detroit OG" height="46">
+      </a>
+    </div>
+
+  </div>
+</div>
+

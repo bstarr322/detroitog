@@ -30,14 +30,24 @@
         "label": "Store Address Link"
       },
       {
-        "type": "text",
+        "type": "textarea",
         "id": "store_addr",
         "label": "Store Address"
+      },
+      {
+        "type": "textarea",
+        "id": "store_opening",
+        "label": "Store Operation time"
       },
       {
         "type": "text",
         "id": "store_phone",
         "label": "Phone Number"
+      },
+      {
+        "type": "text",
+        "id": "store_contact_email",
+        "label": "Store Contact Email"
       }
     ]
   },
@@ -93,19 +103,19 @@
       {
         "type": "color",
         "id": "color_body_text",
-        "label": "Text",
+        "label": "Color Body Text",
         "default": "#333333"
       },
       {
         "type": "color",
         "id": "color_success",
-        "label": "Text",
+        "label": "Color Success",
         "default": "#00a01e"
       },
       {
         "type": "color",
         "id": "color_danger",
-        "label": "Text",
+        "label": "Color Danger",
         "default": "#ec523e"
       },
       {
@@ -606,6 +616,20 @@
         "type": "checkbox",
         "id": "footer_social_enable",
         "label": "Show social media icons"
+      },
+      {
+        "type": "header",
+        "content": "About Us"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_about_us",
+        "label": "About Us text"
+      },
+      {
+        "type": "url",
+        "id": "footer_about_us_link",
+        "label": "About Us Link"
       },
       {
         "type": "header",
