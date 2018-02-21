@@ -56,6 +56,16 @@
               </div>
             </header>
             
+            <div class="free-shipping-popup-container">
+              <a id="modal-free-shipping-toggle" href="#modal-free-shipping" class="free-shipping-popup-toggle">
+                {% include 'free-shipping-icon' %}
+                <div>
+                  <strong>FREE SHIPPING</strong>
+                  <small>View Our Return Policy</small>
+                </div>
+              </a>
+            </div>
+
             {% comment %}
               ID addToCartForm is a selector for the ajax cart plugin
             {% endcomment %}
@@ -118,7 +128,7 @@
                   <img src="{{ 'size-chart-icon.png' | asset_url }}" alt="" width="24" height="24">
                   Size Chart
                 </a>
-                <a href="/pages/return-policy" class="product-details__shipping">
+                <a href="/pages/return-policy" class="product-details__shipping hide">
                   <span class="product-details__shipping-van">
                     <svg class="new-icon icon-truck"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-shipping"><svg id="icon-shipping" viewBox="0 0 41 18" width="100%" height="100%">
                       <title>shipping truck</title>

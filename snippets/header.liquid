@@ -14,7 +14,7 @@
         <div class="grid__item small--one-third medium-up--one-sixth">
           <h1 class="site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
             <a href="/" itemprop="url" class="site-header__logo-link hvr-wobble-vertical">
-              <img src="{{ 'logo.png' | asset_img_url: '200x200' }}" alt="{{ shop.name }}" itemprop="logo">
+              <img src="{{ 'logo.png' | asset_img_url: '300x300' }}" alt="{{ shop.name }}" itemprop="logo">
             </a>
           </h1>
         </div>
@@ -90,7 +90,13 @@
                 {% if childlink.url contains 'products' %}
                   {% assign sub_product = all_products[sub_child_handle] %}
                   <div>
-                    {{ sub_product.featured_image.src | img_url: '150x150' | img_tag }}
+                    {% if sub_child_handle == 'short-sleeve-t-shirt' %}
+                      {{ sub_product.images[1] | img_url: '150x150' | img_tag }}
+                    {% elsif sub_child_handle == 'short-sleeve-kids-t-shirt' %}
+                      {{ sub_product.images[3] | img_url: '150x150' | img_tag }}
+                    {% else %}
+                      {{ sub_product.featured_image.src | img_url: '150x150' | img_tag }}
+                    {% endif %}
                   </div>
                 {% else %}
                   <div class="icon icon-{{ childlink.title | handleize }} alt header-subcollections__icon hvr-pulse" data-grunticon-embed></div>

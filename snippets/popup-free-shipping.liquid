@@ -1,0 +1,50 @@
+<aside id="modal-free-shipping" class="mfp-with-anim mfp-hide mfp-dialog mfp-dialog-big clearfix modal-free-shipping">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="text-center">
+          {{ 'logo.png' | asset_img_url:'400x' | img_tag, 'Popup Logo', 'logo-popup' }}
+          {{ 'free-shipping-image.png' | asset_url | img_tag, 'free-shipping-img', 'free-shipping-img' }}
+          <p class="lead text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          <p class="text-center"><button id="modal-free-shipping-close" class="btn btn-primary btn-lg">GOT IT</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+<style>
+  #modal-free-shipping .lead {
+    font-size: 20px;
+    font-weight: 100;
+    line-height: 1.6;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .logo-popup {
+    width: 200px;
+    margin: 0 auto;
+  }
+  .free-shipping-img {
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+<script>
+  (function($){
+    $('#modal-free-shipping-toggle').on('click', function(e){
+      e.preventDefault();
+    });
+
+    $('#modal-free-shipping-toggle')
+      .fadeIn('fast')
+      .magnificPopup({
+        type:'inline',
+        midClick: true,
+        mainClass:'mfp-move-from-top',
+        removalDelay: 100
+      });
+    $('#modal-free-shipping').on('click', function(e){
+      $.magnificPopup.close();
+    });
+  })(jQuery);
+</script>

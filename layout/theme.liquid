@@ -191,7 +191,9 @@
   {{ 'timber.js' | asset_url | script_tag }}
   {{ 'theme.js' | asset_url | script_tag }}
 
+  {% include 'popup-free-shipping' %}
   {% include 'size-charts' %}
+  
   
   {% comment %}
     Template-specific js
