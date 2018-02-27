@@ -56,7 +56,7 @@
 
 {% if settings.show_featured_collections %}
 <section class="section-featured-collection wrapper">
-  <h2>Collections</h2>
+  <h2>{{ settings.cols_list_heading | default: 'Collections List'}}</h2>
   <div class="grid-uniform">
 
     {% comment %}
@@ -71,7 +71,10 @@
     {% assign index = 1 %}
     {% assign isEmpty = true %}
 
-    {% for collection in collections limit:4 %}
+    {% for i in (1..3) %}
+      {% capture col_id %}list_collection_{{i}}{% endcapture %}
+      {% assign collection = collections[settings[col_id]] %}
+
       {% unless index > 5 %}
 
         {% unless collection.handle == 'frontpage' %}
@@ -82,16 +85,25 @@
               Use capture to put the collection title in a variable that is used in liquid filters
             {% endcomment %}
             {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
-            <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}" class="item">
+            <div title="{{ 'collections.general.link_title' | t: title: collection_title }}" class="hover-block item">
               <div class="grid__image">
                 {% if collection.image %}
                   {{ collection.image.src | img_url: 'large' | img_tag: collection_title }}
                 {% else %}
-                  {{ collection.products.first.featured_image.src | img_url: 'large' | img_tag: collection_title }}
+                  {{ collection.products.first.featured_image | img_url: 'large' | img_tag: collection_title }}
                 {% endif %}
               </div>
-              <p class="item-title">{{ collection.title }}</p>
-            </a>
+
+              <div class="thumbnail-overlay">
+                <a href="{{ collection.url }}" title="{{ collection_title }}" class="hidden-product-link">{{ collection_title }}</a>
+                <div class="info">
+                  <div class="collection-details">
+                    <span class="title">{{ collection.title }}</span>
+                  </div>
+                  <a href="{{ collection.url }}" title="{{ collection_title }}"><span class="view_all">{{ 'collections.general.view_all' | t }}</span></a>
+                </div>
+              </div>
+            </div>
           </div>
           {% assign index = index | plus: 1 %}
         {% endunless %}

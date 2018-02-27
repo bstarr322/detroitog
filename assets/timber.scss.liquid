@@ -254,6 +254,17 @@ $socialIconFontStack: 'icons';
   *zoom: 1;
 }
 
+
+@mixin vertical-alignment {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50.1%);
+  -ms-transform: translateY(-50.1%);
+  transform: translateY(-50.1%);
+  padding: 10px 0;
+}
+
+
 /*============================================================================
   Prefixer mixin for generating vendor prefixes:
     - Based on https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/addons/_prefixer.scss
@@ -5809,4 +5820,109 @@ img {
 
 .red {
   color: red !important;
+}
+
+
+/*----------  Hover Block  ----------*/
+// Collections
+
+.hover-block {
+  text-align: center;
+  position: relative;
+  &:hover .collection-details {
+    opacity: 1;
+    transform: none;
+  }
+  &:hover .view_all {
+    opacity: 1;
+    transform: none;
+  }
+  &:hover .thumbnail-overlay {
+    opacity: 1;
+  }
+}
+
+.thumbnail-overlay {
+  background: rgba(241,241,241,0.7);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease-in;
+
+  > a {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .info {
+    @include vertical-alignment;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .collection-details {
+    position: relative;
+    opacity: 0;
+    -ms-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    display: block;
+  }
+  .title {
+    display: block;
+    padding: 0 2em;
+    position: relative;
+    font-size: 30px;
+    font-weight: bold;
+  }
+}
+
+.hidden-product-link {
+  line-height: 0;
+  font-size: 0;
+  color: transparent;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.view_all {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  border: 1px solid $colorAccent;
+  padding: 10px 20px;
+  margin-top: 2rem;
+  color: $colorAccent;
+  opacity: 0;
+  pointer-events: all;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  -ms-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out,color 0.3s linear, background-color 0.3s linear;
+  border-radius: 100px;
+
+  &:hover {
+    color: #f1f1f1;
+    background-color: $colorAccent;
+    border-color: $colorAccent;
+  }
 }

@@ -482,7 +482,32 @@
       }
     ]
   },
-
+  {
+    "name": "Homepage Collections List",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cols_list_heading",
+        "label": "Heading"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "collection",
+        "id": "list_collection_1"
+      },
+      {
+        "type": "collection",
+        "id": "list_collection_2"
+      },
+      {
+        "type": "collection",
+        "id": "list_collection_3"
+      }
+    ]
+  },
   {
     "name": "Animation Section",
     "settings": [
