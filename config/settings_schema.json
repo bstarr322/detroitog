@@ -214,10 +214,25 @@
     "name": "Homepage",
     "settings": [
       {
+        "type": "header",
+        "content": "Featured Products"
+      },
+      {
         "type": "checkbox",
         "id": "show_featured_products",
         "label": "Enable Featured Products Section",
         "default": true
+      },
+      {
+        "type": "collection",
+        "id": "featured_products",
+        "label": "Featured Products"
+      },
+      {
+        "type": "text",
+        "id": "featured_products_header",
+        "label": "Featured Products Header",
+        "default": "Featured Products"
       },
       {
         "type": "checkbox",
@@ -745,6 +760,12 @@
         "id": "social_facebook_link",
         "label": "Facebook URL",
         "info": "https:\/\/www.facebook.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram URL",
+        "info": "https:\/\/www.instagram.com\/shopify"
       },
       {
         "type": "header",

@@ -281,7 +281,7 @@ var Detroitog = {
     var subcollectionsCloser;
 
     // Show subcollections
-    $('.header-collections__link').on('mouseenter', function () {
+    $('.header-collections__link--toggle').on('mouseenter', function () {
       var $toggle = $(this);
       var $target;
 
@@ -634,8 +634,9 @@ var Detroitog = {
       lastScrollTop = st;
     });
 
+    // no need for now.
     $('.animation-row .desc-part h1').on('mouseenter', function() {
-      $(this).animateCssOriginal('rubberBand');
+      // $(this).animateCssOriginal('rubberBand');
     })
   }
 }

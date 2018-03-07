@@ -128,21 +128,25 @@
           <div class="footer-top border-primary-color">
             <div class="row">
               <div class="col-md-4">
-                <div class="footer-content-box shipping-icon">
-                  <h3 class="text-uppercase">Lorem ipsum dolor sit amet</h3>
-                  <p>Sed ut perspiciatis unde omnis iste natus Sed ut</p>
+                <div class="footer-content-box hvr-wobble-vertical">
+                  <div class="circle"><i class="icon before-icon shipping-icon"></i></div>
+                  <div class="text-area">
+                  <h3 class="text-uppercase">Free Shipping</h3>
+                  <p>24/7 No Minimum. All Day. Everyday.</p></div>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="footer-content-box gift-icon">
-                  <h3 class="text-uppercase">Lorem ipsum dolor sit amet</h3>
-                  <p>Sed ut perspiciatis unde omnis iste natus Sed ut</p>
+                <div class="footer-content-box hvr-buzz">
+                  <div class="circle"><i class="icon support-icon"></i></div>
+                  <div class="text-area"><h3 class="text-uppercase">Customer Support</h3>
+                  <p>Call. Email. Chat. Social. We got you covered.</p></div>
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="footer-content-box moneyBack-icon">
-                  <h3 class="text-uppercase">Lorem ipsum dolor sit amet</h3>
-                  <p>Sed ut perspiciatis unde omnis iste natus Sed ut</p>
+                <div class="footer-content-box hvr-icon-spin">
+                  <div class="circle"><i class="icon moneyBack-icon"></i></div>
+                  <div class="text-area"><h3 class="text-uppercase">30 Day Return Policy</h3>
+                  <p>Just in case there is an issue, have no worries you got time.</p></div>
                 </div>
               </div>
             </div>
@@ -200,7 +204,7 @@
           </div>
           <div class="block-content">
             {% if settings.store_addr != blank %}
-            <div class="flex"><p>Address:</p><span>{{settings.store_addr}}</span></div>
+            <div class="flex"><p>Address:</p><p class="content">{{settings.store_addr}}</p></div>
             {% endif %}
 
             {% if settings.store_opening != blank %}
@@ -243,9 +247,9 @@
             <h2>Follow Us</h2>
           </div>
           <div class="block-content social-icons">
-            {% assign social_icons = 'twitter|facebook|pinterest|google-plus|instagram|youtube|vimeo' | split: '|' %}
+            {% assign social_icons = 'facebook|instagram' | split: '|' %}
             {% for social_icon in social_icons %}
-              {% capture social_link %}{{ social_icon }}_link{% endcapture %}
+              {% capture social_link %}social_{{ social_icon }}_link{% endcapture %}
               <a href="{{ settings[social_link] }}" target="_blank" title="{{ social_icon | replace: '_', ' ' | capitalize }}"><i class="fa fa-{{ social_icon }}"></i></a>
             {% endfor %}
           </div>

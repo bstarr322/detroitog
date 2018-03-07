@@ -21,7 +21,11 @@
           {% if collection.image %}
             <img src="{{ collection.image | img_url: '550x550' }}" />
           {% else %}
-            <img src="{{ collection.products[0].featured_image | img_url: '550x550' }}" />
+            {% if collection.products[0].handle == 'long-sleeve-fitted-crew' %}
+              <img src="{{ collection.products[0].images[2].src | img_url: '550x550' }}" />
+            {% else %}
+              <img src="{{ collection.products[0].featured_image | img_url: '550x550' }}" />
+            {% endif %}
           {% endif %}
         </div>
       </div>

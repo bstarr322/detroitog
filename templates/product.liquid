@@ -39,52 +39,56 @@
 
             <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
 
-            <header class="product-single__header">
-              <h1 itemprop="name">
-                Detroit OG<sup>®</sup> - {{ product.title }}
-              </h1>
-              <div class="product-single__price">
-                <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-                <span class="ProductPrice h3" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
-                  {{ current_variant.price | money }}
-                </span>
+            <div class="small--hide">
+              <header class="product-single__header">
+                <h1 itemprop="name">
+                  Detroit OG<sup>®</sup> - {{ product.title }}
+                </h1>
+                <div class="product-single__price">
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <span class="ProductPrice h3" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                    {{ current_variant.price | money }}
+                  </span>
 
-                {% if product.compare_at_price_max > product.price %}
-                  <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-                  <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
-                {% endif %}
-              </div>
-            </header>
-            
-            <div class="free-shipping-popup-container">
-              <a id="modal-free-shipping-toggle" href="#modal-free-shipping" class="free-shipping-popup-toggle">
-                {% include 'free-shipping-icon' %}
-                <div>
-                  <strong>FREE SHIPPING</strong>
-                  <small>View Our Return Policy</small>
+                  {% if product.compare_at_price_max > product.price %}
+                    <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                    <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
+                  {% endif %}
                 </div>
-              </a>
+              </header>
+              
+              <div class="free-shipping-popup-container">
+                <a id="modal-free-shipping-toggle" href="#modal-free-shipping" class="free-shipping-popup-toggle">
+                  {% include 'free-shipping-icon' %}
+                  <div>
+                    <strong>FREE SHIPPING</strong>
+                    <small>View Our Return Policy</small>
+                  </div>
+                </a>
+              </div>
             </div>
 
             {% comment %}
               ID addToCartForm is a selector for the ajax cart plugin
             {% endcomment %}
             <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="form-vertical">
-              
-              <div class="sku_style clearfix">
-                <p class="product-single__availability">
-                  <span id="product-variant-availability">
-                    {% if current_variant.available %}
-                      <strong>Availability:</strong> <span class="text-success">In Stock</span>
-                    {% else %}
-                      <strong>Availability:</strong> <span class="text-danger">Sold Out</span>
-                    {% endif %}
-                  </span>
-                </p>
-              </div>
-              
-              <div class="product-description" itemprop="description">
-                {{ product.description }}
+
+              <div class="small--hide">
+                <div class="sku_style clearfix">
+                  <p class="product-single__availability">
+                    <span id="product-variant-availability">
+                      {% if current_variant.available %}
+                        <strong>Availability:</strong> <span class="text-success">In Stock</span>
+                      {% else %}
+                        <strong>Availability:</strong> <span class="text-danger">Sold Out</span>
+                      {% endif %}
+                    </span>
+                  </p>
+                </div>
+                
+                <div class="product-description" itemprop="description">
+                  {{ product.description }}
+                </div>
               </div>
 
               {% comment %}
@@ -156,6 +160,52 @@
                     data-placement="top"
                     title="Sign up and receive an e-mail as soon as this item arrives in stock">Sold Out, Email me when available</button>
               </div>
+
+              <div class="small--show medium-up--hide">
+                <header class="product-single__header">
+                  <h1 itemprop="name">
+                    Detroit OG<sup>®</sup> - {{ product.title }}
+                  </h1>
+                  <div class="product-single__price">
+                    <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                    <span class="ProductPrice h3" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                      {{ current_variant.price | money }}
+                    </span>
+
+                    {% if product.compare_at_price_max > product.price %}
+                      <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                      <span class="ComparePrice">{{ current_variant.compare_at_price | money }}</span>
+                    {% endif %}
+                  </div>
+                </header>
+                
+                <div class="free-shipping-popup-container">
+                  <a id="modal-free-shipping-toggle" href="#modal-free-shipping" class="free-shipping-popup-toggle">
+                    {% include 'free-shipping-icon' %}
+                    <div>
+                      <strong>FREE SHIPPING</strong>
+                      <small>View Our Return Policy</small>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="sku_style clearfix">
+                    <p class="product-single__availability">
+                      <span id="product-variant-availability">
+                        {% if current_variant.available %}
+                          <strong>Availability:</strong> <span class="text-success">In Stock</span>
+                        {% else %}
+                          <strong>Availability:</strong> <span class="text-danger">Sold Out</span>
+                        {% endif %}
+                      </span>
+                    </p>
+                  </div>
+                  
+                  <div class="product-description" itemprop="description">
+                    {{ product.description }}
+                  </div>
+              </div>
+
             </form>
 
           </div>
@@ -218,9 +268,9 @@
 
         if (typeof $activeCarousel.data('thumb') != 'undefined' && $activeCarousel.data('thumb').indexOf(switchImage) < 0 ) {
 
-          let productCarousel = jQuery('.product_gallery ul li');
+          var productCarousel = jQuery('.product_gallery ul li');
 
-          for (let i = 0; i < productCarousel.length; i++) {
+          for (var i = 0; i < productCarousel.length; i++) {
             if(productCarousel[i].getAttribute('data-thumb') !== null && productCarousel[i].getAttribute('data-thumb').indexOf(switchImage) > 0) {
               // i = index of the selected variant image.
               console.log("Product Thumb Index - " + i);
